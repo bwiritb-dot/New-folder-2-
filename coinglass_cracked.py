@@ -1655,3 +1655,12 @@ if __name__ == "__main__":
     global_limiter.wait()
     data = fetch_bitmex_funding_rate()
     if data: save_json(data, f"bitmex_funding_rate_{ts}.json")
+
+    log.info("\n── Output Dashboard ──")
+    try:
+        from build_output_dashboard import build_output_dashboard
+
+        build_output_dashboard(OUTPUT_DIR)
+        log.info("📊 Refreshed output/index.html and output/dashboard_data.js")
+    except Exception as exc:
+        log.warning(f"Dashboard build skipped: {exc}")
