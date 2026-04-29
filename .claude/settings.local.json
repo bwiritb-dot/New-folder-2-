@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python coinglass_cracked.py)",
+      "Bash(.venv/Scripts/python coinglass_cracked.py)",
+      "Bash(pip install *)",
+      "Bash(python -c \"from Crypto.Cipher import AES; print\\('Crypto import OK'\\)\")",
+      "Bash(pip uninstall *)",
+      "Bash(python -c \"from Crypto.Cipher import AES; print\\('✓ Crypto import OK'\\)\")",
+      "Bash(pip list *)",
+      "Bash(python -c \"import sys; print\\(sys.executable\\); import Crypto; print\\(Crypto.__file__\\)\")",
+      "PowerShell(C:\\\\Python314\\\\python.exe -m pip install --upgrade pycryptodome -q)",
+      "PowerShell(C:\\\\Python314\\\\python.exe -c \"from Crypto.Cipher import AES; print\\('OK'\\)\")"
+    ]
+  }
+}
