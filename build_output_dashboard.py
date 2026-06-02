@@ -17,6 +17,9 @@ MAX_BUBBLE_POINTS = 180
 TIMESTAMP_RE = re.compile(r"^(?P<base>.+?)_(?P<stamp>\d{8}_\d{6})$")
 
 TITLE_OVERRIDES = {
+    "summary_metrics": "Summary Metrics Report",
+    "heatmap_3d": "Liquidation Heatmap 3d Raw",
+    "heatmap_7d": "Liquidation Heatmap 7d Raw",
     "raw_BTC": "Raw BTC Liquidation Heatmap",
     "oi_expiry": "Options OI By Expiry",
     "options_oi": "Options Open Interest",
@@ -1210,7 +1213,11 @@ def dataset_shell(base: str, source_path: Path, snapshot: datetime | None, snaps
 
 def collect_latest_sources(output_dir: Path) -> list[dict]:
     groups: dict[str, list[dict]] = defaultdict(list)
-    for path in output_dir.glob("*.json"):
+    scan_paths = list(output_dir.glob("*.json"))
+    for subdir in output_dir.iterdir():
+        if subdir.is_dir():
+            scan_paths.extend(subdir.glob("*.json"))
+    for path in scan_paths:
         if path.name.startswith("dashboard_"):
             continue
         base, snapshot = split_dataset_name(path)
@@ -2011,6 +2018,61 @@ def build_fallback_dataset(base: str, payload, source_path: Path, snapshot: date
     return dataset
 
 
+def build_summary_metrics_dataset(base: str, payload: list, source_path: Path, snapshot: datetime | None, snapshot_count: int) -> dict:
+    dataset = dataset_shell(
+        base, source_path, snapshot, snapshot_count,
+        "Computed metrics report covering heatmap cluster analysis, funding, OI, and Coinbase premium.",
+    )
+
+    sections: dict[str, list] = {}
+    for row in payload:
+        sec = row.get("section", "Other")
+        sections.setdefault(sec, []).append(row)
+
+    ok_count  = sum(1 for r in payload if r.get("status") == "ok")
+    price_row = next((r for r in payload if r.get("metric_key") == "current_price"), None)
+    price_val = price_row["value"] if price_row else "n/a"
+
+    signal_rows = sections.get("Signal", [])
+    signal_summary = "; ".join(f"{r['label']}: {r['value']}" for r in signal_rows) or "n/a"
+
+    dataset["stats"] = [
+        {"label": "Total Metrics", "value": str(len(payload))},
+        {"label": "BTC Price",     "value": f"${price_val}" if price_val != "n/a" else "n/a"},
+        {"label": "Data OK",       "value": f"{ok_count} / {len(payload)}"},
+        {"label": "Sections",      "value": str(len(sections))},
+    ]
+
+    if signal_rows:
+        dataset["notes"] = [signal_summary]
+
+    SECTION_ORDER = ["Heatmap", "Derivatives", "Signal", "Liquidations", "On-chain", "ETF"]
+    ordered = sorted(sections.keys(), key=lambda s: SECTION_ORDER.index(s) if s in SECTION_ORDER else 99)
+
+    for sec in ordered:
+        rows = sections[sec]
+        table_rows = [
+            [
+                r.get("label", ""),
+                r.get("timeframe", ""),
+                r.get("value", ""),
+                r.get("unit", ""),
+                r.get("notes", ""),
+            ]
+            for r in rows
+        ]
+        dataset["panels"].append(
+            make_table_panel(
+                sec,
+                ["Label", "Timeframe", "Value", "Unit", "Notes"],
+                table_rows,
+                wide=True,
+            )
+        )
+
+    return dataset
+
+
 def build_dataset(entry: dict) -> dict:
     base = entry["base"]
     path = entry["path"]
@@ -2029,6 +2091,10 @@ def build_dataset(entry: dict) -> dict:
         dataset["panels"].append(make_message_panel("Parse Error", str(exc), wide=True))
         return dataset
 
+    if base == "summary_metrics" and isinstance(payload, list) and payload and isinstance(payload[0], dict) and "metric_key" in payload[0]:
+        return build_summary_metrics_dataset(base, payload, path, snapshot, snapshot_count)
+    if base in {"heatmap_3d", "heatmap_7d"} and isinstance(payload, dict):
+        return build_raw_heatmap_dataset(base, payload, path, snapshot, snapshot_count)
     if base == "raw_BTC" and isinstance(payload, dict):
         return build_raw_heatmap_dataset(base, payload, path, snapshot, snapshot_count)
     if base in {"oi_expiry", "delivery_volume"} and isinstance(payload, dict):
@@ -2058,6 +2124,8 @@ def build_dataset(entry: dict) -> dict:
     if base == "hyperliq_liqmap" and isinstance(payload, dict):
         return build_hyperliq_liqmap_dataset(base, payload, path, snapshot, snapshot_count)
     if base == "liq_heatmap_binance" and isinstance(payload, dict):
+        if payload.get("liq"):
+            return build_raw_heatmap_dataset(base, payload, path, snapshot, snapshot_count)
         return build_status_dataset(base, payload, path, snapshot, snapshot_count)
 
     if isinstance(payload, list) and payload and isinstance(payload[0], list):

@@ -1,0 +1,74 @@
+,,
+,1. Coinglass Liquidation Heatmap,
+,Данные,Статус
+,Weekly TF heatmap — зоны максимальной плотности,[N/A]
+,4H TF heatmap — ближайшие кластеры,[N/A]
+,Top-5 liquidation zones,[N/A]
+,"Объём каждого кластера, $M",[N/A]
+,Long liquidation zones ниже цены,[N/A]
+,Short liquidation zones выше цены,[N/A]
+,Liquidity Magnet,[N/A]
+,Liquidity Vacuum zones,[N/A]
+,,
+,2. Фактические ликвидации по таймфреймам,
+,Данные,Статус
+,long_liq_5m / short_liq_5m,[N/A]
+,long_liq_15m / short_liq_15m,[N/A]
+,long_liq_1h / short_liq_1h,[N/A]
+,long_liq_4h / short_liq_4h,[N/A]
+,long_liq_24h / short_liq_24h,[N/A]
+,total_liq по каждому TF,[N/A]
+,liq_long_short_ratio_1h / 4h,[N/A]
+,liq_spike_5m / 1h,[N/A]
+,,
+,3. 9-слойный модуль ликвидаций,
+,,
+,Блок,Недоступные данные
+,Heatmap distance buckets,"liq_above/below_0.5%, 1%, 2%, 3%, 5%"
+,Nearest clusters,"ближайшая short-liq зона, ближайшая long-liq зона, дистанция %, объём $M"
+,Largest cluster,"цена, сторона, объём, дистанция"
+,Imbalance,"liq_imbalance_1pct/3pct/5pct, ratios"
+,Changes,скорость накопления ликвидаций за 1H/4H
+,Funding context,"current funding, 7d avg, 8h avg, z-score, funding_state"
+,CVD / Taker Flow,"cvd_5m/15m/1h/4h, taker buy/sell ratio"
+,VWAP,daily/weekly/rolling VWAP deviation
+,Финальные выходы,"liquidation_volatility_score, liquidation_direction_bias, точный liquidation_state"
+,,
+,4. Деривативы и microstructure,
+,Данные,Статус
+,Funding Rate текущий,[N/A]
+,Funding Rate 7d avg,[N/A]
+,Long/Short Ratio all exchanges,[N/A]
+,Liquidations 24h: longs vs shorts,[N/A]
+,OI Δ24h,[N/A]
+,OI по Binance / Bybit / OKX / CME,[N/A]
+,Orderbook Bid/Ask ratio,[N/A]
+,Largest Bid Wall,[N/A]
+,Largest Ask Wall,[N/A]
+,Stacking / Pulling,[N/A]
+,Funding Divergence,[N/A]
+,OI Delta Signal,[N/A]
+,,
+,"5. On-chain метрики,",
+,,
+,Метрика,Статус
+,STH Realized Price,[N/A]
+,LTH Realized Price,[N/A]
+,LTH Net Position Change 7d,[N/A]
+,Accumulation Score,[N/A]
+,Exchange Netflow 24h / 7d,[N/A]
+,Stablecoin Reserves USDT+USDC,[N/A]
+,SSR,[N/A]
+,Whale transactions >1000 BTC за 72ч,[N/A]
+,Top-3 whale transfers за 72ч,[N/A]
+,Address cohorts >1000 / >100 / >10 BTC,[N/A]
+,"Miner outflows на биржи, 7d",[N/A]
+,Active Addresses/day,[N/A]
+,Mempool загрузка,[N/A]
+,Средняя комиссия sat/vByte,[N/A]
+,,
+,6. ETF / институциональные данные,
+,Данные,Статус
+,Coinbase Premium Index свежий на дату отчёта,[cached: 2026-05-21]
+,Полная 30-дневная ETF net flow агрегация,частично / не полностью
+,Точная топ-3 ETF динамика за 30д,частично

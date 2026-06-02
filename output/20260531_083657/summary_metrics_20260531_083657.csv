@@ -1,0 +1,65 @@
+section,metric_key,label,timeframe,value,unit,source,status,updated_at,notes
+Heatmap,current_price,Current BTC Price,current,73932.69,USD,Binance,ok,2026-05-31 12:40:39 UTC,
+Heatmap,top_zone_1_vol_24h,Top Zone 1 Volume (24h),24h,32496882506.08,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$72,982-$73,448 | below | 0.97% from price"
+Heatmap,top_zone_1_range_24h,Top Zone 1 Range (24h),24h,"$72,982-$73,448",,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"center=$73,215, below, dist=0.97%"
+Heatmap,top_zone_2_vol_24h,Top Zone 2 Volume (24h),24h,31082534082.61,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$74,485-$74,951 | above | 1.06% from price"
+Heatmap,top_zone_2_range_24h,Top Zone 2 Range (24h),24h,"$74,485-$74,951",,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"center=$74,718, above, dist=1.06%"
+Heatmap,top_zone_3_vol_24h,Top Zone 3 Volume (24h),24h,15963875211.26,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$75,210-$75,676 | above | 2.04% from price"
+Heatmap,top_zone_3_range_24h,Top Zone 3 Range (24h),24h,"$75,210-$75,676",,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"center=$75,443, above, dist=2.04%"
+Heatmap,top_zone_4_vol_24h,Top Zone 4 Volume (24h),24h,15874487305.64,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$72,257-$72,723 | below | 1.95% from price"
+Heatmap,top_zone_4_range_24h,Top Zone 4 Range (24h),24h,"$72,257-$72,723",,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"center=$72,490, below, dist=1.95%"
+Heatmap,top_zone_5_vol_24h,Top Zone 5 Volume (24h),24h,7858419938.01,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$76,712-$77,179 | above | 4.08% from price"
+Heatmap,top_zone_5_range_24h,Top Zone 5 Range (24h),24h,"$76,712-$77,179",,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"center=$76,946, above, dist=4.08%"
+Heatmap,long_liq_zone_1_24h,Long Liq Zone 1 Below (24h),24h,32496882506.08,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$72,982-$73,448 | 0.97% below"
+Heatmap,long_liq_zone_2_24h,Long Liq Zone 2 Below (24h),24h,15874487305.64,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$72,257-$72,723 | 1.95% below"
+Heatmap,long_liq_zone_3_24h,Long Liq Zone 3 Below (24h),24h,7755895135.0,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$70,806-$71,221 | 3.95% below"
+Heatmap,short_liq_zone_1_24h,Short Liq Zone 1 Above (24h),24h,31082534082.61,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$74,485-$74,951 | 1.06% above"
+Heatmap,short_liq_zone_2_24h,Short Liq Zone 2 Above (24h),24h,15963875211.26,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$75,210-$75,676 | 2.04% above"
+Heatmap,short_liq_zone_3_24h,Short Liq Zone 3 Above (24h),24h,7858419938.01,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$76,712-$77,179 | 4.08% above"
+Heatmap,nearest_below_price_24h,Nearest Cluster Below (24h),24h,"$73,215",USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"dist=0.97%, vol=32.50B"
+Heatmap,nearest_below_dist_24h,Nearest Below Dist (24h),24h,0.97,%,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,nearest_below_vol_24h,Nearest Below Volume (24h),24h,32496882506.08,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,nearest_above_price_24h,Nearest Cluster Above (24h),24h,"$74,718",USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"dist=1.06%, vol=31.08B"
+Heatmap,nearest_above_dist_24h,Nearest Above Dist (24h),24h,1.062,%,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,nearest_above_vol_24h,Nearest Above Volume (24h),24h,31082534082.61,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,liquidity_magnet_24h,Liquidity Magnet (24h),24h,"$73,215",USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"below, dist=0.97%, vol=32.50B"
+Heatmap,liquidity_vacuum_24h,Liquidity Vacuum Gap (24h),24h,1502.0,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,"$75,443-$76,946 | 2.03% of price"
+Heatmap,bucket_0.5%_below_24h,Vol 0.5% Below (24h),24h,0,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_0.5%_above_24h,Vol 0.5% Above (24h),24h,0,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_0.5%_imbalance_24h,Imbalance 0.5% (24h),24h,n/a,above/below,liqHeatMap,missing,2026-05-31 12:40:39 UTC,">1=more above, <1=more below"
+Heatmap,bucket_1.0%_below_24h,Vol 1.0% Below (24h),24h,16547507507.6,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_1.0%_above_24h,Vol 1.0% Above (24h),24h,12491559675.63,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_1.0%_imbalance_24h,Imbalance 1.0% (24h),24h,0.7549,above/below,liqHeatMap,ok,2026-05-31 12:40:39 UTC,">1=more above, <1=more below"
+Heatmap,bucket_2.0%_below_24h,Vol 2.0% Below (24h),24h,43074820339.68,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_2.0%_above_24h,Vol 2.0% Above (24h),24h,36218966880.94,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_2.0%_imbalance_24h,Imbalance 2.0% (24h),24h,0.8408,above/below,liqHeatMap,ok,2026-05-31 12:40:39 UTC,">1=more above, <1=more below"
+Heatmap,bucket_3.0%_below_24h,Vol 3.0% Below (24h),24h,48371369811.72,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_3.0%_above_24h,Vol 3.0% Above (24h),24h,47046409293.87,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_3.0%_imbalance_24h,Imbalance 3.0% (24h),24h,0.9726,above/below,liqHeatMap,ok,2026-05-31 12:40:39 UTC,">1=more above, <1=more below"
+Heatmap,bucket_5.0%_below_24h,Vol 5.0% Below (24h),24h,56127264946.72,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_5.0%_above_24h,Vol 5.0% Above (24h),24h,54904829231.88,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,bucket_5.0%_imbalance_24h,Imbalance 5.0% (24h),24h,0.9782,above/below,liqHeatMap,ok,2026-05-31 12:40:39 UTC,">1=more above, <1=more below"
+Heatmap,cluster_count_24h,Cluster Count (24h),24h,6,,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Heatmap,total_volume_24h,Total Heatmap Volume (24h),24h,111032094178.6,USD,liqHeatMap,ok,2026-05-31 12:40:39 UTC,
+Derivatives,funding_current,Current Funding Rate,8h,0.76244,%,fundingRate/v2/history/chart,ok,2026-05-31 12:40:39 UTC,
+Derivatives,funding_avg_24h,Funding Rate Avg 24h,24h,0.48426,%,fundingRate/v2/history/chart,ok,2026-05-31 12:40:39 UTC,
+Derivatives,funding_avg_7d,Funding Rate Avg 7d,7d,0.34948,%,fundingRate/v2/history/chart,ok,2026-05-31 12:40:39 UTC,
+Derivatives,funding_zscore,Funding Rate Z-Score,all,1.533,sigma,fundingRate/v2/history/chart,ok,2026-05-31 12:40:39 UTC,vs full history window
+Derivatives,funding_state,Funding State,current,overheated_long,,fundingRate/v2/history/chart,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_total_current,Total OI (All Exchanges),current,54546323834.0,USD,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_delta_24h,OI Chg24h,24h,-2.839,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_delta_7d,OI Chg7d,7d,-8.883,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_binance,OI Binance,current,10410710303.33009,USD,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_binance_24h_chg,OI Binance Chg24h,24h,1.58,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_cme,OI CME,current,7564238412.5,USD,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_cme_24h_chg,OI CME Chg24h,24h,0.35,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_bybit,OI Bybit,current,4759861587.64,USD,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_bybit_24h_chg,OI Bybit Chg24h,24h,1.26,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_okx,OI OKX,current,3268875660.5010967,USD,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,oi_okx_24h_chg,OI OKX Chg24h,24h,0.69,%,openInterest,ok,2026-05-31 12:40:39 UTC,
+Derivatives,coinbase_premium_current,Coinbase Premium,current,-111.76,%,kline/coinbase_premium,ok,2026-05-31 12:40:39 UTC,
+Derivatives,coinbase_premium_1h,Coinbase Premium 1h avg,1h,-105.93,%,kline/coinbase_premium,ok,2026-05-31 12:40:39 UTC,
+Derivatives,coinbase_premium_24h,Coinbase Premium 24h avg,24h,-111.66438,%,kline/coinbase_premium,ok,2026-05-31 12:40:39 UTC,
+Derivatives,coinbase_premium_state,Coinbase Premium State,current,negative,,kline/coinbase_premium,ok,2026-05-31 12:40:39 UTC,
+Signal,liquidation_direction_bias,Liquidation Direction Bias,current,long_pressure,,computed,ok,2026-05-31 12:40:39 UTC,based on 1% bucket imbalance (24h)
+Signal,liquidation_state,Liquidation State,current,neutral,,computed,ok,2026-05-31 12:40:39 UTC,funding + imbalance + OI delta

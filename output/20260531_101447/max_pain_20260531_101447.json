@@ -1,0 +1,132 @@
+[
+  {
+    "callOi": 4070.33,
+    "maxPain": "73500",
+    "callOiByNotional": 300020014.5,
+    "putOi": 1297.66,
+    "time": "260601",
+    "putOiByMarket": 99512.48,
+    "putOiByNotional": 95657163.18,
+    "callOiByMarket": 308649.09
+  },
+  {
+    "callOi": 512.37,
+    "maxPain": "74500",
+    "callOiByNotional": 37779180.46,
+    "putOi": 745.9,
+    "time": "260602",
+    "putOiByMarket": 236493.16,
+    "putOiByNotional": 54987787.29,
+    "callOiByMarket": 97130.48
+  },
+  {
+    "callOi": 136.0,
+    "maxPain": "73500",
+    "callOiByNotional": 10025463.73,
+    "putOi": 86.0,
+    "time": "260603",
+    "putOiByMarket": 10511.49,
+    "putOiByNotional": 6338890.02,
+    "callOiByMarket": 20779.45
+  },
+  {
+    "callOi": 25.5,
+    "maxPain": "74000",
+    "callOiByNotional": 1879404.54,
+    "putOi": 1.8,
+    "time": "260604",
+    "putOiByMarket": 317.15,
+    "putOiByNotional": 132637.15,
+    "callOiByMarket": 2309.11
+  },
+  {
+    "callOi": 10647.59,
+    "maxPain": "75000",
+    "callOiByNotional": 784886583.39,
+    "putOi": 8965.53,
+    "time": "260605",
+    "putOiByMarket": 7039499.95,
+    "putOiByNotional": 661055201.17,
+    "callOiByMarket": 2271966.98
+  },
+  {
+    "callOi": 7065.46,
+    "maxPain": "75000",
+    "callOiByNotional": 520955386.62,
+    "putOi": 3706.29,
+    "time": "260612",
+    "putOiByMarket": 4733192.26,
+    "putOiByNotional": 273212708.48,
+    "callOiByMarket": 2065343.69
+  },
+  {
+    "callOi": 994.3,
+    "maxPain": "74000",
+    "callOiByNotional": 73304471.35,
+    "putOi": 1584.4,
+    "time": "260619",
+    "putOiByMarket": 2596917.73,
+    "putOiByNotional": 116738994.09,
+    "callOiByMarket": 1332558.57
+  },
+  {
+    "callOi": 72969.17,
+    "maxPain": "78000",
+    "callOiByNotional": 5378708930.01,
+    "putOi": 54765.52,
+    "time": "260626",
+    "putOiByMarket": 288971442.3,
+    "putOiByNotional": 4036869622.14,
+    "callOiByMarket": 92362695.62
+  },
+  {
+    "callOi": 17811.46,
+    "maxPain": "78000",
+    "callOiByNotional": 1312979985.05,
+    "putOi": 6432.74,
+    "time": "260731",
+    "putOiByMarket": 22934162.7,
+    "putOiByNotional": 474226406.82,
+    "callOiByMarket": 22478087.52
+  },
+  {
+    "callOi": 361.3,
+    "maxPain": "74000",
+    "callOiByNotional": 26625215.91,
+    "putOi": 360.2,
+    "time": "260828",
+    "putOiByMarket": 1004751.72,
+    "putOiByNotional": 26547995.69,
+    "callOiByMarket": 995871.78
+  },
+  {
+    "callOi": 45261.48,
+    "maxPain": "75000",
+    "callOiByNotional": 3336444929.81,
+    "putOi": 28099.27,
+    "time": "260925",
+    "putOiByMarket": 119412954.21,
+    "putOiByNotional": 2071273397.33,
+    "callOiByMarket": 116178723.44
+  },
+  {
+    "callOi": 50439.8,
+    "maxPain": "75000",
+    "callOiByNotional": 3718421430.91,
+    "putOi": 27398.8,
+    "time": "261225",
+    "putOiByMarket": 118876859.42,
+    "putOiByNotional": 2019714281.68,
+    "callOiByMarket": 170465258.37
+  },
+  {
+    "callOi": 9316.9,
+    "maxPain": "70000",
+    "callOiByNotional": 686843881.13,
+    "putOi": 5598.2,
+    "time": "270326",
+    "putOiByMarket": 24802698.87,
+    "putOiByNotional": 412693343.67,
+    "callOiByMarket": 38084358.78
+  }
+]

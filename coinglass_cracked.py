@@ -10,13 +10,19 @@ Request:
   cache_ts_v2 = str(int(time.time() * 1000))   ← millisecond timestamp
   obe = <session token from DevTools — only manual thing needed>
 
-Response decryption (interceptor switch order: 1→4→2→3→0→6→5):
-  case 1:  a  = ie(request_url)               → "/api/index/v2/liqHeatMap"
-  case 4:  s  = Xt(response, a)               → btoa(cache_ts_v2)   [when v=0]
-  case 2:  s  = s[:16]
-  case 3:  s  = re(response.headers.user, s)  → AES→Hex→inflate→str
-  case 0:  o  = re(response.data.data, s)     → same, gives JSON string
-  case 6:  data = JSON.parse(o)
+Response decryption (interceptor switch order: 4|6|7|1|2|3|0|5):
+  case 4:  a  = ""
+  case 6:  if v==0:  a = request.headers["cache-ts-v2"]
+  case 7:  if v==2:  a = response.headers["time"]
+  case 1:  if v==1:  a = ie(request_url)  → endpoint path
+  case 2:  if v==55: a = "170b070da9654622"
+  case 3:  if v==66: a = "d6537d845a964081"
+  case 0:  if v==77: a = "863f08689c97435b"
+  case 5:  s  = btoa(a)
+  then:    s  = s[:16]
+           s  = re(response.headers.user, s)  → AES→Hex→inflate→str
+           o  = re(response.data.data, s[:16]) → gives JSON string
+           data = JSON.parse(o)
 
 re(ciphertext_b64, key_str):
   raw   = AES_ECB_PKCS7_decrypt(ciphertext_b64, key_str[:16])
@@ -61,12 +67,39 @@ log = logging.getLogger(__name__)
 _TOTP_SECRET  = "I65VU7K5ZQL7WB4E"
 _MASTER_KEY   = "1f68efd73f8d4921acc0dead41dd39bc"
 _BASE_URL     = "https://capi.coinglass.com"
+_KNOWN_JS_HASH = "dd73626052eeca65"   # _app-<hash>.js — update when CoinGlass redeploys
 
 # ── Your session token (only thing that needs manual refresh) ─────────────────
-OBE = "s_8bb44c18ba9d4dc78081d4e5bf1068c6"   # e.g. "s_3394cdaa6172457cbc313517ff4db0e2"
+OBE = "s_3394cdaa6172457cbc313517ff4db0e2"   # e.g. "s_3394cdaa6172457cbc313517ff4db0e2"
 
-OUTPUT_DIR = Path("output")
+OUTPUT_DIR = Path("output")   # reassigned to a timestamped subfolder in __main__
 OUTPUT_DIR.mkdir(exist_ok=True)
+
+
+def check_js_bundle() -> None:
+    """Warn if CoinGlass has redeployed a new JS bundle since last reverse-engineering."""
+    try:
+        r = requests.get(
+            "https://www.coinglass.com",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=10,
+        )
+        import re
+        m = re.search(r'/_next/static/chunks/pages/_app-([a-f0-9]+)\.js', r.text)
+        if not m:
+            log.warning("⚠️  Could not find _app-*.js in CoinGlass HTML — site structure may have changed.")
+            return
+        current = m.group(1)
+        if current != _KNOWN_JS_HASH:
+            log.warning("=" * 60)
+            log.warning(f"⚠️  JS BUNDLE CHANGED: {_KNOWN_JS_HASH} → {current}")
+            log.warning("   Decryption constants may be stale. If requests fail,")
+            log.warning("   update _KNOWN_JS_HASH and re-run the JS decoder.")
+            log.warning("=" * 60)
+        else:
+            log.info(f"✅ JS bundle unchanged ({current[:8]}…)")
+    except Exception as e:
+        log.debug(f"JS bundle check failed (non-fatal): {e}")
 
 
 # ── Global Rate Limiter ────────────────────────────────────────────────────────
@@ -212,23 +245,47 @@ def decrypt_response(
     cache_ts_v2:    str,
     v_header:       str = "0",
     endpoint:       str = "",
+    time_header:    str = "",
 ) -> dict | None:
     """
-    Full response decryption pipeline:
+    Full response decryption pipeline — Xt() switch order: 4|6|7|1|2|3|0|5
 
-    v=0: case 4: s = btoa(cache_ts_v2)
-    v=1: case 4: s = btoa(api_endpoint_path)
+    v=0:  seed = btoa(cache_ts_v2)           (request header)
+    v=1:  seed = btoa(endpoint)              (request path)
+    v=2:  seed = btoa(response.headers.time) (response "time" header)
+    v=55: seed = btoa("170b070da9654622")    (hardcoded constant)
+    v=66: seed = btoa("d6537d845a964081")    (hardcoded constant)
+    v=77: seed = btoa("863f08689c97435b")    (hardcoded constant)
 
-    case 2: s = s[:16]
-    case 3: s = re(user_header, s)   → zlib-inflated intermediate key
-    case 0: o = re(encrypted_data, s) → zlib-inflated JSON string
-    case 6: return JSON.parse(o)
+    Then: seed = seed[:16]
+    case 3: intermediate = re(user_header, seed)
+    case 0: plaintext    = re(encrypted_data, intermediate[:16])
+    case 6: return JSON.parse(plaintext)
     """
-    # Case 4: Xt(response, a) — different seed depending on v_header
+    _HARDCODED = {
+        "55": "170b070da9654622",
+        "66": "d6537d845a964081",
+        "77": "863f08689c97435b",
+    }
+
+    _KNOWN_V = {"0", "1", "2", "55", "66", "77"}
+    if v_header not in _KNOWN_V:
+        log.error(
+            f"  UNKNOWN v_header={v_header!r} — CoinGlass likely redeployed. "
+            "Re-run the JS decoder to extract new constants."
+        )
+        return None
+
     if v_header == "1":
-        s = base64.b64encode(endpoint.encode()).decode()
+        seed = endpoint
+    elif v_header == "2":
+        seed = time_header
+    elif v_header in _HARDCODED:
+        seed = _HARDCODED[v_header]
     else:
-        s = base64.b64encode(cache_ts_v2.encode()).decode()
+        seed = cache_ts_v2  # v=0
+
+    s = base64.b64encode(seed.encode()).decode()
 
     # Case 2: s = s.substring(0, 16)
     s = s[:16]
@@ -323,6 +380,7 @@ def fetch_heatmap(
             is_encrypted = r.headers.get("encryption", "").lower() == "true"
             user_header  = r.headers.get("user", "")
             v_header     = r.headers.get("v", "0")
+            time_header  = r.headers.get("time", "")
 
             if not is_encrypted:
                 log.info("  Response is unencrypted.")
@@ -336,7 +394,8 @@ def fetch_heatmap(
             log.info("  Decrypting...")
             result = decrypt_response(
                 encrypted_data, user_header, cache_ts_v2, v_header,
-                endpoint="/api/index/v2/liqHeatMap"
+                endpoint="/api/index/v2/liqHeatMap",
+                time_header=time_header,
             )
 
             if result:
@@ -346,15 +405,18 @@ def fetch_heatmap(
             # Save debug info if decryption fails
             ts = int(time.time())
             debug_path = OUTPUT_DIR / f"debug_raw_{ts}.json"
+            all_headers = dict(r.headers)
             with open(debug_path, "w") as f:
                 json.dump({
                     "raw_wrapper": body,
                     "user_header": user_header,
                     "v_header":    v_header,
                     "data_param":  data_param,
-                    "cache_ts_v2": cache_ts_v2,    # ← now saved for debugging
+                    "cache_ts_v2": cache_ts_v2,
+                    "all_response_headers": all_headers,
                 }, f, indent=2)
-            log.error(f"  Decryption failed. Debug saved → {debug_path}")
+            log.error(f"  Decryption failed. v_header={v_header!r}. Debug saved → {debug_path}")
+            log.error(f"  Response headers: { {k:v for k,v in all_headers.items() if k.lower() in ('v','user','encryption','content-type','x-request-id','x-trace-id')} }")
             return None
 
         except requests.exceptions.RequestException as e:
@@ -369,12 +431,16 @@ def _handle_response(r, cache_ts_v2, endpoint):
     body        = r.json()
     user_header = r.headers.get("user", "")
     v_header    = r.headers.get("v", "0")
+    time_header = r.headers.get("time", "")
     is_enc      = r.headers.get("encryption", "").lower() == "true"
 
     if not is_enc or not isinstance(body.get("data"), str):
         return body
 
-    return decrypt_response(body["data"], user_header, cache_ts_v2, v_header, endpoint)
+    result = decrypt_response(body["data"], user_header, cache_ts_v2, v_header, endpoint, time_header)
+    if result is None:
+        log.error(f"  v_header={v_header!r} — unhandled scheme. Headers: { {k:v for k,v in r.headers.items() if k.lower() in ('v','user','encryption','time')} }")
+    return result
 
 
 def fetch_oi_expiry(symbol="BTC", ex="Deribit", type="Delivery", subtype="ALL", currency="USD", retries=3):
@@ -626,6 +692,7 @@ def fetch_liq_heatmap_binance(symbol="Binance_BTCUSDT", interval=5, limit=288, r
     endpoint = "/api/index/v2/liqHeatMap"
     for attempt in range(1, retries + 1):
         try:
+            data_param = _generate_data_param()
             cache_ts_v2 = str(int(time.time() * 1000))
             headers = _build_headers(cache_ts_v2)
             params = {
@@ -633,6 +700,7 @@ def fetch_liq_heatmap_binance(symbol="Binance_BTCUSDT", interval=5, limit=288, r
                 "symbol": symbol,
                 "interval": interval,
                 "limit": limit,
+                "data": data_param,
             }
 
             log.info(f"[Attempt {attempt}] {endpoint} | {symbol} {interval}min")
@@ -1353,6 +1421,23 @@ def fetch_kline_margin_rate(symbol="Binance_USDT#margin", interval="h1", minLimi
     return None
 
 
+def fetch_current_price(symbol: str = "BTCUSDT") -> float | None:
+    """Fetch current spot price from Binance public REST API (no auth needed)."""
+    try:
+        r = requests.get(
+            "https://api.binance.com/api/v3/ticker/price",
+            params={"symbol": symbol},
+            timeout=5,
+        )
+        r.raise_for_status()
+        price = float(r.json()["price"])
+        log.info(f"  Current {symbol} price: ${price:,.2f}")
+        return price
+    except Exception as e:
+        log.warning(f"  Could not fetch price from Binance public API: {e}")
+        return None
+
+
 def fetch_liquidation_events(slug="pro-futures-liquidation-events", lang="en", retries=3):
     endpoint = "/api/strapi/page"
     for attempt in range(1, retries + 1):
@@ -1428,6 +1513,239 @@ def fetch_bitmex_funding_rate(slug="pro-futures-BitmexFundingRate", lang="en", r
 
         except requests.exceptions.RequestException as e:
             log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
+
+    return None
+
+
+def fetch_liquidation_chart(symbol="BTC", timeType=0, exchangeName="", currency="USD", retries=3):
+    """Long vs short liquidation volumes by timeframe across all exchanges."""
+    endpoint = "/api/futures/liquidation/v2/chart"
+    for attempt in range(1, retries + 1):
+        try:
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            params = {
+                "symbol": symbol,
+                "timeType": timeType,
+                "exchangeName": exchangeName,
+                "currency": currency,
+            }
+
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} timeType={timeType}")
+
+            r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
+            log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
+
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired. Recapture from DevTools.")
+                return None
+            if r.status_code == 403:
+                log.error("❌ 403 Forbidden.")
+                return None
+            if r.status_code == 429:
+                wait_time = 30 * (2 ** (attempt - 1)) + random.uniform(0, 10)
+                log.warning(f"⚠️  Rate limited. Waiting {wait_time:.1f}s...")
+                time.sleep(wait_time)
+                continue
+
+            r.raise_for_status()
+            result = _handle_response(r, cache_ts_v2, endpoint)
+            if result:
+                log.info("  ✅ Decrypted successfully.")
+                return result
+            log.error("  Decryption failed.")
+            return None
+
+        except requests.exceptions.RequestException as e:
+            log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
+
+    return None
+
+
+def fetch_long_short_ratio(symbol="BTC", timeType=0, exchangeName="Binance", retries=3):
+    """Long/short position ratio — accounts holding longs vs shorts."""
+    endpoint = "/api/futures/longShortRatio/chart"
+    for attempt in range(1, retries + 1):
+        try:
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            params = {
+                "symbol": symbol,
+                "timeType": timeType,
+                "exchangeName": exchangeName,
+            }
+
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} exchange={exchangeName} timeType={timeType}")
+
+            r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
+            log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
+
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired. Recapture from DevTools.")
+                return None
+            if r.status_code == 403:
+                log.error("❌ 403 Forbidden.")
+                return None
+            if r.status_code == 429:
+                wait_time = 30 * (2 ** (attempt - 1)) + random.uniform(0, 10)
+                log.warning(f"⚠️  Rate limited. Waiting {wait_time:.1f}s...")
+                time.sleep(wait_time)
+                continue
+
+            r.raise_for_status()
+            result = _handle_response(r, cache_ts_v2, endpoint)
+            if result:
+                log.info("  ✅ Decrypted successfully.")
+                return result
+            log.error("  Decryption failed.")
+            return None
+
+        except requests.exceptions.RequestException as e:
+            log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
+
+    return None
+
+
+def fetch_taker_buy_sell(symbol="BTC", timeType=0, exchangeName="", currency="USD", retries=3):
+    """Taker buy/sell volume ratio — CVD proxy for market aggression."""
+    endpoint = "/api/futures/taker/chart"
+    for attempt in range(1, retries + 1):
+        try:
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            params = {
+                "symbol": symbol,
+                "timeType": timeType,
+                "exchangeName": exchangeName,
+                "currency": currency,
+            }
+
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} timeType={timeType}")
+
+            r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
+            log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
+
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired. Recapture from DevTools.")
+                return None
+            if r.status_code == 403:
+                log.error("❌ 403 Forbidden.")
+                return None
+            if r.status_code == 429:
+                wait_time = 30 * (2 ** (attempt - 1)) + random.uniform(0, 10)
+                log.warning(f"⚠️  Rate limited. Waiting {wait_time:.1f}s...")
+                time.sleep(wait_time)
+                continue
+
+            r.raise_for_status()
+            result = _handle_response(r, cache_ts_v2, endpoint)
+            if result:
+                log.info("  ✅ Decrypted successfully.")
+                return result
+            log.error("  Decryption failed.")
+            return None
+
+        except requests.exceptions.RequestException as e:
+            log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
+
+    return None
+
+
+def fetch_etf_flows(retries=3) -> dict | None:
+    """
+    Scrape Bitcoin ETF daily net flows from farside.co.uk.
+    Returns dict with keys: headers, rows (list of dicts), last_30d_totals.
+    No CoinGlass auth needed — plain HTTP GET.
+    """
+    url = "https://farside.co.uk/bitcoin-etf-flow-all-data/"
+    import re as _re
+
+    for attempt in range(1, retries + 1):
+        try:
+            log.info(f"[Attempt {attempt}] ETF flows → {url}")
+            r = requests.get(
+                url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                    "Accept": "text/html",
+                },
+                timeout=20,
+            )
+            r.raise_for_status()
+            html = r.text
+
+            # Find all tables and pick the one with the most columns (data table)
+            all_tables = _re.findall(r'<table[^>]*>(.*?)</table>', html, _re.DOTALL | _re.IGNORECASE)
+            if not all_tables:
+                log.error("  ETF flows: no <table> found in page")
+                return None
+
+            def _count_cols(t):
+                ths = _re.findall(r'<th[^>]*>(.*?)</th>', t, _re.DOTALL | _re.IGNORECASE)
+                tds = _re.findall(r'<td[^>]*>(.*?)</td>', (_re.findall(r'<tr[^>]*>(.*?)</tr>', t, _re.DOTALL | _re.IGNORECASE) or [''])[0], _re.DOTALL | _re.IGNORECASE)
+                return max(len(ths), len(tds))
+
+            table_html = max(all_tables, key=_count_cols)
+
+            # Parse header — try <thead><th>, then first <tr><th>, then first <tr><td>
+            headers = []
+            thead_m = _re.search(r'<thead[^>]*>(.*?)</thead>', table_html, _re.DOTALL | _re.IGNORECASE)
+            if thead_m:
+                th_cells = _re.findall(r'<t[dh][^>]*>(.*?)</t[dh]>', thead_m.group(1), _re.DOTALL | _re.IGNORECASE)
+                headers = [_re.sub(r'<[^>]+>', '', c).strip() for c in th_cells]
+            if not headers:
+                first_tr = (_re.findall(r'<tr[^>]*>(.*?)</tr>', table_html, _re.DOTALL | _re.IGNORECASE) or [''])[0]
+                th_cells = _re.findall(r'<t[dh][^>]*>(.*?)</t[dh]>', first_tr, _re.DOTALL | _re.IGNORECASE)
+                headers = [_re.sub(r'<[^>]+>', '', c).strip() for c in th_cells]
+
+            # Parse data rows — skip first row if it's the header
+            body_m = _re.search(r'<tbody[^>]*>(.*?)</tbody>', table_html, _re.DOTALL | _re.IGNORECASE)
+            rows_html = body_m.group(1) if body_m else table_html
+            tr_blocks = _re.findall(r'<tr[^>]*>(.*?)</tr>', rows_html, _re.DOTALL | _re.IGNORECASE)
+
+            rows = []
+            for tr in tr_blocks:
+                td_cells = _re.findall(r'<td[^>]*>(.*?)</td>', tr, _re.DOTALL | _re.IGNORECASE)
+                if not td_cells:
+                    continue
+                vals = [_re.sub(r'<[^>]+>', '', c).strip() for c in td_cells]
+                if not any(vals):
+                    continue
+                if headers and len(vals) == len(headers):
+                    rows.append(dict(zip(headers, vals)))
+                elif vals:
+                    rows.append({"_cols": vals})
+
+            # Build 30-day totals per ETF ticker
+            def _to_float(s):
+                s = s.replace(',', '').strip()
+                try:
+                    return float(s)
+                except (ValueError, TypeError):
+                    return 0.0
+
+            last_30 = rows[-30:] if len(rows) >= 30 else rows
+            totals_30d: dict[str, float] = {}
+            if headers and last_30:
+                for row in last_30:
+                    for col in headers[1:]:  # skip Date col
+                        if col and col != "Total":
+                            totals_30d[col] = totals_30d.get(col, 0.0) + _to_float(row.get(col, "0"))
+
+            log.info(f"  ✅ ETF flows: {len(rows)} days, {len(headers)} tickers")
+            return {
+                "headers": headers,
+                "rows": rows,
+                "last_30d_totals_m": {k: round(v, 2) for k, v in totals_30d.items()},
+                "fetched_at": int(time.time()),
+            }
+
+        except requests.exceptions.RequestException as e:
+            log.error(f"  ETF flows request error: {e}")
             time.sleep(attempt * 3)
 
     return None
@@ -1513,11 +1831,34 @@ if __name__ == "__main__":
         log.error("   DevTools → Network → liqHeatMap → Request Headers → obe")
         exit(1)
 
-    ts  = datetime.now().strftime("%Y%m%d_%H%M%S")
-    raw = fetch_heatmap("Binance_BTCUSDT", interval=5, limit=288)
+    check_js_bundle()
 
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    OUTPUT_DIR = Path("output") / ts
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    log.info(f"📁 Saving to output/{ts}/")
+
+    # Bundle collects raw payloads for the metrics layer at the end.
+    bundle: dict = {
+        "current_price":        None,
+        "heatmap_24h_raw":      None,
+        "heatmap_3d_raw":       None,
+        "heatmap_7d_raw":       None,
+        "funding_raw":          None,
+        "oi_chart_raw":         None,
+        "oi_info_raw":          None,
+        "coinbase_premium_raw": None,
+        "liq_chart_raw":        None,   # long vs short liq volumes by TF
+        "long_short_ratio_raw": None,   # position L/S ratio
+        "taker_buy_sell_raw":   None,   # taker CVD proxy
+        "etf_flows_raw":        None,   # farside.co.uk ETF flows
+    }
+
+    # ── Heatmap 24h ──────────────────────────────────────────────────────────
+    raw = fetch_heatmap("Binance_BTCUSDT", interval=5, limit=288)
     if raw:
         save_json(raw, f"raw_BTC_{ts}.json")
+        bundle["heatmap_24h_raw"] = raw
         records = parse_heatmap(raw)
         if records:
             save_csv(records, f"BTC_heatmap_{ts}.csv")
@@ -1530,6 +1871,22 @@ if __name__ == "__main__":
         log.info("\n✅ Done. Check output/")
     else:
         log.error("\n❌ Failed — check output/ for debug_raw_*.json")
+
+    # ── Heatmap 3d ───────────────────────────────────────────────────────────
+    log.info("\n── Heatmap 3d (15m×288) ──")
+    global_limiter.wait()
+    raw3d = fetch_heatmap("Binance_BTCUSDT", interval=15, limit=288)
+    if raw3d:
+        save_json(raw3d, f"heatmap_3d_{ts}.json")
+        bundle["heatmap_3d_raw"] = raw3d
+
+    # ── Heatmap 7d ───────────────────────────────────────────────────────────
+    log.info("\n── Heatmap 7d (60m×168) ──")
+    global_limiter.wait()
+    raw7d = fetch_heatmap("Binance_BTCUSDT", interval=60, limit=168)
+    if raw7d:
+        save_json(raw7d, f"heatmap_7d_{ts}.json")
+        bundle["heatmap_7d_raw"] = raw7d
 
     log.info("\n── OI Expiry ──")
     global_limiter.wait()
@@ -1599,12 +1956,16 @@ if __name__ == "__main__":
     log.info("\n── OI Chart v3 ──")
     global_limiter.wait()
     data = fetch_oi_chart_v3()
-    if data: save_json(data, f"oi_chart_v3_{ts}.json")
+    if data:
+        save_json(data, f"oi_chart_v3_{ts}.json")
+        bundle["oi_chart_raw"] = data
 
     log.info("\n── OI Info ──")
     global_limiter.wait()
     data = fetch_oi_info()
-    if data: save_json(data, f"oi_info_{ts}.json")
+    if data:
+        save_json(data, f"oi_info_{ts}.json")
+        bundle["oi_info_raw"] = data
 
     log.info("\n── Volume Chart ──")
     global_limiter.wait()
@@ -1624,7 +1985,9 @@ if __name__ == "__main__":
     log.info("\n── Kline Coinbase Premium ──")
     global_limiter.wait()
     data = fetch_kline_coinbase_premium()
-    if data: save_json(data, f"coinbase_premium_{ts}.json")
+    if data:
+        save_json(data, f"coinbase_premium_{ts}.json")
+        bundle["coinbase_premium_raw"] = data
 
     log.info("\n── BTC Dominance ──")
     global_limiter.wait()
@@ -1634,7 +1997,9 @@ if __name__ == "__main__":
     log.info("\n── Funding Rate History ──")
     global_limiter.wait()
     data = fetch_funding_rate_history()
-    if data: save_json(data, f"funding_rate_history_{ts}.json")
+    if data:
+        save_json(data, f"funding_rate_history_{ts}.json")
+        bundle["funding_raw"] = data
 
     log.info("\n── Insurance Fund ──")
     global_limiter.wait()
@@ -1656,10 +2021,66 @@ if __name__ == "__main__":
     data = fetch_bitmex_funding_rate()
     if data: save_json(data, f"bitmex_funding_rate_{ts}.json")
 
+    log.info("\n── Liquidation Chart (Long vs Short by TF) ──")
+    global_limiter.wait()
+    data = fetch_liquidation_chart()
+    if data:
+        save_json(data, f"liq_chart_{ts}.json")
+        bundle["liq_chart_raw"] = data
+
+    log.info("\n── Long/Short Ratio (Binance) ──")
+    global_limiter.wait()
+    data = fetch_long_short_ratio()
+    if data:
+        save_json(data, f"long_short_ratio_{ts}.json")
+        bundle["long_short_ratio_raw"] = data
+
+    log.info("\n── Taker Buy/Sell Volume (CVD proxy) ──")
+    global_limiter.wait()
+    data = fetch_taker_buy_sell()
+    if data:
+        save_json(data, f"taker_buy_sell_{ts}.json")
+        bundle["taker_buy_sell_raw"] = data
+
+    log.info("\n── ETF Flows (farside.co.uk) ──")
+    # No rate limit needed — different server, not CoinGlass
+    data = fetch_etf_flows()
+    if data:
+        save_json(data, f"etf_flows_{ts}.json")
+        bundle["etf_flows_raw"] = data
+
+    # ── Current price ─────────────────────────────────────────────────────────
+    log.info("\n── Current BTC Price ──")
+    cp = fetch_current_price("BTCUSDT")
+    if cp is None and bundle["heatmap_24h_raw"]:
+        from metrics_builder import extract_current_price_from_heatmap
+        cp = extract_current_price_from_heatmap(bundle["heatmap_24h_raw"])
+        if cp:
+            log.info(f"  Derived price from heatmap close: ${cp:,.2f}")
+    bundle["current_price"] = cp
+
+    # ── Metrics layer ─────────────────────────────────────────────────────────
+    log.info("\n── Summary Metrics ──")
+    try:
+        from metrics_builder import build_summary_metrics, save_summary_metrics
+        metric_rows = build_summary_metrics(bundle)
+        if metric_rows:
+            save_summary_metrics(metric_rows, OUTPUT_DIR, ts)
+            log.info(f"  📊 {len(metric_rows)} metrics → summary_metrics_{ts}.csv / .json")
+            sections = {}
+            for r in metric_rows:
+                sections[r["section"]] = sections.get(r["section"], 0) + 1
+            for sec, cnt in sections.items():
+                log.info(f"     {sec}: {cnt} rows")
+        else:
+            log.warning("  No metrics produced — check bundle contents")
+    except Exception as exc:
+        log.warning(f"  Metrics layer skipped: {exc}")
+
+    # ── Output Dashboard ──────────────────────────────────────────────────────
     log.info("\n── Output Dashboard ──")
     try:
         from build_output_dashboard import build_output_dashboard
-
         build_output_dashboard(OUTPUT_DIR)
         log.info("📊 Refreshed output/index.html and output/dashboard_data.js")
     except Exception as exc:
