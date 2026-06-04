@@ -1,6 +1,6 @@
 """generate_report.py — CryptoDatEx BTC Intelligence Report"""
 
-import json, pathlib, datetime, math
+import json, pathlib, datetime, math, logging
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -13,6 +13,9 @@ import matplotlib.ticker as mticker
 matplotlib.rcParams['font.family'] = 'DejaVu Sans'
 matplotlib.rcParams['axes.unicode_minus'] = False
 matplotlib.rcParams['text.parse_math'] = False
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+log = logging.getLogger(__name__)
 
 # ─── Data loading ─────────────────────────────────────────────────────────────
 OUTPUT = pathlib.Path('output')
@@ -32,6 +35,40 @@ oi_chart = load_json('oi_chart_v3_*.json')
 funding  = load_json('funding_rate_history_*.json')
 coinbase = load_json('coinbase_premium_*.json')
 raw_btc  = load_json('raw_BTC_*.json')
+etf_raw  = load_json('etf_flows_*.json')
+
+# ─── On-chain data (public APIs + cache) ─────────────────────────────────────
+onchain = None
+try:
+    from onchain_fetcher import fetch_all_onchain, load_cached
+    onchain = load_cached()
+    if onchain is None:
+        log.info("Fetching fresh on-chain data...")
+        onchain = fetch_all_onchain(etf_raw)
+    else:
+        log.info("Using cached on-chain data")
+except Exception as _e:
+    log.warning(f"On-chain fetch failed: {_e}. Continuing without it.")
+    onchain = {}
+
+def _oc(path, default="N/A"):
+    """Safe deep-get from onchain dict using dot-path."""
+    if not onchain:
+        return default
+    parts = path.split(".")
+    cur = onchain
+    for p in parts:
+        if not isinstance(cur, dict):
+            return default
+        cur = cur.get(p, default)
+    return cur if cur not in (None, "") else default
+
+def _ocf(path, default=0.0):
+    v = _oc(path, default)
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return default
 
 idx = {r['metric_key']: r for r in sm}
 
@@ -179,6 +216,57 @@ cond_extreme = (abs(imb_1 - 1) > 1.0)
 imb_direction = 'ABOVE' if imb_1 > 1 else 'BELOW'
 imb_label = 'EXTREME' if cond_extreme else 'ELEVATED' if cond_squeeze else 'BALANCED'
 
+# ─── On-chain convenience values ─────────────────────────────────────────────
+fg_val      = _oc("fear_greed.fear_greed_current", "N/A")
+fg_label    = _oc("fear_greed.fear_greed_label", "N/A")
+fg_7d       = _oc("fear_greed.fear_greed_7d_avg", "N/A")
+hr_eh       = _oc("hashrate.hashrate_eh", "N/A")
+hr_adj_pct  = _oc("hashrate.next_adj_pct", "N/A")
+hr_blk_rem  = _oc("hashrate.blocks_until_adj", "N/A")
+mem_count   = _oc("mempool.mempool_count", "N/A")
+fee_mid     = _oc("mempool.fee_mid", "N/A")
+fee_high    = _oc("mempool.fee_high", "N/A")
+btc_dom     = _oc("market.btc_dominance", "N/A")
+etf_7d_m    = _oc("etf_summary.etf_net_7d_m", "N/A")
+etf_30d_m   = _oc("etf_summary.etf_net_30d_m", "N/A")
+etf_t1      = _oc("etf_summary.etf_top1_name", "N/A")
+etf_t1_m    = _oc("etf_summary.etf_top1_30d_m", "N/A")
+etf_t2      = _oc("etf_summary.etf_top2_name", "N/A")
+etf_t2_m    = _oc("etf_summary.etf_top2_30d_m", "N/A")
+etf_t3      = _oc("etf_summary.etf_top3_name", "N/A")
+etf_t3_m    = _oc("etf_summary.etf_top3_30d_m", "N/A")
+etf_gbtc_m  = _oc("etf_summary.etf_gbtc_30d_m", "N/A")
+hs_score    = _oc("health_score.score", "N/A")
+hs_label    = _oc("health_score.label", "N/A")
+hs_note     = _oc("health_score.note", "N/A")
+hs_rows     = onchain.get("health_score", {}).get("rows", []) if onchain else []
+
+# Active addresses
+active_addr_today  = _oc("active_addr.active_addr_today", "N/A")
+active_addr_7d     = _oc("active_addr.active_addr_7d_avg", "N/A")
+active_addr_trend  = _oc("active_addr.active_addr_trend_7d_pct", "N/A")
+
+# Stablecoins
+stable_total_b     = _oc("stablecoins.total_stable_b", "N/A")
+stable_usdt_b      = _oc("stablecoins.usdt_supply_b", "N/A")
+stable_usdc_b      = _oc("stablecoins.usdc_supply_b", "N/A")
+
+def _build_health_score_lines():
+    col = GREEN if hs_label == 'bullish' else (RED if hs_label == 'bearish' else GRAY)
+    lines = [
+        (f'  Score: {hs_score}  |  {str(hs_label).upper()}', col, True, 9),
+        (f'  {hs_note}', GRAY, False, 7.5),
+        ('', GRAY, False, 7),
+    ]
+    for row in hs_rows[:6]:
+        sig = row.get('signal', 0)
+        sig_col = GREEN if sig > 0 else (RED if sig < 0 else GRAY)
+        val = row.get('value', 'N/A')
+        metric = row.get('metric', '')
+        lines.append((f'  {metric[:28]:<28} {str(val)[:10]:<10} {"[+]" if sig>0 else "[-]" if sig<0 else "[ ]"}',
+                      sig_col, False, 7.5))
+    return lines
+
 # ─── Theme ────────────────────────────────────────────────────────────────────
 BG      = '#0d1117'
 GREEN   = '#1db954'
@@ -202,6 +290,17 @@ def style_ax(ax, title='', xlabel='', ylabel=''):
 def prob_pct(c):
     d = max(c['dist'], 0.01)
     return round(min(95, max(5, (1/d)*8 + c['vol']/50e9*30)))
+
+def _get_hashrate_series():
+    """Returns list of raw hashrate values from mempool.space (last 30 days)."""
+    try:
+        import requests as _req
+        r = _req.get("https://mempool.space/api/v1/mining/hashrate/1m", timeout=10)
+        r.raise_for_status()
+        pts = r.json().get("hashrates", [])
+        return [p["avgHashrate"] for p in pts[-30:] if p.get("avgHashrate")]
+    except Exception:
+        return []
 
 # ═══════════════════════════════════════════════════════════════════════════════
 output_path = OUTPUT / f'btc_intelligence_{DATE_STR}_onchain.pdf'
@@ -591,22 +690,137 @@ with PdfPages(str(output_path)) as pdf:
         (f'OI Delta Signal:    OI {oi_trend} -> {"de-leverage" if oi_d24<0 else "accumulation"}', GRAY, False, 8),
         ('', GRAY, False, 8),
         ('─' * 45, BORDER, False, 8),
-        ('ON-CHAIN HEALTH SCORE: [N/A]', GRAY, True, 9),
-        ('SOPR/NUPL/MVRV/Reserves/LTH/Whales:', GRAY, False, 8),
-        ('ETF Flows/Miners: Phase 2 required', GRAY, False, 8),
-        ('(Glassnode / CryptoQuant not connected)', GRAY, False, 8),
+        ('─' * 45, BORDER, False, 8),
+        ('ON-CHAIN HEALTH SCORE (Partial)', WHITE, True, 9),
+    ] + _build_health_score_lines() + [
+        ('', GRAY, False, 8),
+        ('Glassnode required: SOPR/NUPL/MVRV/Reserves/LTH/Whales', GRAY, False, 7.5),
     ]
     text_panel(ax_R, right, dy=0.024)
 
     pdf.savefig(fig, bbox_inches='tight'); plt.close(fig)
     print('  Page 5 done')
 
-    # ── PAGE 6: Analyst Conclusion ────────────────────────────────────────────
+    # ── PAGE 6: ETF Flows + On-Chain Network ─────────────────────────────────
     fig = plt.figure(figsize=(11.69, 8.27), facecolor=BG)
     fig.patch.set_facecolor(BG)
-    fig.text(0.5, 0.965, 'ANALYST CONCLUSION — CryptoDatEx BTC Intelligence',
+    fig.suptitle('ETF FLOWS & ON-CHAIN NETWORK METRICS', color=WHITE, fontsize=13,
+                 fontweight='bold', y=0.97)
+    gs6 = GridSpec(2, 3, figure=fig, hspace=0.50, wspace=0.35,
+                   left=0.07, right=0.97, top=0.90, bottom=0.07)
+
+    # A — ETF 7-day net flows bar chart
+    ax_etf = fig.add_subplot(gs6[0, 0:2])
+    if etf_raw and etf_raw.get('rows') and etf_raw.get('headers'):
+        _hdrs = etf_raw['headers']
+        _rows = etf_raw['rows'][-7:]  # last 7 trading days
+
+        def _pf(s):
+            if s in (None, '-', '', 'N/A'): return 0.0
+            try: return float(str(s).replace(',','').replace('(', '-').replace(')', ''))
+            except: return 0.0
+
+        dates  = [r.get('Date', '')[-6:] for r in _rows]  # short date
+        totals = [sum(_pf(r.get(h,'0')) for h in _hdrs[1:] if h and h!='Total') for r in _rows]
+        bc     = [GREEN if t >= 0 else RED for t in totals]
+        xp     = range(len(totals))
+        ax_etf.bar(xp, totals, color=bc, alpha=0.85, width=0.7)
+        ax_etf.axhline(0, color=WHITE, lw=0.8, alpha=0.5)
+        ax_etf.set_xticks(list(xp))
+        ax_etf.set_xticklabels(dates, color=GRAY, fontsize=8)
+        for xi, (val, date) in enumerate(zip(totals, dates)):
+            ax_etf.text(xi, val + (50 if val >= 0 else -80), f'{val:+.0f}M',
+                       ha='center', color=WHITE, fontsize=7.5, fontweight='bold')
+    style_ax(ax_etf,
+             f'Spot BTC ETF Daily Net Flows ($M, last 7 trading days)  |  '
+             f'7d Net: ${etf_7d_m}M  30d Net: ${etf_30d_m}M',
+             '', '$M')
+    ax_etf.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'{x:+.0f}M'))
+
+    # B — ETF top-3 by 30d inflow
+    ax_pie = fig.add_subplot(gs6[0, 2])
+    etf_names = [etf_t1, etf_t2, etf_t3, 'GBTC']
+    etf_vals_raw = [
+        _ocf("etf_summary.etf_top1_30d_m", 0),
+        _ocf("etf_summary.etf_top2_30d_m", 0),
+        _ocf("etf_summary.etf_top3_30d_m", 0),
+        _ocf("etf_summary.etf_gbtc_30d_m", 0),
+    ]
+    etf_cols = [GREEN, BLUE, YELLOW, RED]
+    valid_etf = [(n, v, c) for n, v, c in zip(etf_names, etf_vals_raw, etf_cols) if v != 0 and n != 'N/A']
+    if valid_etf:
+        _names = [x[0] for x in valid_etf]
+        _vals  = [abs(x[1]) for x in valid_etf]
+        _cols  = [x[2] for x in valid_etf]
+        ax_pie.pie(_vals, labels=_names, colors=_cols, autopct='%1.0f%%',
+                   textprops={'color': WHITE, 'fontsize': 8},
+                   pctdistance=0.75, startangle=90)
+    style_ax(ax_pie, f'ETF Share by 30d Flow\nTop: {etf_t1} ${etf_t1_m}M', '', '')
+    ax_pie.set_facecolor(DARK_BG)
+
+    # C — Fear & Greed gauge
+    ax_fg = fig.add_subplot(gs6[1, 0])
+    fg_num = _ocf("fear_greed.fear_greed_current", 50)
+    fg_7d_num = _ocf("fear_greed.fear_greed_7d_avg", fg_num)
+    _fg_col = GREEN if fg_num > 60 else (RED if fg_num < 40 else YELLOW)
+    ax_fg.barh(['Current', '7d Avg'], [fg_num, fg_7d_num],
+               color=[_fg_col, BLUE], alpha=0.8, height=0.5)
+    ax_fg.set_xlim(0, 100)
+    ax_fg.axvline(50, color=WHITE, lw=0.8, linestyle='--', alpha=0.5)
+    ax_fg.text(fg_num + 2, 0, f'{fg_num:.0f}  {fg_label}', color=_fg_col, fontsize=9, va='center', fontweight='bold')
+    ax_fg.text(fg_7d_num + 2, 1, f'{fg_7d_num}', color=BLUE, fontsize=9, va='center')
+    style_ax(ax_fg, f'Fear & Greed Index\n(NUPL Sentiment Proxy)', 'Score (0=Fear, 100=Greed)', '')
+    ax_fg.tick_params(axis='y', colors=GRAY, labelsize=8)
+
+    # D — Hashrate
+    ax_hr = fig.add_subplot(gs6[1, 1])
+    hr_data_raw = _get_hashrate_series()
+    if hr_data_raw:
+        _xs = list(range(len(hr_data_raw)))
+        ax_hr.fill_between(_xs, [h/1e18 for h in hr_data_raw], color=BLUE, alpha=0.3)
+        ax_hr.plot(_xs, [h/1e18 for h in hr_data_raw], color=BLUE, lw=1.5)
+    style_ax(ax_hr,
+             f'BTC Hashrate (EH/s)\n{hr_eh} EH/s  |  Next adj: {hr_adj_pct}%  ({hr_blk_rem} blks)',
+             '', 'EH/s')
+
+    # E — Stablecoins + Active Addresses + Mempool
+    ax_mem = fig.add_subplot(gs6[1, 2])
+    ax_mem.set_facecolor(DARK_BG)
+    ax_mem.set_xticks([]); ax_mem.set_yticks([])
+    for sp in ax_mem.spines.values(): sp.set_edgecolor(BORDER)
+    info_lines = [
+        ('NETWORK & STABLECOINS', WHITE, True, 9),
+        ('', GRAY, False, 7),
+        (f'Active Addresses (today)', GRAY, False, 8),
+        (f'  {active_addr_today:,}' if isinstance(active_addr_today, int) else f'  {active_addr_today}', BLUE, True, 9.5),
+        (f'  7d avg: {active_addr_7d:,}  trend: {active_addr_trend}%' if isinstance(active_addr_7d, int) else f'  7d avg: {active_addr_7d}', GRAY, False, 8),
+        ('', GRAY, False, 7),
+        ('Stablecoin Supply', GRAY, False, 8),
+        (f'  Total: ${stable_total_b}B', GREEN, True, 9.5),
+        (f'  USDT ${stable_usdt_b}B  |  USDC ${stable_usdc_b}B', GRAY, False, 8),
+        ('', GRAY, False, 7),
+        ('Mempool', GRAY, False, 8),
+        (f'  Pending: {mem_count:,} txs' if isinstance(mem_count, int) else f'  Pending: {mem_count} txs', YELLOW, True, 9),
+        (f'  Fees: {_oc("mempool.fee_low","?")} / {fee_mid} / {fee_high} sat/vB', GRAY, False, 8),
+    ]
+    for i, (txt, col, bold, fs) in enumerate(info_lines):
+        ax_mem.text(0.05, 0.96 - i * 0.072, txt, transform=ax_mem.transAxes,
+                   color=col, fontsize=fs, fontweight='bold' if bold else 'normal', va='top')
+
+    fig.text(0.5, 0.01,
+             f'Sources: farside.co.uk (ETF) | alternative.me (F&G) | mempool.space (Hashrate, Fees)  |  '
+             f'Data: {REPORT_DT}  |  Generated: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")}',
+             ha='center', color=GRAY, fontsize=7.5)
+
+    pdf.savefig(fig, bbox_inches='tight'); plt.close(fig)
+    print('  Page 6 done')
+
+    # ── PAGE 7: Analyst Conclusion ────────────────────────────────────────────
+    fig = plt.figure(figsize=(11.69, 8.27), facecolor=BG)
+    fig.patch.set_facecolor(BG)
+    fig.text(0.5, 0.965, 'ВЫВОД АНАЛИТИКА — CryptoDatEx BTC Intelligence',
              ha='center', color=WHITE, fontsize=14, fontweight='bold')
-    fig.text(0.5, 0.935, f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")}  |  Data: {REPORT_DT}  |  Language: EN',
+    fig.text(0.5, 0.935, f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")}  |  Data: {REPORT_DT}  |  Analyst Conclusion',
              ha='center', color=GRAY, fontsize=9)
 
     ax_c = make_ax([0.04, 0.04, 0.92, 0.88], border='#1B7A5A', bw=2)
@@ -618,8 +832,13 @@ with PdfPages(str(output_path)) as pdf:
 
     conc = [
         ('1. ON-CHAIN HEALTH SCORE', WHITE, True, 9.5),
-        ('   [N/A] — Glassnode/CryptoQuant/LookIntoBitcoin not connected.', GRAY, False, 8.5),
-        ('   Phase 2 needed: SOPR, NUPL, MVRV, Exchange Reserves, LTH, Whales, ETF.', GRAY, False, 8.5),
+        (f'   Score: {hs_score}  |  {str(hs_label).upper()}  |  {hs_note}', GREEN if hs_label=="bullish" else (RED if hs_label=="bearish" else GRAY), True, 8.5),
+        (f'   Fear & Greed: {fg_val} ({fg_label})  |  BTC Dominance: {btc_dom}%', YELLOW, False, 8.5),
+        (f'   Hashrate: {hr_eh} EH/s  |  Next adj: {hr_adj_pct}%  ({hr_blk_rem} blocks remain)', BLUE, False, 8.5),
+        (f'   ETF 7d net: ${etf_7d_m}M  |  30d net: ${etf_30d_m}M  |  #1: {etf_t1} ${etf_t1_m}M', GRAY, False, 8.5),
+        (f'   Active Addresses: {active_addr_today:,} (today)  7d avg: {active_addr_7d:,}  trend: {active_addr_trend}%' if isinstance(active_addr_today, int) else f'   Active Addresses: {active_addr_today}', BLUE, False, 8.5),
+        (f'   Stablecoin Supply: ${stable_total_b}B total (USDT ${stable_usdt_b}B + USDC ${stable_usdc_b}B)', GREEN, False, 8.5),
+        ('   SOPR/NUPL/MVRV/Exchange Reserves/LTH/Whales/Miners: [N/A] — Glassnode required', GRAY, False, 8.5),
         ('', GRAY, False, 8),
         ('2. KEY SIGNAL (from available data)', WHITE, True, 9.5),
         (f'   {imb_label} 1%-zone imbalance: {imb_1:.2f}x MORE volume {imb_direction} than {"below" if imb_1>1 else "above"}.', YELLOW, True, 8.5),
@@ -660,10 +879,10 @@ with PdfPages(str(output_path)) as pdf:
 
     fig.text(0.5, 0.01,
              f'Generated: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M UTC")}  |  '
-             f'CryptoDatEx  |  Source: CoinGlass (heatmap + derivatives)  |  On-chain: [N/A]',
+             f'CryptoDatEx  |  Sources: CoinGlass + mempool.space + farside.co.uk + alternative.me',
              ha='center', color=GRAY, fontsize=8)
 
     pdf.savefig(fig, bbox_inches='tight'); plt.close(fig)
-    print('  Page 6 done')
+    print('  Page 7 done')
 
 print(f'\nReport saved: {output_path}')

@@ -1,0 +1,115 @@
+section,metric_key,label,timeframe,value,unit,source,status,updated_at,notes
+Heatmap,current_price,Current BTC Price,current,62640.02,USD,Binance,ok,2026-06-04 10:37:02 UTC,
+Heatmap,top_zone_1_vol_24h,Top Zone 1 Volume (24h),24h,150993409842.06,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$59,718-$68,460 | above | 2.31% from price"
+Heatmap,top_zone_1_range_24h,Top Zone 1 Range (24h),24h,"$59,718-$68,460",,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"center=$64,089, above, dist=2.31%"
+Heatmap,top_zone_2_vol_24h,Top Zone 2 Volume (24h),24h,7576972129.48,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$69,267-$69,805 | above | 11.01% from price"
+Heatmap,top_zone_2_range_24h,Top Zone 2 Range (24h),24h,"$69,267-$69,805",,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"center=$69,536, above, dist=11.01%"
+Heatmap,short_liq_zone_1_24h,Short Liq Zone 1 Above (24h),24h,150993409842.06,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$59,718-$68,460 | 2.31% above"
+Heatmap,short_liq_zone_2_24h,Short Liq Zone 2 Above (24h),24h,7576972129.48,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$69,267-$69,805 | 11.01% above"
+Heatmap,nearest_above_price_24h,Nearest Cluster Above (24h),24h,"$64,089",USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"dist=2.31%, vol=150.99B"
+Heatmap,nearest_above_dist_24h,Nearest Above Dist (24h),24h,2.313,%,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,nearest_above_vol_24h,Nearest Above Volume (24h),24h,150993409842.06,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,liquidity_magnet_24h,Liquidity Magnet (24h),24h,"$64,089",USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"above, dist=2.31%, vol=150.99B"
+Heatmap,liquidity_vacuum_24h,Liquidity Vacuum Gap (24h),24h,5447.0,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$64,089-$69,536 | 8.70% of price"
+Heatmap,bucket_0.5%_below_24h,Vol 0.5% Below (24h),24h,2545328005.1,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_0.5%_above_24h,Vol 0.5% Above (24h),24h,3749441024.16,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_0.5%_imbalance_24h,Imbalance 0.5% (24h),24h,1.4731,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_1.0%_below_24h,Vol 1.0% Below (24h),24h,4158938515.39,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_1.0%_above_24h,Vol 1.0% Above (24h),24h,8548450697.81,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_1.0%_imbalance_24h,Imbalance 1.0% (24h),24h,2.0554,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_2.0%_below_24h,Vol 2.0% Below (24h),24h,11318237399.91,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_2.0%_above_24h,Vol 2.0% Above (24h),24h,12111444396.35,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_2.0%_imbalance_24h,Imbalance 2.0% (24h),24h,1.0701,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_3.0%_below_24h,Vol 3.0% Below (24h),24h,15888297845.31,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_3.0%_above_24h,Vol 3.0% Above (24h),24h,22259468856.03,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_3.0%_imbalance_24h,Imbalance 3.0% (24h),24h,1.401,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_5.0%_below_24h,Vol 5.0% Below (24h),24h,18119966545.97,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_5.0%_above_24h,Vol 5.0% Above (24h),24h,48617919731.48,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_5.0%_imbalance_24h,Imbalance 5.0% (24h),24h,2.6831,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,cluster_count_24h,Cluster Count (24h),24h,2,,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,total_volume_24h,Total Heatmap Volume (24h),24h,158570381971.54,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,top_zone_1_vol_3d,Top Zone 1 Volume (3d),3d,581419929684.14,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$59,720-$75,678 | above | 8.08% from price"
+Heatmap,top_zone_1_range_3d,Top Zone 1 Range (3d),3d,"$59,720-$75,678",,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"center=$67,699, above, dist=8.08%"
+Heatmap,short_liq_zone_1_3d,Short Liq Zone 1 Above (3d),3d,581419929684.14,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"$59,720-$75,678 | 8.08% above"
+Heatmap,nearest_above_price_3d,Nearest Cluster Above (3d),3d,"$67,699",USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"dist=8.08%, vol=581.42B"
+Heatmap,nearest_above_dist_3d,Nearest Above Dist (3d),3d,8.076,%,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,nearest_above_vol_3d,Nearest Above Volume (3d),3d,581419929684.14,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,liquidity_magnet_3d,Liquidity Magnet (3d),3d,"$67,699",USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,"above, dist=8.08%, vol=581.42B"
+Heatmap,bucket_0.5%_below_3d,Vol 0.5% Below (3d),3d,843042306.54,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_0.5%_above_3d,Vol 0.5% Above (3d),3d,1295464998.93,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_0.5%_imbalance_3d,Imbalance 0.5% (3d),3d,1.5367,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_1.0%_below_3d,Vol 1.0% Below (3d),3d,1459170683.66,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_1.0%_above_3d,Vol 1.0% Above (3d),3d,2811273048.41,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_1.0%_imbalance_3d,Imbalance 1.0% (3d),3d,1.9266,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_2.0%_below_3d,Vol 2.0% Below (3d),3d,4028991822.5,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_2.0%_above_3d,Vol 2.0% Above (3d),3d,9121903744.8,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_2.0%_imbalance_3d,Imbalance 2.0% (3d),3d,2.2641,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_3.0%_below_3d,Vol 3.0% Below (3d),3d,5631158615.82,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_3.0%_above_3d,Vol 3.0% Above (3d),3d,22333049704.5,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_3.0%_imbalance_3d,Imbalance 3.0% (3d),3d,3.966,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,bucket_5.0%_below_3d,Vol 5.0% Below (3d),3d,6437364702.29,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_5.0%_above_3d,Vol 5.0% Above (3d),3d,52292737454.84,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,bucket_5.0%_imbalance_3d,Imbalance 5.0% (3d),3d,8.1233,above/below,liqHeatMap,ok,2026-06-04 10:37:02 UTC,">1=more above, <1=more below"
+Heatmap,cluster_count_3d,Cluster Count (3d),3d,1,,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Heatmap,total_volume_3d,Total Heatmap Volume (3d),3d,581419929684.14,USD,liqHeatMap,ok,2026-06-04 10:37:02 UTC,
+Derivatives,funding_current,Current Funding Rate,8h,0.12584,%,fundingRate/v2/history/chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,funding_avg_24h,Funding Rate Avg 24h,24h,0.09692,%,fundingRate/v2/history/chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,funding_avg_7d,Funding Rate Avg 7d,7d,0.46059,%,fundingRate/v2/history/chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,funding_zscore,Funding Rate Z-Score,all,0.028,sigma,fundingRate/v2/history/chart,ok,2026-06-04 10:37:02 UTC,vs full history window
+Derivatives,funding_state,Funding State,current,overheated_long,,fundingRate/v2/history/chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_total_current,Total OI (All Exchanges),current,48163851870.0,USD,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_delta_24h,OI Chg24h,24h,-11.191,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_delta_7d,OI Chg7d,7d,-21.56,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_binance,OI Binance,current,8837666715.26288,USD,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_binance_24h_chg,OI Binance Chg24h,24h,-8.63,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_cme,OI CME,current,6346004731.0,USD,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_cme_24h_chg,OI CME Chg24h,24h,-7.38,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_bybit,OI Bybit,current,4181192918.47,USD,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_bybit_24h_chg,OI Bybit Chg24h,24h,-10.11,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_okx,OI OKX,current,3060362904.767203,USD,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,oi_okx_24h_chg,OI OKX Chg24h,24h,-6.39,%,openInterest,ok,2026-06-04 10:37:02 UTC,
+Derivatives,coinbase_premium_current,Coinbase Premium,current,-78.82,%,kline/coinbase_premium,ok,2026-06-04 10:37:02 UTC,
+Derivatives,coinbase_premium_1h,Coinbase Premium 1h avg,1h,-78.255,%,kline/coinbase_premium,ok,2026-06-04 10:37:02 UTC,
+Derivatives,coinbase_premium_24h,Coinbase Premium 24h avg,24h,-90.88729,%,kline/coinbase_premium,ok,2026-06-04 10:37:02 UTC,
+Derivatives,coinbase_premium_state,Coinbase Premium State,current,negative,,kline/coinbase_premium,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_long_usd,Long Liq Today,today,654434755.71,USD,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_short_usd,Short Liq Today,today,115372539.79,USD,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_total_usd,Total Liq Today,today,769807295.5,USD,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_long_rate,Long Liq Rate Today %,today,85.01,%,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_short_rate,Short Liq Rate Today %,today,14.99,%,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_traders,Liquidated Traders,today,39934.0,count,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_max_order,Max Single Liq,today,16198485.45,USD,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_today_avg_7d,7d Avg Liq Rate,7d,2.39,%,CoinGlass/liq_today,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_long_24h,Long Liq 24h,24h,4409728945.95,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_short_24h,Short Liq 24h,24h,2108752889.93,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_total_24h,Total Liq 24h,24h,6518481835.88,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_long_4h,Long Liq 4h,4h,2219201302.48,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_short_4h,Short Liq 4h,4h,282637446.31,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_long_1h,Long Liq 1h,1h,810505301.59,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_short_1h,Short Liq 1h,1h,152797280.85,USD,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,
+Derivatives,liq_ls_ratio_24h,Liq Long/Short Ratio 24h,24h,2.0912,ratio,CoinGlass/liq_chart,ok,2026-06-04 10:37:02 UTC,>1 = more longs liquidated
+Derivatives,ls_ratio_long_pct,Long Accounts %,current,47.49,%,CoinGlass/longShortRatio,ok,2026-06-04 10:37:02 UTC,
+Derivatives,ls_ratio_short_pct,Short Accounts %,current,52.51,%,CoinGlass/longShortRatio,ok,2026-06-04 10:37:02 UTC,
+Derivatives,ls_ratio_long_30d_avg,Long % 30-pt avg,30d,49.26,%,CoinGlass/longShortRatio,ok,2026-06-04 10:37:02 UTC,
+Derivatives,ls_ratio_current,L/S Ratio (long/short),current,0.9044,ratio,CoinGlass/longShortRatio,ok,2026-06-04 10:37:02 UTC,>1 = more longs than shorts
+Derivatives,taker_buy_24h,Liq Buy Vol 24h,24h,2108752889.93,USD,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,short-liq force-buys
+Derivatives,taker_sell_24h,Liq Sell Vol 24h,24h,4409728945.95,USD,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,long-liq force-sells
+Derivatives,taker_buy_1h,Liq Buy Vol 1h,1h,152797280.85,USD,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,
+Derivatives,taker_sell_1h,Liq Sell Vol 1h,1h,810505301.59,USD,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,
+Derivatives,taker_ratio_24h,Liq Buy/Sell Ratio 24h,24h,0.4782,ratio,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,>1 = more short liqs than long liqs
+Derivatives,taker_ratio_1h,Liq Buy/Sell Ratio 1h,1h,0.1885,ratio,CoinGlass/takerBuySell,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_net_flow_30d,ETF Net Flow 30d,30d,83475.4,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,sum all BTC spot ETFs
+ETF,etf_top1_ticker,ETF Top1 Ticker,30d,IBIT,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_top1_flow_30d,ETF Top1 Flow 30d,30d,63994.5,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_top2_ticker,ETF Top2 Ticker,30d,FBTC,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_top2_flow_30d,ETF Top2 Flow 30d,30d,11028.3,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_top3_ticker,ETF Top3 Ticker,30d,BTC,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_top3_flow_30d,ETF Top3 Flow 30d,30d,2278.7,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot1_ticker,ETF Bot1 Ticker,30d,GBTC,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot1_flow_30d,ETF Bot1 Flow 30d,30d,0.0,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot2_ticker,ETF Bot2 Ticker,30d,BTCW,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot2_flow_30d,ETF Bot2 Flow 30d,30d,92.0,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot3_ticker,ETF Bot3 Ticker,30d,BTCO,,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+ETF,etf_bot3_flow_30d,ETF Bot3 Flow 30d,30d,239.3,M USD,farside.co.uk,ok,2026-06-04 10:37:02 UTC,
+Signal,liquidation_direction_bias,Liquidation Direction Bias,current,short_pressure,,computed,ok,2026-06-04 10:37:02 UTC,based on 1% bucket imbalance (24h)
+Signal,liquidation_state,Liquidation State,current,neutral,,computed,ok,2026-06-04 10:37:02 UTC,funding + imbalance + OI delta

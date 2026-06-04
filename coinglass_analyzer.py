@@ -70,7 +70,7 @@ _BASE_URL     = "https://capi.coinglass.com"
 _KNOWN_JS_HASH = "dd73626052eeca65"   # _app-<hash>.js — update when CoinGlass redeploys
 
 # ── Your session token (only thing that needs manual refresh) ─────────────────
-OBE = "s_3394cdaa6172457cbc313517ff4db0e2"   # e.g. "s_3394cdaa6172457cbc313517ff4db0e2"
+OBE = "s_4587f655c7bd4aa88178919148cd6b8d"
 
 OUTPUT_DIR = Path("output")   # reassigned to a timestamped subfolder in __main__
 OUTPUT_DIR.mkdir(exist_ok=True)
@@ -1520,7 +1520,7 @@ def fetch_bitmex_funding_rate(slug="pro-futures-BitmexFundingRate", lang="en", r
 
 def fetch_liquidation_chart(symbol="BTC", timeType=0, exchangeName="", currency="USD", retries=3):
     """Long vs short liquidation volumes by timeframe across all exchanges."""
-    endpoint = "/api/futures/liquidation/v2/chart"
+    endpoint = "/api/futures/liquidation/chart"   # was /v2/chart before 2026-06 redeploy
     for attempt in range(1, retries + 1):
         try:
             cache_ts_v2 = str(int(time.time() * 1000))
@@ -1564,9 +1564,9 @@ def fetch_liquidation_chart(symbol="BTC", timeType=0, exchangeName="", currency=
     return None
 
 
-def fetch_long_short_ratio(symbol="BTC", timeType=0, exchangeName="Binance", retries=3):
-    """Long/short position ratio — accounts holding longs vs shorts."""
-    endpoint = "/api/futures/longShortRatio/chart"
+def fetch_long_short_ratio(symbol="BTC", timeType=1, retries=3):
+    """Long/short position ratio chart — longRateList, shortsRateList, longShortRateList."""
+    endpoint = "/api/futures/longShortChart"   # was longShortRatio/chart before 2026-06 redeploy
     for attempt in range(1, retries + 1):
         try:
             cache_ts_v2 = str(int(time.time() * 1000))
@@ -1574,10 +1574,9 @@ def fetch_long_short_ratio(symbol="BTC", timeType=0, exchangeName="Binance", ret
             params = {
                 "symbol": symbol,
                 "timeType": timeType,
-                "exchangeName": exchangeName,
             }
 
-            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} exchange={exchangeName} timeType={timeType}")
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} timeType={timeType}")
 
             r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
             log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
@@ -1610,8 +1609,13 @@ def fetch_long_short_ratio(symbol="BTC", timeType=0, exchangeName="Binance", ret
 
 
 def fetch_taker_buy_sell(symbol="BTC", timeType=0, exchangeName="", currency="USD", retries=3):
-    """Taker buy/sell volume ratio — CVD proxy for market aggression."""
-    endpoint = "/api/futures/taker/chart"
+    """
+    Taker buy/sell volumes — now sourced from liquidation/chart (buyVolUsd/sellVolUsd).
+    buyVolUsd  = shorts liquidated (market buys to close short positions)
+    sellVolUsd = longs  liquidated (market sells to close long positions)
+    The old /api/futures/taker/chart endpoint was removed in the 2026-06 CoinGlass redeploy.
+    """
+    endpoint = "/api/futures/liquidation/chart"
     for attempt in range(1, retries + 1):
         try:
             cache_ts_v2 = str(int(time.time() * 1000))
@@ -1652,6 +1656,84 @@ def fetch_taker_buy_sell(symbol="BTC", timeType=0, exchangeName="", currency="US
             log.error(f"  Request error: {e}")
             time.sleep(attempt * 3)
 
+    return None
+
+
+def fetch_liquidation_today(symbol="BTC", retries=3):
+    """
+    Today's actual liquidation snapshot.
+    Returns: longLiquidationUsd, shortLiquidationUsd, liquidationUsd,
+             longLiquidationRate, shortLiquidationRate, liquidationTraders,
+             maxLiquidationVolUsd, exList (by exchange), avg7dRate.
+    """
+    endpoint = "/api/futures/liquidation/today"
+    for attempt in range(1, retries + 1):
+        try:
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            params = {"symbol": symbol, "timeType": 0}
+
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol}")
+            r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
+            log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
+
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired.")
+                return None
+            if r.status_code in (403, 404):
+                return None
+            if r.status_code == 429:
+                time.sleep(30 * (2 ** (attempt - 1)) + random.uniform(0, 10))
+                continue
+
+            r.raise_for_status()
+            result = _handle_response(r, cache_ts_v2, endpoint)
+            if result:
+                log.info("  ✅ Decrypted successfully.")
+                return result
+            log.error("  Decryption failed.")
+            return None
+        except requests.exceptions.RequestException as e:
+            log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
+    return None
+
+
+def fetch_long_short_rate(symbol="BTC", timeType=0, exchangeName="Binance", retries=3):
+    """
+    Current long/short rate snapshot per exchange.
+    Returns list of exchange dicts with longRate, shortRate, longVolUsd, shortVolUsd.
+    """
+    endpoint = "/api/futures/longShortRate"
+    for attempt in range(1, retries + 1):
+        try:
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            params = {"symbol": symbol, "timeType": timeType, "exchangeName": exchangeName}
+
+            log.info(f"[Attempt {attempt}] {endpoint} | {symbol} exchange={exchangeName}")
+            r = requests.get(_BASE_URL + endpoint, headers=headers, params=params, timeout=20)
+            log.info(f"  Status: {r.status_code} | v={r.headers.get('v','?')} | enc={r.headers.get('encryption','?')}")
+
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired.")
+                return None
+            if r.status_code in (403, 404):
+                return None
+            if r.status_code == 429:
+                time.sleep(30 * (2 ** (attempt - 1)) + random.uniform(0, 10))
+                continue
+
+            r.raise_for_status()
+            result = _handle_response(r, cache_ts_v2, endpoint)
+            if result:
+                log.info("  ✅ Decrypted successfully.")
+                return result
+            log.error("  Decryption failed.")
+            return None
+        except requests.exceptions.RequestException as e:
+            log.error(f"  Request error: {e}")
+            time.sleep(attempt * 3)
     return None
 
 
@@ -1848,10 +1930,12 @@ if __name__ == "__main__":
         "oi_chart_raw":         None,
         "oi_info_raw":          None,
         "coinbase_premium_raw": None,
-        "liq_chart_raw":        None,   # long vs short liq volumes by TF
-        "long_short_ratio_raw": None,   # position L/S ratio
-        "taker_buy_sell_raw":   None,   # taker CVD proxy
-        "etf_flows_raw":        None,   # farside.co.uk ETF flows
+        "liq_today_raw":         None,   # today's actual long/short liq snapshot
+        "liq_chart_raw":         None,   # long vs short liq volumes by TF
+        "long_short_ratio_raw":  None,   # L/S ratio chart (longRateList, etc.)
+        "long_short_rate_raw":   None,   # L/S rate per-exchange snapshot
+        "taker_buy_sell_raw":    None,   # buyVolUsd/sellVolUsd from liq/chart
+        "etf_flows_raw":         None,   # farside.co.uk ETF flows
     }
 
     # ── Heatmap 24h ──────────────────────────────────────────────────────────
@@ -2021,6 +2105,13 @@ if __name__ == "__main__":
     data = fetch_bitmex_funding_rate()
     if data: save_json(data, f"bitmex_funding_rate_{ts}.json")
 
+    log.info("\n── Liquidation Today (actual long/short volumes) ──")
+    global_limiter.wait()
+    data = fetch_liquidation_today()
+    if data:
+        save_json(data, f"liq_today_{ts}.json")
+        bundle["liq_today_raw"] = data
+
     log.info("\n── Liquidation Chart (Long vs Short by TF) ──")
     global_limiter.wait()
     data = fetch_liquidation_chart()
@@ -2028,14 +2119,21 @@ if __name__ == "__main__":
         save_json(data, f"liq_chart_{ts}.json")
         bundle["liq_chart_raw"] = data
 
-    log.info("\n── Long/Short Ratio (Binance) ──")
+    log.info("\n── Long/Short Ratio (chart) ──")
     global_limiter.wait()
     data = fetch_long_short_ratio()
     if data:
         save_json(data, f"long_short_ratio_{ts}.json")
         bundle["long_short_ratio_raw"] = data
 
-    log.info("\n── Taker Buy/Sell Volume (CVD proxy) ──")
+    log.info("\n── Long/Short Rate (current snapshot) ──")
+    global_limiter.wait()
+    data = fetch_long_short_rate()
+    if data:
+        save_json(data, f"long_short_rate_{ts}.json")
+        bundle["long_short_rate_raw"] = data
+
+    log.info("\n── Taker/CVD (via liquidation/chart buyVol/sellVol) ──")
     global_limiter.wait()
     data = fetch_taker_buy_sell()
     if data:

@@ -368,59 +368,88 @@ def compute_coinbase_premium_metrics(premium_raw) -> list[dict]:
 # ── Liquidation chart metrics (long vs short volumes by TF) ──────────────────
 
 def compute_liq_chart_metrics(raw) -> list[dict]:
+    """
+    Handles two formats:
+      OLD: dict with dataMap / dateList (longList, shortList per exchange)
+      NEW: list of {createTime, buyVolUsd (=short liq), sellVolUsd (=long liq), ...}
+    """
     if not raw:
         return []
     src = "CoinGlass/liq_chart"
 
-    # Expected structure: {data: {dataMap: {exchange: {longList, shortList}}, dateList: [...]}}
-    # or flat: {dataMap: {...}, dateList: [...]}
+    # ── NEW format: list of {createTime, buyVolUsd, sellVolUsd} ──────────────
+    if isinstance(raw, list):
+        records = raw
+        # buyVolUsd = shorts liquidated (force-buy to close short)
+        # sellVolUsd = longs liquidated (force-sell to close long)
+        sell_usd = [_f(r.get("sellVolUsd", 0)) or 0 for r in records]   # long liqs
+        buy_usd  = [_f(r.get("buyVolUsd",  0)) or 0 for r in records]   # short liqs
+
+        liq_24h_long  = sum(sell_usd[-48:]) if len(sell_usd) >= 2 else sum(sell_usd)
+        liq_24h_short = sum(buy_usd[-48:])  if len(buy_usd)  >= 2 else sum(buy_usd)
+        liq_1h_long   = sum(sell_usd[-2:])
+        liq_1h_short  = sum(buy_usd[-2:])
+        liq_4h_long   = sum(sell_usd[-8:])
+        liq_4h_short  = sum(buy_usd[-8:])
+        total_24h     = liq_24h_long + liq_24h_short
+        ls_ratio_24h  = round(liq_24h_long / liq_24h_short, 4) if liq_24h_short > 0 else None
+
+        rows = [
+            _row("Derivatives", "liq_long_24h",  "Long Liq 24h",  "24h", round(liq_24h_long,  2), "USD", src),
+            _row("Derivatives", "liq_short_24h", "Short Liq 24h", "24h", round(liq_24h_short, 2), "USD", src),
+            _row("Derivatives", "liq_total_24h", "Total Liq 24h", "24h", round(total_24h,     2), "USD", src),
+            _row("Derivatives", "liq_long_4h",   "Long Liq 4h",   "4h",  round(liq_4h_long,   2), "USD", src),
+            _row("Derivatives", "liq_short_4h",  "Short Liq 4h",  "4h",  round(liq_4h_short,  2), "USD", src),
+            _row("Derivatives", "liq_long_1h",   "Long Liq 1h",   "1h",  round(liq_1h_long,   2), "USD", src),
+            _row("Derivatives", "liq_short_1h",  "Short Liq 1h",  "1h",  round(liq_1h_short,  2), "USD", src),
+        ]
+        if ls_ratio_24h is not None:
+            rows.append(_row("Derivatives", "liq_ls_ratio_24h", "Liq Long/Short Ratio 24h", "24h",
+                             ls_ratio_24h, "ratio", src, notes=">1 = more longs liquidated"))
+        return rows
+
+    # ── OLD format: dict with dataMap / dateList ──────────────────────────────
     inner = raw
     if isinstance(inner, dict) and "data" in inner and isinstance(inner["data"], dict):
         inner = inner["data"]
 
     date_list = inner.get("dateList") or []
     data_map  = inner.get("dataMap") or {}
-
     if not date_list or not data_map:
         return []
 
-    # Aggregate all exchanges: sum longList and shortList across all entries
     total_longs  = [0.0] * len(date_list)
     total_shorts = [0.0] * len(date_list)
-
     for _exch, exch_data in data_map.items():
         if not isinstance(exch_data, dict):
             continue
-        ll = exch_data.get("longList") or []
-        sl = exch_data.get("shortList") or []
-        for i, v in enumerate(ll):
+        for i, v in enumerate(exch_data.get("longList") or []):
             if i < len(total_longs) and v:
                 total_longs[i] += float(v)
-        for i, v in enumerate(sl):
+        for i, v in enumerate(exch_data.get("shortList") or []):
             if i < len(total_shorts) and v:
                 total_shorts[i] += float(v)
 
     if not any(total_longs) and not any(total_shorts):
         return []
 
-    liq_24h_long  = sum(total_longs[-48:])   if len(total_longs)  >= 2 else sum(total_longs)
-    liq_24h_short = sum(total_shorts[-48:])  if len(total_shorts) >= 2 else sum(total_shorts)
-    liq_1h_long   = sum(total_longs[-2:])    if len(total_longs)  >= 2 else total_longs[-1] if total_longs else 0
-    liq_1h_short  = sum(total_shorts[-2:])   if len(total_shorts) >= 2 else total_shorts[-1] if total_shorts else 0
-    liq_4h_long   = sum(total_longs[-8:])    if len(total_longs)  >= 8 else sum(total_longs)
-    liq_4h_short  = sum(total_shorts[-8:])   if len(total_shorts) >= 8 else sum(total_shorts)
-
-    total_24h = liq_24h_long + liq_24h_short
-    ls_ratio_24h = round(liq_24h_long / liq_24h_short, 4) if liq_24h_short > 0 else None
+    liq_24h_long  = sum(total_longs[-48:])  if len(total_longs)  >= 2 else sum(total_longs)
+    liq_24h_short = sum(total_shorts[-48:]) if len(total_shorts) >= 2 else sum(total_shorts)
+    liq_1h_long   = sum(total_longs[-2:])
+    liq_1h_short  = sum(total_shorts[-2:])
+    liq_4h_long   = sum(total_longs[-8:])
+    liq_4h_short  = sum(total_shorts[-8:])
+    total_24h     = liq_24h_long + liq_24h_short
+    ls_ratio_24h  = round(liq_24h_long / liq_24h_short, 4) if liq_24h_short > 0 else None
 
     rows = [
-        _row("Derivatives", "liq_long_24h",   "Long Liq 24h",   "24h", round(liq_24h_long,  2), "USD", src),
-        _row("Derivatives", "liq_short_24h",  "Short Liq 24h",  "24h", round(liq_24h_short, 2), "USD", src),
-        _row("Derivatives", "liq_total_24h",  "Total Liq 24h",  "24h", round(total_24h,     2), "USD", src),
-        _row("Derivatives", "liq_long_4h",    "Long Liq 4h",    "4h",  round(liq_4h_long,   2), "USD", src),
-        _row("Derivatives", "liq_short_4h",   "Short Liq 4h",   "4h",  round(liq_4h_short,  2), "USD", src),
-        _row("Derivatives", "liq_long_1h",    "Long Liq 1h",    "1h",  round(liq_1h_long,   2), "USD", src),
-        _row("Derivatives", "liq_short_1h",   "Short Liq 1h",   "1h",  round(liq_1h_short,  2), "USD", src),
+        _row("Derivatives", "liq_long_24h",  "Long Liq 24h",  "24h", round(liq_24h_long,  2), "USD", src),
+        _row("Derivatives", "liq_short_24h", "Short Liq 24h", "24h", round(liq_24h_short, 2), "USD", src),
+        _row("Derivatives", "liq_total_24h", "Total Liq 24h", "24h", round(total_24h,     2), "USD", src),
+        _row("Derivatives", "liq_long_4h",   "Long Liq 4h",   "4h",  round(liq_4h_long,   2), "USD", src),
+        _row("Derivatives", "liq_short_4h",  "Short Liq 4h",  "4h",  round(liq_4h_short,  2), "USD", src),
+        _row("Derivatives", "liq_long_1h",   "Long Liq 1h",   "1h",  round(liq_1h_long,   2), "USD", src),
+        _row("Derivatives", "liq_short_1h",  "Short Liq 1h",  "1h",  round(liq_1h_short,  2), "USD", src),
     ]
     if ls_ratio_24h is not None:
         rows.append(_row("Derivatives", "liq_ls_ratio_24h", "Liq Long/Short Ratio 24h", "24h",
@@ -428,9 +457,43 @@ def compute_liq_chart_metrics(raw) -> list[dict]:
     return rows
 
 
+# ── Liquidation today snapshot ────────────────────────────────────────────────
+
+def compute_liq_today_metrics(raw) -> list[dict]:
+    """
+    Parse /api/futures/liquidation/today response.
+    Fields: longLiquidationUsd, shortLiquidationUsd, liquidationUsd,
+            longLiquidationRate, shortLiquidationRate, liquidationTraders, avg7dRate.
+    """
+    if not raw or not isinstance(raw, dict):
+        return []
+    src = "CoinGlass/liq_today"
+    rows = []
+
+    def _add(key, label, tf, val, unit="USD"):
+        v = _f(raw.get(val))
+        if v is not None:
+            rows.append(_row("Derivatives", key, label, tf, round(v, 2), unit, src))
+
+    _add("liq_today_long_usd",  "Long Liq Today",        "today", "longLiquidationUsd")
+    _add("liq_today_short_usd", "Short Liq Today",       "today", "shortLiquidationUsd")
+    _add("liq_today_total_usd", "Total Liq Today",       "today", "liquidationUsd")
+    _add("liq_today_long_rate", "Long Liq Rate Today %", "today", "longLiquidationRate",  "%")
+    _add("liq_today_short_rate","Short Liq Rate Today %","today", "shortLiquidationRate", "%")
+    _add("liq_today_traders",   "Liquidated Traders",    "today", "liquidationTraders",   "count")
+    _add("liq_today_max_order", "Max Single Liq",        "today", "maxLiquidationVolUsd")
+    _add("liq_today_avg_7d",    "7d Avg Liq Rate",       "7d",    "avg7dRate",            "%")
+    return rows
+
+
 # ── Long/Short ratio metrics ──────────────────────────────────────────────────
 
 def compute_long_short_ratio_metrics(raw) -> list[dict]:
+    """
+    Handles two formats:
+      OLD: dict with dataMap (longList/shortList per exchange) + dateList
+      NEW: dict with longRateList, shortsRateList, longShortRateList, dateList (from longShortChart)
+    """
     if not raw:
         return []
     src = "CoinGlass/longShortRatio"
@@ -439,81 +502,138 @@ def compute_long_short_ratio_metrics(raw) -> list[dict]:
     if isinstance(inner, dict) and "data" in inner and isinstance(inner["data"], dict):
         inner = inner["data"]
 
+    if not isinstance(inner, dict):
+        return []
+
+    # ── NEW format: longRateList / shortsRateList directly in dict ────────────
+    if "longRateList" in inner:
+        long_list  = inner.get("longRateList",  [])
+        short_list = inner.get("shortsRateList", [])
+        ls_list    = inner.get("longShortRateList", [])
+        if not long_list:
+            return []
+        cur_long  = _f(long_list[-1])
+        cur_short = _f(short_list[-1]) if short_list else None
+        cur_ls    = _f(ls_list[-1]) if ls_list else None
+        avg_long  = sum(_f(v) or 0 for v in long_list[-30:]) / min(30, len(long_list))
+
+        rows = [
+            _row("Derivatives", "ls_ratio_long_pct",     "Long Accounts %",      "current",
+                 round(cur_long, 2) if cur_long else "n/a",   "%", src),
+            _row("Derivatives", "ls_ratio_short_pct",    "Short Accounts %",     "current",
+                 round(cur_short, 2) if cur_short else "n/a", "%", src),
+            _row("Derivatives", "ls_ratio_long_30d_avg", "Long % 30-pt avg",     "30d",
+                 round(avg_long, 2), "%", src),
+        ]
+        if cur_ls is not None:
+            rows.append(_row("Derivatives", "ls_ratio_current", "L/S Ratio (long/short)", "current",
+                             round(cur_ls, 4), "ratio", src, notes=">1 = more longs than shorts"))
+        return rows
+
+    # ── OLD format: dataMap with longList / shortList ─────────────────────────
     date_list = inner.get("dateList") or []
     data_map  = inner.get("dataMap") or {}
-
     if not date_list or not data_map:
         return []
 
-    # Use "All" key if present, otherwise first exchange
     series = data_map.get("All") or data_map.get("all") or next(iter(data_map.values()), None)
     if not series or not isinstance(series, dict):
         return []
 
     long_list  = series.get("longList")  or series.get("buyList")  or []
     short_list = series.get("shortList") or series.get("sellList") or []
-
     if not long_list:
         return []
 
     cur_long  = _f(long_list[-1])
     cur_short = _f(short_list[-1]) if short_list else (1 - cur_long if cur_long else None)
-
     if cur_long is None:
         return []
-
     avg_long_24h = sum(_f(v) or 0 for v in long_list[-48:]) / min(48, len(long_list))
 
     return [
-        _row("Derivatives", "ls_ratio_long_pct",   "Long Accounts %",   "current", round(cur_long * 100, 2),     "%",     src),
-        _row("Derivatives", "ls_ratio_short_pct",  "Short Accounts %",  "current", round((cur_short or 0) * 100, 2), "%", src),
-        _row("Derivatives", "ls_ratio_long_24h_avg", "Long % 24h avg",  "24h",     round(avg_long_24h * 100, 2),  "%",     src),
+        _row("Derivatives", "ls_ratio_long_pct",     "Long Accounts %",   "current", round(cur_long * 100, 2),        "%", src),
+        _row("Derivatives", "ls_ratio_short_pct",    "Short Accounts %",  "current", round((cur_short or 0) * 100, 2), "%", src),
+        _row("Derivatives", "ls_ratio_long_24h_avg", "Long % 24h avg",    "24h",     round(avg_long_24h * 100, 2),     "%", src),
     ]
 
 
-# ── Taker buy/sell metrics (CVD proxy) ───────────────────────────────────────
+# ── Taker buy/sell metrics (now sourced from liq/chart buyVolUsd/sellVolUsd) ─
 
 def compute_taker_buy_sell_metrics(raw) -> list[dict]:
+    """
+    Handles two formats:
+      OLD: dict with dataMap (buyList/sellList per exchange) + dateList
+      NEW: list of {createTime, buyVolUsd (=short liq force-buys), sellVolUsd (=long liq force-sells)}
+    """
     if not raw:
         return []
     src = "CoinGlass/takerBuySell"
 
+    # ── NEW format: list of {buyVolUsd, sellVolUsd} ───────────────────────────
+    if isinstance(raw, list):
+        buy_list  = [_f(r.get("buyVolUsd",  0)) or 0 for r in raw]
+        sell_list = [_f(r.get("sellVolUsd", 0)) or 0 for r in raw]
+        if not any(buy_list) and not any(sell_list):
+            return []
+        buy_24h  = sum(buy_list[-48:])
+        sell_24h = sum(sell_list[-48:])
+        buy_1h   = sum(buy_list[-2:])
+        sell_1h  = sum(sell_list[-2:])
+        ratio_24h = round(buy_24h / sell_24h, 4) if sell_24h > 0 else None
+        ratio_1h  = round(buy_1h  / sell_1h,  4) if sell_1h  > 0 else None
+        rows = [
+            _row("Derivatives", "taker_buy_24h",  "Liq Buy Vol 24h",  "24h", round(buy_24h,  2), "USD", src,
+                 notes="short-liq force-buys"),
+            _row("Derivatives", "taker_sell_24h", "Liq Sell Vol 24h", "24h", round(sell_24h, 2), "USD", src,
+                 notes="long-liq force-sells"),
+            _row("Derivatives", "taker_buy_1h",   "Liq Buy Vol 1h",   "1h",  round(buy_1h,   2), "USD", src),
+            _row("Derivatives", "taker_sell_1h",  "Liq Sell Vol 1h",  "1h",  round(sell_1h,  2), "USD", src),
+        ]
+        if ratio_24h is not None:
+            rows.append(_row("Derivatives", "taker_ratio_24h", "Liq Buy/Sell Ratio 24h", "24h",
+                             ratio_24h, "ratio", src, notes=">1 = more short liqs than long liqs"))
+        if ratio_1h is not None:
+            rows.append(_row("Derivatives", "taker_ratio_1h", "Liq Buy/Sell Ratio 1h", "1h",
+                             ratio_1h, "ratio", src))
+        return rows
+
+    # ── OLD format: dict with dataMap ─────────────────────────────────────────
     inner = raw
     if isinstance(inner, dict) and "data" in inner and isinstance(inner["data"], dict):
         inner = inner["data"]
+    if not isinstance(inner, dict):
+        return []
 
     date_list = inner.get("dateList") or []
     data_map  = inner.get("dataMap") or {}
-
     if not date_list or not data_map:
         return []
 
-    buy_list  = []
-    sell_list = []
+    buy_list = sell_list = []
     for _exch, exch_data in data_map.items():
         if not isinstance(exch_data, dict):
             continue
         bl = exch_data.get("buyList")  or exch_data.get("longList")  or []
         sl = exch_data.get("sellList") or exch_data.get("shortList") or []
         if len(bl) > len(buy_list):
-            buy_list  = bl
-            sell_list = sl
+            buy_list, sell_list = bl, sl
 
     if not buy_list:
         return []
 
-    buy_24h  = sum(_f(v) or 0 for v in buy_list[-48:])
-    sell_24h = sum(_f(v) or 0 for v in sell_list[-48:]) if sell_list else 0
+    buy_24h   = sum(_f(v) or 0 for v in buy_list[-48:])
+    sell_24h  = sum(_f(v) or 0 for v in sell_list[-48:]) if sell_list else 0
     ratio_24h = round(buy_24h / sell_24h, 4) if sell_24h > 0 else None
-    buy_1h   = sum(_f(v) or 0 for v in buy_list[-2:])
-    sell_1h  = sum(_f(v) or 0 for v in sell_list[-2:]) if sell_list else 0
-    ratio_1h = round(buy_1h / sell_1h, 4) if sell_1h > 0 else None
+    buy_1h    = sum(_f(v) or 0 for v in buy_list[-2:])
+    sell_1h   = sum(_f(v) or 0 for v in sell_list[-2:]) if sell_list else 0
+    ratio_1h  = round(buy_1h / sell_1h, 4) if sell_1h > 0 else None
 
     rows = [
-        _row("Derivatives", "taker_buy_24h",   "Taker Buy 24h",   "24h", round(buy_24h,  2), "USD", src),
-        _row("Derivatives", "taker_sell_24h",  "Taker Sell 24h",  "24h", round(sell_24h, 2), "USD", src),
-        _row("Derivatives", "taker_buy_1h",    "Taker Buy 1h",    "1h",  round(buy_1h,   2), "USD", src),
-        _row("Derivatives", "taker_sell_1h",   "Taker Sell 1h",   "1h",  round(sell_1h,  2), "USD", src),
+        _row("Derivatives", "taker_buy_24h",  "Taker Buy 24h",  "24h", round(buy_24h,  2), "USD", src),
+        _row("Derivatives", "taker_sell_24h", "Taker Sell 24h", "24h", round(sell_24h, 2), "USD", src),
+        _row("Derivatives", "taker_buy_1h",   "Taker Buy 1h",   "1h",  round(buy_1h,   2), "USD", src),
+        _row("Derivatives", "taker_sell_1h",  "Taker Sell 1h",  "1h",  round(sell_1h,  2), "USD", src),
     ]
     if ratio_24h is not None:
         rows.append(_row("Derivatives", "taker_ratio_24h", "Taker Buy/Sell Ratio 24h", "24h",
@@ -632,6 +752,7 @@ def build_summary_metrics(bundle: dict) -> list[dict]:
     rows.extend(compute_funding_metrics(bundle.get("funding_raw")))
     rows.extend(compute_oi_metrics(bundle.get("oi_chart_raw"), bundle.get("oi_info_raw")))
     rows.extend(compute_coinbase_premium_metrics(bundle.get("coinbase_premium_raw")))
+    rows.extend(compute_liq_today_metrics(bundle.get("liq_today_raw")))
     rows.extend(compute_liq_chart_metrics(bundle.get("liq_chart_raw")))
     rows.extend(compute_long_short_ratio_metrics(bundle.get("long_short_ratio_raw")))
     rows.extend(compute_taker_buy_sell_metrics(bundle.get("taker_buy_sell_raw")))

@@ -1,0 +1,276 @@
+{
+  "longLiquidationUsd": 654434755.7074914,
+  "ticker": {
+    "amplitudePercent": 8.97,
+    "buyTurnoverNumber": 4815976,
+    "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/270.png",
+    "exchangeName": "Binance",
+    "highPrice": 67380.0,
+    "longRate": 47.39,
+    "longVolUsd": 12118866454.4307,
+    "lowPrice": 61344.8,
+    "openPrice": 67295.7,
+    "originalSymbol": "BTCUSDT",
+    "price": 62622.0,
+    "priceChange": -4673.7,
+    "priceChangePercent": -6.95,
+    "quoteCurrency": "USDT",
+    "sellTurnoverNumber": 5076181,
+    "shortRate": 52.61,
+    "shortVolUsd": 13451408995.9835,
+    "symbol": "BTC",
+    "symbolLogo": "https://cdn.coinglasscdn.com/static/img/coins/bitcoin-BTC.png",
+    "totalVolUsd": 25570275450.4542,
+    "turnoverNumber": 9892157,
+    "type": 1,
+    "updateTime": 1780569387613
+  },
+  "avg7dRate": 2.3879,
+  "similarDay": [
+    [
+      1769817600,
+      "46692466.16919681",
+      "741332572.54836386"
+    ],
+    [
+      1780358400,
+      "47249826.31829968",
+      "808646131.88719889"
+    ],
+    [
+      1770336000,
+      "386279605.41055174",
+      "301163595.9584241"
+    ],
+    [
+      1758499200,
+      "171583045.269284",
+      "725868635.94273948"
+    ],
+    [
+      1763683200,
+      "112002392.11423367",
+      "794291862.92174233"
+    ],
+    [
+      1762214400,
+      "48006198.55636034",
+      "596339716.44102312"
+    ],
+    [
+      1740441600,
+      "66307733.23952469",
+      "558987373.29588456"
+    ],
+    [
+      1763078400,
+      "45359697.9171799",
+      "554181296.47482526"
+    ],
+    [
+      1752105600,
+      "565595600.77726576",
+      "13926531.70781668"
+    ],
+    [
+      1770249600,
+      "130823556.66443569",
+      "1018081090.35433331"
+    ]
+  ],
+  "exList": [
+    {
+      "number": 4799,
+      "shortNumber": 1182,
+      "shortRate": 10.73,
+      "longRate": 89.27,
+      "longVolUsd": 235630548.257111,
+      "rate": 34.29,
+      "shortVolUsd": 28329983.00152,
+      "exchangeName": "Binance",
+      "totalVolUsd": 263960531.258631,
+      "averagePrice": 55003.2364,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/270.png",
+      "longNumber": 3617
+    },
+    {
+      "number": 6142,
+      "shortNumber": 665,
+      "shortRate": 24.52,
+      "longRate": 75.48,
+      "longVolUsd": 121305049.28373,
+      "rate": 20.88,
+      "shortVolUsd": 39414589.60261,
+      "exchangeName": "Hyperliquid",
+      "totalVolUsd": 160719638.88634,
+      "averagePrice": 26167.3134,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/Hyperliquid.png",
+      "longNumber": 5477
+    },
+    {
+      "number": 9036,
+      "shortNumber": 749,
+      "shortRate": 5.54,
+      "longRate": 94.46,
+      "longVolUsd": 133243066.3175,
+      "rate": 18.32,
+      "shortVolUsd": 7812553.2723,
+      "exchangeName": "Bybit",
+      "totalVolUsd": 141055619.5898,
+      "averagePrice": 15610.405,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/bybit2.png",
+      "longNumber": 8287
+    },
+    {
+      "number": 5312,
+      "shortNumber": 861,
+      "shortRate": 11.78,
+      "longRate": 88.22,
+      "longVolUsd": 56839002.461792,
+      "rate": 8.37,
+      "shortVolUsd": 7586450.393776,
+      "exchangeName": "Gate",
+      "totalVolUsd": 64425452.855568,
+      "averagePrice": 12128.2856,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/gate2.png",
+      "longNumber": 4451
+    },
+    {
+      "number": 8125,
+      "shortNumber": 912,
+      "shortRate": 11.9,
+      "longRate": 88.1,
+      "longVolUsd": 51391278.1186979,
+      "rate": 7.58,
+      "shortVolUsd": 6939734.55831189,
+      "exchangeName": "Bitget",
+      "totalVolUsd": 58331012.67700979,
+      "averagePrice": 7179.2016,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/bitget-3.png",
+      "longNumber": 7213
+    },
+    {
+      "number": 1366,
+      "shortNumber": 406,
+      "shortRate": 36.49,
+      "longRate": 63.51,
+      "longVolUsd": 24269758.3818,
+      "rate": 4.96,
+      "shortVolUsd": 13943955.879,
+      "exchangeName": "HTX",
+      "totalVolUsd": 38213714.2608,
+      "averagePrice": 27974.9006,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/2502.png",
+      "longNumber": 960
+    },
+    {
+      "number": 2448,
+      "shortNumber": 605,
+      "shortRate": 33.44,
+      "longRate": 66.56,
+      "longVolUsd": 14406388.00776,
+      "rate": 2.81,
+      "shortVolUsd": 7236462.39238,
+      "exchangeName": "OKX",
+      "totalVolUsd": 21642850.40014,
+      "averagePrice": 8841.0337,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/okx2.png",
+      "longNumber": 1843
+    },
+    {
+      "number": 1365,
+      "shortNumber": 214,
+      "shortRate": 27.79,
+      "longRate": 72.21,
+      "longVolUsd": 6075231.119876,
+      "rate": 1.09,
+      "shortVolUsd": 2338487.987247,
+      "exchangeName": "Lighter",
+      "totalVolUsd": 8413719.107123,
+      "averagePrice": 6163.8968,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/Lighter.png",
+      "longNumber": 1151
+    },
+    {
+      "number": 99,
+      "shortNumber": 1,
+      "shortRate": 0.0,
+      "longRate": 100.0,
+      "longVolUsd": 5155167.70507,
+      "rate": 0.67,
+      "shortVolUsd": 222.5202,
+      "exchangeName": "Bitmex",
+      "totalVolUsd": 5155390.22527,
+      "averagePrice": 52074.6487,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/157.png",
+      "longNumber": 98
+    },
+    {
+      "number": 270,
+      "shortNumber": 41,
+      "shortRate": 26.83,
+      "longRate": 73.17,
+      "longVolUsd": 3262699.12929,
+      "rate": 0.58,
+      "shortVolUsd": 1196383.06681,
+      "exchangeName": "Aster",
+      "totalVolUsd": 4459082.1961,
+      "averagePrice": 16515.1192,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/Aster.png",
+      "longNumber": 229
+    },
+    {
+      "number": 945,
+      "shortNumber": 76,
+      "shortRate": 16.83,
+      "longRate": 83.17,
+      "longVolUsd": 2804213.7823,
+      "rate": 0.44,
+      "shortVolUsd": 567590.30269998,
+      "exchangeName": "CoinEx",
+      "totalVolUsd": 3371804.08499998,
+      "averagePrice": 3568.0467,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/CoinEx.png",
+      "longNumber": 869
+    },
+    {
+      "number": 27,
+      "shortNumber": 2,
+      "shortRate": 10.48,
+      "longRate": 89.52,
+      "longVolUsd": 52353.14256455,
+      "rate": 0.01,
+      "shortVolUsd": 6126.81175189,
+      "exchangeName": "Bitfinex",
+      "totalVolUsd": 58479.95431644,
+      "averagePrice": 2165.9242,
+      "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/bitfinex.jpg",
+      "longNumber": 25
+    }
+  ],
+  "30dMaxRate": 0.8994,
+  "longLiquidationRate": 85.01,
+  "shortLiquidationRate": 14.99,
+  "peakLiquidationHour": 1780531200,
+  "liquidationTraders": 39934,
+  "liquidationUsd": 769807295.4960982,
+  "maxOrder": {
+    "createTime": 1780543940000,
+    "exchangeLogo": "https://cdn.coinglasscdn.com/static/exchanges/Hyperliquid.png",
+    "exchangeName": "Hyperliquid",
+    "id": 180057268,
+    "originalSymbol": "BTC-USD",
+    "price": 64162.0,
+    "qty": 252.46229,
+    "quoteCurrency": "USD",
+    "side": 2,
+    "symbol": "BTC",
+    "symbolLogo": "https://cdn.coinglasscdn.com/static/img/coins/bitcoin-BTC.png",
+    "tradeId": "0x57e4d9c46219b041595e043cebc2b8010900f1a9fd1ccf13fbad8517211d8a2b:0xd6803927489a9aa01500695c635f7f6747973496:BTC:1780543888639",
+    "turnoverTime": 1780543888639,
+    "type": 1,
+    "volUsd": 16198485.45098
+  },
+  "maxLiquidationVolUsd": 16198485.45098,
+  "shortLiquidationUsd": 115372539.78860676
+}
