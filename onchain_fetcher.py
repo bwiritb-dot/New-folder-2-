@@ -18,6 +18,12 @@ from pathlib import Path
 
 import requests
 
+try:
+    from coinglass_analyzer import fetch_all_onchain_coinglass as _fetch_cg_onchain
+    _HAS_COINGLASS = True
+except ImportError:
+    _HAS_COINGLASS = False
+
 log = logging.getLogger(__name__)
 
 _TS = lambda: datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -172,11 +178,8 @@ def fetch_coingecko_market() -> dict:
     result["market_cap_usd"] = md.get("market_cap", {}).get("usd", "N/A")
     result["price_7d_chg"]   = md.get("price_change_percentage_7d", "N/A")
 
-    # MVRV proxy: CoinGecko doesn't expose realized cap directly.
-    # Glassnode free tier does. Use blockchain.info total output volume as proxy.
-    # We mark as N/A and note the source gap.
-    result["mvrv_ratio"]     = "N/A (Glassnode required)"
-    result["realized_cap_usd"] = "N/A (Glassnode required)"
+    result["mvrv_ratio"]     = "N/A (from CoinGlass onchain)"
+    result["realized_cap_usd"] = "N/A"
 
     # BTC dominance from global endpoint
     gdata = _get("https://api.coingecko.com/api/v3/global")
@@ -350,6 +353,18 @@ def fetch_all_onchain(etf_data: dict | None = None) -> dict:
         "etf_summary":    parse_etf_flows_summary(etf_data or {}),
     }
 
+    # CoinGlass on-chain metrics (SOPR, NUPL, MVRV, LTH/STH, Whales, Cohorts)
+    if _HAS_COINGLASS:
+        try:
+            cg = _fetch_cg_onchain()
+            result["coinglass_onchain"] = cg
+            log.info(f"  CoinGlass on-chain merged: {list(cg.keys())}")
+        except Exception as e:
+            log.warning(f"  CoinGlass on-chain fetch failed (non-fatal): {e}")
+            result["coinglass_onchain"] = {}
+    else:
+        result["coinglass_onchain"] = {}
+
     # Compute On-Chain Health Score from available signals
     score, weights_used = _compute_health_score(result)
     result["health_score"] = score
@@ -366,71 +381,112 @@ def fetch_all_onchain(etf_data: dict | None = None) -> dict:
 
 def _compute_health_score(data: dict) -> tuple[dict, list]:
     """
-    Partial On-Chain Health Score using available public metrics.
-    Full score needs Glassnode (SOPR, NUPL, MVRV, LTH, Whales, Reserves, Miners).
-    Available signals: Fear&Greed, ETF flows, BTC dominance, hashrate trend.
+    On-Chain Health Score. Weights per PDF spec:
+    SOPR 15%, NUPL 15%, Exchange Reserves 15%, LTH Net Position 15%,
+    Whale Activity 10%, MVRV 10%, Miner Flows 10%, ETF Flows 10%.
+    Supplementary: Fear&Greed, Hashrate, BTC Dominance.
     """
     score_rows = []
     total = 0.0
     wsum  = 0.0
+    cg = data.get("coinglass_onchain", {})
 
-    fg_val = data["fear_greed"].get("fear_greed_current", "N/A")
-    if fg_val != "N/A":
-        fg = int(fg_val)
-        # >60 bullish, 40-60 neutral, <40 bearish
-        sig = 1 if fg > 60 else (-1 if fg < 40 else 0)
-        score_rows.append({"metric": "Fear&Greed (NUPL proxy)", "value": fg,
-                           "signal": sig, "weight": 0.15})
-        total += sig * 0.15; wsum += 0.15
+    def _add(metric, value, sig, weight, source="CoinGlass"):
+        nonlocal total, wsum
+        score_rows.append({"metric": metric, "value": value, "signal": sig,
+                           "weight": weight, "source": source})
+        total += sig * weight
+        wsum  += weight
 
-    etf_7d = data["etf_summary"].get("etf_net_7d_m", "N/A")
+    def _na(metric, weight, note=""):
+        score_rows.append({"metric": metric, "value": "N/A", "signal": 0,
+                           "weight": weight, "source": note})
+
+    # ── SOPR (15%) ──────────────────────────────────────────────────────────
+    sopr = cg.get("sopr", "N/A")
+    if sopr != "N/A":
+        v = float(sopr)
+        sig = 1 if v > 1.02 else (-1 if v < 0.98 else 0)
+        _add(f"SOPR ({cg.get('sopr_signal','N/A')})", f"{v:.4f}", sig, 0.15)
+    else:
+        _na("SOPR", 0.15)
+
+    # ── NUPL (15%) ──────────────────────────────────────────────────────────
+    nupl = cg.get("nupl", "N/A")
+    if nupl != "N/A":
+        v = float(nupl)
+        sig = 1 if v > 0.5 else (-1 if v < 0.25 else 0)
+        _add(f"NUPL ({cg.get('nupl_label','N/A')})", f"{v:.4f}", sig, 0.15)
+    else:
+        _na("NUPL", 0.15)
+
+    # ── MVRV (10%) ──────────────────────────────────────────────────────────
+    mvrv = cg.get("mvrv", "N/A")
+    if mvrv != "N/A":
+        v = float(mvrv)
+        sig = 1 if 1.0 < v < 3.5 else (-1 if v >= 3.5 else 0)
+        _add(f"MVRV ({cg.get('mvrv_signal','N/A')})", f"{v:.3f}", sig, 0.10)
+    else:
+        _na("MVRV", 0.10)
+
+    # ── LTH/STH Realized Price → distance signal (15%) ──────────────────────
+    lth = cg.get("lth_price", "N/A")
+    sth = cg.get("sth_price", "N/A")
+    price = data.get("market", {}).get("price_usd", "N/A")
+    if lth != "N/A" and price != "N/A":
+        try:
+            dist_lth = (float(price) - float(lth)) / float(lth) * 100
+            sig = 1 if dist_lth > 0 else -1
+            _add(f"Price vs LTH Realized", f"${lth:,.0f} ({dist_lth:+.1f}%)", sig, 0.15)
+        except Exception:
+            _na("LTH Net Position", 0.15)
+    else:
+        _na("LTH Net Position", 0.15)
+
+    # ── Whale Activity (10%) ─────────────────────────────────────────────────
+    whale_trend = cg.get("whale_addr_trend", "N/A")
+    whale_count = cg.get("whale_addr_count", "N/A")
+    if whale_trend != "N/A":
+        sig = 1 if whale_trend == "Accumulating" else (-1 if whale_trend == "Distributing" else 0)
+        _add(f"Whale Addrs >1000 BTC ({whale_trend})", str(whale_count), sig, 0.10)
+    else:
+        _na("Whale Activity", 0.10)
+
+    # ── Exchange Reserves (15%) — placeholder, endpoint not yet captured ─────
+    _na("Exchange Reserves", 0.15, "endpoint pending")
+
+    # ── Miner Flows (10%) — placeholder ──────────────────────────────────────
+    _na("Miner Flows", 0.10, "endpoint pending")
+
+    # ── ETF Flows (10%) ───────────────────────────────────────────────────────
+    etf_7d = data.get("etf_summary", {}).get("etf_net_7d_m", "N/A")
     if etf_7d != "N/A":
         sig = 1 if float(etf_7d) > 100 else (-1 if float(etf_7d) < -100 else 0)
-        score_rows.append({"metric": "ETF Flows 7d ($M)", "value": etf_7d,
-                           "signal": sig, "weight": 0.10})
-        total += sig * 0.10; wsum += 0.10
+        _add("ETF Flows 7d ($M)", f"${etf_7d}M", sig, 0.10, "Farside")
+    else:
+        _na("ETF Flows 7d", 0.10, "Farside")
 
-    hr = data["hashrate"].get("hashrate_eh", "N/A")
-    hr_1w = data["hashrate"].get("hashrate_1w_ago_eh", "N/A")
+    # ── Supplementary signals (unweighted in spec, added for context) ─────────
+    fg_val = data.get("fear_greed", {}).get("fear_greed_current", "N/A")
+    if fg_val != "N/A":
+        fg = int(fg_val)
+        sig = 1 if fg > 60 else (-1 if fg < 40 else 0)
+        _add(f"Fear & Greed ({data['fear_greed'].get('fear_greed_label','')})",
+             str(fg), sig, 0.05, "alternative.me")
+
+    hr = data.get("hashrate", {}).get("hashrate_eh", "N/A")
+    hr_1w = data.get("hashrate", {}).get("hashrate_1w_ago_eh", "N/A")
     if hr != "N/A" and hr_1w != "N/A":
         sig = 1 if float(hr) > float(hr_1w) else (-1 if float(hr) < float(hr_1w) * 0.99 else 0)
-        score_rows.append({"metric": "Hashrate trend (7d)", "value": f"{hr} EH/s",
-                           "signal": sig, "weight": 0.10})
-        total += sig * 0.10; wsum += 0.10
+        _add("Hashrate trend 7d", f"{hr} EH/s", sig, 0.05, "mempool.space")
 
-    btc_dom = data["market"].get("btc_dominance", "N/A")
-    if btc_dom != "N/A":
-        dom = float(btc_dom)
-        sig = 1 if dom > 55 else (-1 if dom < 45 else 0)
-        score_rows.append({"metric": "BTC Dominance (%)", "value": dom,
-                           "signal": sig, "weight": 0.05})
-        total += sig * 0.05; wsum += 0.05
-
-    addr_trend = data.get("active_addr", {}).get("active_addr_trend_7d_pct", "N/A")
-    if addr_trend != "N/A":
-        sig = 1 if float(addr_trend) > 3 else (-1 if float(addr_trend) < -3 else 0)
-        score_rows.append({"metric": "Active Addr trend 7d", "value": f"{addr_trend}%",
-                           "signal": sig, "weight": 0.05})
-        total += sig * 0.05; wsum += 0.05
-
-    stable_b = data.get("stablecoins", {}).get("total_stable_b", "N/A")
-    if stable_b != "N/A":
-        # High stablecoin supply = more buying powder on sidelines = slightly bullish
-        sig = 1 if float(stable_b) > 150 else 0
-        score_rows.append({"metric": "Stablecoin Supply ($B)", "value": f"${stable_b}B",
-                           "signal": sig, "weight": 0.05})
-        total += sig * 0.05; wsum += 0.05
-
-    # Placeholder rows for Glassnode metrics
-    for metric in ["SOPR", "NUPL", "MVRV", "Exchange Reserves",
-                   "LTH Net Position", "Whale Activity", "Miner Flows"]:
-        score_rows.append({"metric": metric, "value": "N/A",
-                           "signal": 0, "weight": 0.10, "source": "Glassnode required"})
-
+    available = sum(1 for r in score_rows if r["value"] != "N/A")
     normalized = round((total / wsum * 100) if wsum > 0 else 0, 1)
     label = "bullish" if normalized > 50 else ("bearish" if normalized < -20 else "neutral")
-    return {"score": normalized, "label": label, "rows": score_rows,
-            "note": f"Partial score ({len([r for r in score_rows if r['value']!='N/A'])}/{len(score_rows)} metrics available)"}, score_rows
+    return {
+        "score": normalized, "label": label, "rows": score_rows,
+        "note": f"{available}/{len(score_rows)} metrics available",
+    }, score_rows
 
 
 def load_cached() -> dict | None:

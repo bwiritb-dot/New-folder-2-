@@ -251,6 +251,18 @@ stable_total_b     = _oc("stablecoins.total_stable_b", "N/A")
 stable_usdt_b      = _oc("stablecoins.usdt_supply_b", "N/A")
 stable_usdc_b      = _oc("stablecoins.usdc_supply_b", "N/A")
 
+# CoinGlass on-chain metrics
+cg_sopr        = _oc("coinglass_onchain.sopr", "N/A")
+cg_sopr_sig    = _oc("coinglass_onchain.sopr_signal", "N/A")
+cg_nupl        = _oc("coinglass_onchain.nupl", "N/A")
+cg_nupl_label  = _oc("coinglass_onchain.nupl_label", "N/A")
+cg_mvrv        = _oc("coinglass_onchain.mvrv", "N/A")
+cg_mvrv_sig    = _oc("coinglass_onchain.mvrv_signal", "N/A")
+cg_lth_price   = _oc("coinglass_onchain.lth_price", "N/A")
+cg_sth_price   = _oc("coinglass_onchain.sth_price", "N/A")
+cg_whale_count = _oc("coinglass_onchain.whale_addr_count", "N/A")
+cg_whale_trend = _oc("coinglass_onchain.whale_addr_trend", "N/A")
+
 def _build_health_score_lines():
     col = GREEN if hs_label == 'bullish' else (RED if hs_label == 'bearish' else GRAY)
     lines = [
@@ -258,12 +270,12 @@ def _build_health_score_lines():
         (f'  {hs_note}', GRAY, False, 7.5),
         ('', GRAY, False, 7),
     ]
-    for row in hs_rows[:6]:
+    for row in hs_rows[:10]:
         sig = row.get('signal', 0)
         sig_col = GREEN if sig > 0 else (RED if sig < 0 else GRAY)
         val = row.get('value', 'N/A')
         metric = row.get('metric', '')
-        lines.append((f'  {metric[:28]:<28} {str(val)[:10]:<10} {"[+]" if sig>0 else "[-]" if sig<0 else "[ ]"}',
+        lines.append((f'  {metric[:30]:<30} {str(val)[:12]:<12} {"[+]" if sig>0 else "[-]" if sig<0 else "[ ]"}',
                       sig_col, False, 7.5))
     return lines
 
@@ -691,10 +703,9 @@ with PdfPages(str(output_path)) as pdf:
         ('', GRAY, False, 8),
         ('─' * 45, BORDER, False, 8),
         ('─' * 45, BORDER, False, 8),
-        ('ON-CHAIN HEALTH SCORE (Partial)', WHITE, True, 9),
+        ('ON-CHAIN HEALTH SCORE', WHITE, True, 9),
     ] + _build_health_score_lines() + [
         ('', GRAY, False, 8),
-        ('Glassnode required: SOPR/NUPL/MVRV/Reserves/LTH/Whales', GRAY, False, 7.5),
     ]
     text_panel(ax_R, right, dy=0.024)
 
@@ -838,7 +849,8 @@ with PdfPages(str(output_path)) as pdf:
         (f'   ETF 7d net: ${etf_7d_m}M  |  30d net: ${etf_30d_m}M  |  #1: {etf_t1} ${etf_t1_m}M', GRAY, False, 8.5),
         (f'   Active Addresses: {active_addr_today:,} (today)  7d avg: {active_addr_7d:,}  trend: {active_addr_trend}%' if isinstance(active_addr_today, int) else f'   Active Addresses: {active_addr_today}', BLUE, False, 8.5),
         (f'   Stablecoin Supply: ${stable_total_b}B total (USDT ${stable_usdt_b}B + USDC ${stable_usdc_b}B)', GREEN, False, 8.5),
-        ('   SOPR/NUPL/MVRV/Exchange Reserves/LTH/Whales/Miners: [N/A] — Glassnode required', GRAY, False, 8.5),
+        (f'   SOPR: {cg_sopr} ({cg_sopr_sig})  |  NUPL: {cg_nupl} ({cg_nupl_label})  |  MVRV: {cg_mvrv} ({cg_mvrv_sig})', BLUE, False, 8.5),
+        (f'   LTH Realized: ${cg_lth_price:,.0f}  |  STH Realized: ${cg_sth_price:,.0f}  |  Whale Addrs >1k BTC: {cg_whale_count} ({cg_whale_trend})' if cg_lth_price != "N/A" else f'   LTH/STH Realized Price: {cg_lth_price}  |  Whale Addrs: {cg_whale_count} ({cg_whale_trend})', BLUE, False, 8.5),
         ('', GRAY, False, 8),
         ('2. KEY SIGNAL (from available data)', WHITE, True, 9.5),
         (f'   {imb_label} 1%-zone imbalance: {imb_1:.2f}x MORE volume {imb_direction} than {"below" if imb_1>1 else "above"}.', YELLOW, True, 8.5),

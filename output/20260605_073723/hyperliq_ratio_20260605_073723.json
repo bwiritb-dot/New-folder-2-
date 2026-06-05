@@ -1,0 +1,2030 @@
+[
+  {
+    "dateTime": 1751068800000,
+    "longUserSize": 15741,
+    "shortUserSize": 8688,
+    "userSize": 24429
+  },
+  {
+    "dateTime": 1751155200000,
+    "longUserSize": 16679,
+    "shortUserSize": 8986,
+    "userSize": 25665
+  },
+  {
+    "dateTime": 1751241600000,
+    "longUserSize": 16914,
+    "shortUserSize": 8851,
+    "userSize": 25765
+  },
+  {
+    "dateTime": 1751328000000,
+    "longUserSize": 17979,
+    "shortUserSize": 8978,
+    "userSize": 26957
+  },
+  {
+    "dateTime": 1751414400000,
+    "longUserSize": 18554,
+    "shortUserSize": 9085,
+    "userSize": 27639
+  },
+  {
+    "dateTime": 1751500800000,
+    "longUserSize": 17817,
+    "shortUserSize": 10258,
+    "userSize": 28075
+  },
+  {
+    "dateTime": 1751587200000,
+    "longUserSize": 19089,
+    "shortUserSize": 10430,
+    "userSize": 29519
+  },
+  {
+    "dateTime": 1751673600000,
+    "longUserSize": 19940,
+    "shortUserSize": 10002,
+    "userSize": 29942
+  },
+  {
+    "dateTime": 1751760000000,
+    "longUserSize": 20266,
+    "shortUserSize": 10370,
+    "userSize": 30636
+  },
+  {
+    "dateTime": 1751846400000,
+    "longUserSize": 20443,
+    "shortUserSize": 10505,
+    "userSize": 30948
+  },
+  {
+    "dateTime": 1751932800000,
+    "longUserSize": 21337,
+    "shortUserSize": 10580,
+    "userSize": 31917
+  },
+  {
+    "dateTime": 1752019200000,
+    "longUserSize": 21571,
+    "shortUserSize": 11052,
+    "userSize": 32623
+  },
+  {
+    "dateTime": 1752451200000,
+    "longUserSize": 29148,
+    "shortUserSize": 13197,
+    "userSize": 42345
+  },
+  {
+    "dateTime": 1752537600000,
+    "longUserSize": 30061,
+    "shortUserSize": 12860,
+    "userSize": 42921
+  },
+  {
+    "dateTime": 1752796800000,
+    "longUserSize": 29887,
+    "shortUserSize": 12069,
+    "userSize": 41956
+  },
+  {
+    "dateTime": 1752883200000,
+    "longUserSize": 28277,
+    "shortUserSize": 11860,
+    "userSize": 40137
+  },
+  {
+    "dateTime": 1752969600000,
+    "longUserSize": 31926,
+    "shortUserSize": 12748,
+    "userSize": 44674
+  },
+  {
+    "dateTime": 1753056000000,
+    "longUserSize": 31964,
+    "shortUserSize": 12597,
+    "userSize": 44561
+  },
+  {
+    "dateTime": 1753142400000,
+    "longUserSize": 31546,
+    "shortUserSize": 12258,
+    "userSize": 43804
+  },
+  {
+    "dateTime": 1753228800000,
+    "longUserSize": 30393,
+    "shortUserSize": 12543,
+    "userSize": 42936
+  },
+  {
+    "dateTime": 1753315200000,
+    "longUserSize": 28230,
+    "shortUserSize": 12146,
+    "userSize": 40376
+  },
+  {
+    "dateTime": 1753401600000,
+    "longUserSize": 29286,
+    "shortUserSize": 12707,
+    "userSize": 41993
+  },
+  {
+    "dateTime": 1753488000000,
+    "longUserSize": 28880,
+    "shortUserSize": 12285,
+    "userSize": 41165
+  },
+  {
+    "dateTime": 1753574400000,
+    "longUserSize": 30451,
+    "shortUserSize": 12794,
+    "userSize": 43245
+  },
+  {
+    "dateTime": 1753660800000,
+    "longUserSize": 31529,
+    "shortUserSize": 13256,
+    "userSize": 44785
+  },
+  {
+    "dateTime": 1753747200000,
+    "longUserSize": 28664,
+    "shortUserSize": 12931,
+    "userSize": 41595
+  },
+  {
+    "dateTime": 1753833600000,
+    "longUserSize": 28674,
+    "shortUserSize": 13155,
+    "userSize": 41829
+  },
+  {
+    "dateTime": 1753920000000,
+    "longUserSize": 27656,
+    "shortUserSize": 12785,
+    "userSize": 40441
+  },
+  {
+    "dateTime": 1754006400000,
+    "longUserSize": 28112,
+    "shortUserSize": 13157,
+    "userSize": 41269
+  },
+  {
+    "dateTime": 1754092800000,
+    "longUserSize": 25245,
+    "shortUserSize": 12583,
+    "userSize": 37828
+  },
+  {
+    "dateTime": 1754179200000,
+    "longUserSize": 26322,
+    "shortUserSize": 13470,
+    "userSize": 39792
+  },
+  {
+    "dateTime": 1754265600000,
+    "longUserSize": 28848,
+    "shortUserSize": 13522,
+    "userSize": 42370
+  },
+  {
+    "dateTime": 1754352000000,
+    "longUserSize": 29030,
+    "shortUserSize": 13577,
+    "userSize": 42607
+  },
+  {
+    "dateTime": 1754438400000,
+    "longUserSize": 28322,
+    "shortUserSize": 13812,
+    "userSize": 42134
+  },
+  {
+    "dateTime": 1754524800000,
+    "longUserSize": 29306,
+    "shortUserSize": 14762,
+    "userSize": 44068
+  },
+  {
+    "dateTime": 1754611200000,
+    "longUserSize": 26801,
+    "shortUserSize": 14198,
+    "userSize": 40999
+  },
+  {
+    "dateTime": 1754697600000,
+    "longUserSize": 29748,
+    "shortUserSize": 14464,
+    "userSize": 44212
+  },
+  {
+    "dateTime": 1754784000000,
+    "longUserSize": 30364,
+    "shortUserSize": 14199,
+    "userSize": 44563
+  },
+  {
+    "dateTime": 1754870400000,
+    "longUserSize": 30464,
+    "shortUserSize": 14492,
+    "userSize": 44956
+  },
+  {
+    "dateTime": 1754956800000,
+    "longUserSize": 28388,
+    "shortUserSize": 14266,
+    "userSize": 42654
+  },
+  {
+    "dateTime": 1755043200000,
+    "longUserSize": 28832,
+    "shortUserSize": 14214,
+    "userSize": 43046
+  },
+  {
+    "dateTime": 1755129600000,
+    "longUserSize": 30169,
+    "shortUserSize": 14523,
+    "userSize": 44692
+  },
+  {
+    "dateTime": 1755216000000,
+    "longUserSize": 27655,
+    "shortUserSize": 13895,
+    "userSize": 41550
+  },
+  {
+    "dateTime": 1755302400000,
+    "longUserSize": 27892,
+    "shortUserSize": 13893,
+    "userSize": 41785
+  },
+  {
+    "dateTime": 1755388800000,
+    "longUserSize": 30589,
+    "shortUserSize": 14601,
+    "userSize": 45190
+  },
+  {
+    "dateTime": 1755475200000,
+    "longUserSize": 32527,
+    "shortUserSize": 14950,
+    "userSize": 47477
+  },
+  {
+    "dateTime": 1755561600000,
+    "longUserSize": 31867,
+    "shortUserSize": 14611,
+    "userSize": 46478
+  },
+  {
+    "dateTime": 1755648000000,
+    "longUserSize": 29842,
+    "shortUserSize": 15073,
+    "userSize": 44915
+  },
+  {
+    "dateTime": 1755734400000,
+    "longUserSize": 30956,
+    "shortUserSize": 15324,
+    "userSize": 46280
+  },
+  {
+    "dateTime": 1755820800000,
+    "longUserSize": 30670,
+    "shortUserSize": 15394,
+    "userSize": 46064
+  },
+  {
+    "dateTime": 1755907200000,
+    "longUserSize": 28429,
+    "shortUserSize": 14916,
+    "userSize": 43345
+  },
+  {
+    "dateTime": 1755993600000,
+    "longUserSize": 30581,
+    "shortUserSize": 15379,
+    "userSize": 45960
+  },
+  {
+    "dateTime": 1756080000000,
+    "longUserSize": 30214,
+    "shortUserSize": 15137,
+    "userSize": 45351
+  },
+  {
+    "dateTime": 1756166400000,
+    "longUserSize": 27752,
+    "shortUserSize": 14677,
+    "userSize": 42429
+  },
+  {
+    "dateTime": 1756252800000,
+    "longUserSize": 29315,
+    "shortUserSize": 15033,
+    "userSize": 44348
+  },
+  {
+    "dateTime": 1756339200000,
+    "longUserSize": 30130,
+    "shortUserSize": 16064,
+    "userSize": 46194
+  },
+  {
+    "dateTime": 1756425600000,
+    "longUserSize": 30938,
+    "shortUserSize": 15707,
+    "userSize": 46645
+  },
+  {
+    "dateTime": 1756512000000,
+    "longUserSize": 29866,
+    "shortUserSize": 16130,
+    "userSize": 45996
+  },
+  {
+    "dateTime": 1756598400000,
+    "longUserSize": 32721,
+    "shortUserSize": 16944,
+    "userSize": 49665
+  },
+  {
+    "dateTime": 1756684800000,
+    "longUserSize": 33556,
+    "shortUserSize": 17189,
+    "userSize": 50745
+  },
+  {
+    "dateTime": 1756771200000,
+    "longUserSize": 30793,
+    "shortUserSize": 16327,
+    "userSize": 47120
+  },
+  {
+    "dateTime": 1756857600000,
+    "longUserSize": 32169,
+    "shortUserSize": 16836,
+    "userSize": 49005
+  },
+  {
+    "dateTime": 1756944000000,
+    "longUserSize": 32446,
+    "shortUserSize": 17297,
+    "userSize": 49743
+  },
+  {
+    "dateTime": 1757030400000,
+    "longUserSize": 31875,
+    "shortUserSize": 16915,
+    "userSize": 48790
+  },
+  {
+    "dateTime": 1757116800000,
+    "longUserSize": 32122,
+    "shortUserSize": 16678,
+    "userSize": 48800
+  },
+  {
+    "dateTime": 1757203200000,
+    "longUserSize": 33661,
+    "shortUserSize": 17268,
+    "userSize": 50929
+  },
+  {
+    "dateTime": 1757289600000,
+    "longUserSize": 34201,
+    "shortUserSize": 17406,
+    "userSize": 51607
+  },
+  {
+    "dateTime": 1757376000000,
+    "longUserSize": 32484,
+    "shortUserSize": 17369,
+    "userSize": 49853
+  },
+  {
+    "dateTime": 1757462400000,
+    "longUserSize": 32740,
+    "shortUserSize": 16126,
+    "userSize": 48866
+  },
+  {
+    "dateTime": 1757548800000,
+    "longUserSize": 32322,
+    "shortUserSize": 16229,
+    "userSize": 48551
+  },
+  {
+    "dateTime": 1757635200000,
+    "longUserSize": 34022,
+    "shortUserSize": 16692,
+    "userSize": 50714
+  },
+  {
+    "dateTime": 1757721600000,
+    "longUserSize": 34182,
+    "shortUserSize": 16586,
+    "userSize": 50768
+  },
+  {
+    "dateTime": 1757808000000,
+    "longUserSize": 35549,
+    "shortUserSize": 17346,
+    "userSize": 52895
+  },
+  {
+    "dateTime": 1757894400000,
+    "longUserSize": 35323,
+    "shortUserSize": 17316,
+    "userSize": 52639
+  },
+  {
+    "dateTime": 1757980800000,
+    "longUserSize": 35523,
+    "shortUserSize": 17206,
+    "userSize": 52729
+  },
+  {
+    "dateTime": 1758067200000,
+    "longUserSize": 36239,
+    "shortUserSize": 16929,
+    "userSize": 53168
+  },
+  {
+    "dateTime": 1758153600000,
+    "longUserSize": 35909,
+    "shortUserSize": 16500,
+    "userSize": 52409
+  },
+  {
+    "dateTime": 1758240000000,
+    "longUserSize": 35790,
+    "shortUserSize": 16909,
+    "userSize": 52699
+  },
+  {
+    "dateTime": 1758326400000,
+    "longUserSize": 35529,
+    "shortUserSize": 16701,
+    "userSize": 52230
+  },
+  {
+    "dateTime": 1758412800000,
+    "longUserSize": 36694,
+    "shortUserSize": 16416,
+    "userSize": 53110
+  },
+  {
+    "dateTime": 1758499200000,
+    "longUserSize": 37414,
+    "shortUserSize": 16501,
+    "userSize": 53915
+  },
+  {
+    "dateTime": 1758585600000,
+    "longUserSize": 32120,
+    "shortUserSize": 16055,
+    "userSize": 48175
+  },
+  {
+    "dateTime": 1758672000000,
+    "longUserSize": 32376,
+    "shortUserSize": 16091,
+    "userSize": 48467
+  },
+  {
+    "dateTime": 1758758400000,
+    "longUserSize": 32689,
+    "shortUserSize": 16089,
+    "userSize": 48778
+  },
+  {
+    "dateTime": 1758844800000,
+    "longUserSize": 29831,
+    "shortUserSize": 15509,
+    "userSize": 45340
+  },
+  {
+    "dateTime": 1758931200000,
+    "longUserSize": 31906,
+    "shortUserSize": 15542,
+    "userSize": 47448
+  },
+  {
+    "dateTime": 1759017600000,
+    "longUserSize": 34329,
+    "shortUserSize": 16092,
+    "userSize": 50421
+  },
+  {
+    "dateTime": 1759104000000,
+    "longUserSize": 33943,
+    "shortUserSize": 15455,
+    "userSize": 49398
+  },
+  {
+    "dateTime": 1759190400000,
+    "longUserSize": 34523,
+    "shortUserSize": 15913,
+    "userSize": 50436
+  },
+  {
+    "dateTime": 1759276800000,
+    "longUserSize": 33074,
+    "shortUserSize": 15923,
+    "userSize": 48997
+  },
+  {
+    "dateTime": 1759363200000,
+    "longUserSize": 33875,
+    "shortUserSize": 15486,
+    "userSize": 49361
+  },
+  {
+    "dateTime": 1759449600000,
+    "longUserSize": 34310,
+    "shortUserSize": 14649,
+    "userSize": 48959
+  },
+  {
+    "dateTime": 1759536000000,
+    "longUserSize": 33911,
+    "shortUserSize": 14450,
+    "userSize": 48361
+  },
+  {
+    "dateTime": 1759622400000,
+    "longUserSize": 35387,
+    "shortUserSize": 15451,
+    "userSize": 50838
+  },
+  {
+    "dateTime": 1759708800000,
+    "longUserSize": 35531,
+    "shortUserSize": 14986,
+    "userSize": 50517
+  },
+  {
+    "dateTime": 1759795200000,
+    "longUserSize": 35575,
+    "shortUserSize": 14886,
+    "userSize": 50461
+  },
+  {
+    "dateTime": 1759881600000,
+    "longUserSize": 34925,
+    "shortUserSize": 14905,
+    "userSize": 49830
+  },
+  {
+    "dateTime": 1759968000000,
+    "longUserSize": 37234,
+    "shortUserSize": 15535,
+    "userSize": 52769
+  },
+  {
+    "dateTime": 1760054400000,
+    "longUserSize": 35522,
+    "shortUserSize": 15660,
+    "userSize": 51182
+  },
+  {
+    "dateTime": 1760140800000,
+    "longUserSize": 18401,
+    "shortUserSize": 6339,
+    "userSize": 44740
+  },
+  {
+    "dateTime": 1760227200000,
+    "longUserSize": 21721,
+    "shortUserSize": 8248,
+    "userSize": 39969
+  },
+  {
+    "dateTime": 1760313600000,
+    "longUserSize": 25317,
+    "shortUserSize": 8070,
+    "userSize": 33387
+  },
+  {
+    "dateTime": 1760400000000,
+    "longUserSize": 27250,
+    "shortUserSize": 8799,
+    "userSize": 36049
+  },
+  {
+    "dateTime": 1760486400000,
+    "longUserSize": 26140,
+    "shortUserSize": 10241,
+    "userSize": 36381
+  },
+  {
+    "dateTime": 1760572800000,
+    "longUserSize": 28326,
+    "shortUserSize": 11435,
+    "userSize": 39761
+  },
+  {
+    "dateTime": 1760659200000,
+    "longUserSize": 27987,
+    "shortUserSize": 11445,
+    "userSize": 39432
+  },
+  {
+    "dateTime": 1760745600000,
+    "longUserSize": 25787,
+    "shortUserSize": 11304,
+    "userSize": 37091
+  },
+  {
+    "dateTime": 1760832000000,
+    "longUserSize": 30069,
+    "shortUserSize": 12533,
+    "userSize": 42602
+  },
+  {
+    "dateTime": 1760918400000,
+    "longUserSize": 30466,
+    "shortUserSize": 11880,
+    "userSize": 42346
+  },
+  {
+    "dateTime": 1761004800000,
+    "longUserSize": 31500,
+    "shortUserSize": 12485,
+    "userSize": 43985
+  },
+  {
+    "dateTime": 1761091200000,
+    "longUserSize": 29035,
+    "shortUserSize": 12068,
+    "userSize": 41103
+  },
+  {
+    "dateTime": 1761177600000,
+    "longUserSize": 29584,
+    "shortUserSize": 12178,
+    "userSize": 41762
+  },
+  {
+    "dateTime": 1761264000000,
+    "longUserSize": 30867,
+    "shortUserSize": 12569,
+    "userSize": 43436
+  },
+  {
+    "dateTime": 1761350400000,
+    "longUserSize": 31595,
+    "shortUserSize": 12711,
+    "userSize": 44306
+  },
+  {
+    "dateTime": 1761436800000,
+    "longUserSize": 33170,
+    "shortUserSize": 13782,
+    "userSize": 46952
+  },
+  {
+    "dateTime": 1761523200000,
+    "longUserSize": 32010,
+    "shortUserSize": 12955,
+    "userSize": 44965
+  },
+  {
+    "dateTime": 1761609600000,
+    "longUserSize": 31910,
+    "shortUserSize": 13670,
+    "userSize": 45580
+  },
+  {
+    "dateTime": 1761696000000,
+    "longUserSize": 31550,
+    "shortUserSize": 13089,
+    "userSize": 44639
+  },
+  {
+    "dateTime": 1761782400000,
+    "longUserSize": 31668,
+    "shortUserSize": 12979,
+    "userSize": 44647
+  },
+  {
+    "dateTime": 1761868800000,
+    "longUserSize": 31879,
+    "shortUserSize": 12794,
+    "userSize": 44673
+  },
+  {
+    "dateTime": 1761955200000,
+    "longUserSize": 34056,
+    "shortUserSize": 12957,
+    "userSize": 47013
+  },
+  {
+    "dateTime": 1762041600000,
+    "longUserSize": 35551,
+    "shortUserSize": 13419,
+    "userSize": 48970
+  },
+  {
+    "dateTime": 1762128000000,
+    "longUserSize": 36617,
+    "shortUserSize": 14055,
+    "userSize": 50672
+  },
+  {
+    "dateTime": 1762214400000,
+    "longUserSize": 30679,
+    "shortUserSize": 13203,
+    "userSize": 43882
+  },
+  {
+    "dateTime": 1762300800000,
+    "longUserSize": 24421,
+    "shortUserSize": 12258,
+    "userSize": 36679
+  },
+  {
+    "dateTime": 1762387200000,
+    "longUserSize": 28560,
+    "shortUserSize": 13013,
+    "userSize": 41573
+  },
+  {
+    "dateTime": 1762473600000,
+    "longUserSize": 29167,
+    "shortUserSize": 13364,
+    "userSize": 42531
+  },
+  {
+    "dateTime": 1762560000000,
+    "longUserSize": 27907,
+    "shortUserSize": 12490,
+    "userSize": 40397
+  },
+  {
+    "dateTime": 1762646400000,
+    "longUserSize": 30618,
+    "shortUserSize": 13348,
+    "userSize": 43966
+  },
+  {
+    "dateTime": 1762732800000,
+    "longUserSize": 30086,
+    "shortUserSize": 12836,
+    "userSize": 42922
+  },
+  {
+    "dateTime": 1762819200000,
+    "longUserSize": 30605,
+    "shortUserSize": 13211,
+    "userSize": 43816
+  },
+  {
+    "dateTime": 1762905600000,
+    "longUserSize": 29653,
+    "shortUserSize": 12783,
+    "userSize": 42436
+  },
+  {
+    "dateTime": 1762992000000,
+    "longUserSize": 30058,
+    "shortUserSize": 12471,
+    "userSize": 42529
+  },
+  {
+    "dateTime": 1763078400000,
+    "longUserSize": 28260,
+    "shortUserSize": 12077,
+    "userSize": 40337
+  },
+  {
+    "dateTime": 1763164800000,
+    "longUserSize": 27323,
+    "shortUserSize": 12319,
+    "userSize": 39642
+  },
+  {
+    "dateTime": 1763251200000,
+    "longUserSize": 30551,
+    "shortUserSize": 13424,
+    "userSize": 43975
+  },
+  {
+    "dateTime": 1763337600000,
+    "longUserSize": 29043,
+    "shortUserSize": 13063,
+    "userSize": 42106
+  },
+  {
+    "dateTime": 1763424000000,
+    "longUserSize": 28501,
+    "shortUserSize": 13345,
+    "userSize": 41846
+  },
+  {
+    "dateTime": 1763510400000,
+    "longUserSize": 29057,
+    "shortUserSize": 13428,
+    "userSize": 42485
+  },
+  {
+    "dateTime": 1763596800000,
+    "longUserSize": 28369,
+    "shortUserSize": 12872,
+    "userSize": 41241
+  },
+  {
+    "dateTime": 1763683200000,
+    "longUserSize": 28289,
+    "shortUserSize": 13063,
+    "userSize": 41352
+  },
+  {
+    "dateTime": 1763769600000,
+    "longUserSize": 25436,
+    "shortUserSize": 12862,
+    "userSize": 38298
+  },
+  {
+    "dateTime": 1763856000000,
+    "longUserSize": 26918,
+    "shortUserSize": 13553,
+    "userSize": 40471
+  },
+  {
+    "dateTime": 1763942400000,
+    "longUserSize": 27091,
+    "shortUserSize": 13183,
+    "userSize": 40274
+  },
+  {
+    "dateTime": 1764028800000,
+    "longUserSize": 26646,
+    "shortUserSize": 13002,
+    "userSize": 39648
+  },
+  {
+    "dateTime": 1764115200000,
+    "longUserSize": 28235,
+    "shortUserSize": 13553,
+    "userSize": 41788
+  },
+  {
+    "dateTime": 1764201600000,
+    "longUserSize": 28450,
+    "shortUserSize": 13846,
+    "userSize": 42296
+  },
+  {
+    "dateTime": 1764288000000,
+    "longUserSize": 29602,
+    "shortUserSize": 14539,
+    "userSize": 44141
+  },
+  {
+    "dateTime": 1764374400000,
+    "longUserSize": 30205,
+    "shortUserSize": 14693,
+    "userSize": 44898
+  },
+  {
+    "dateTime": 1764460800000,
+    "longUserSize": 31057,
+    "shortUserSize": 15325,
+    "userSize": 46382
+  },
+  {
+    "dateTime": 1764547200000,
+    "longUserSize": 31576,
+    "shortUserSize": 15485,
+    "userSize": 47061
+  },
+  {
+    "dateTime": 1764633600000,
+    "longUserSize": 27479,
+    "shortUserSize": 13639,
+    "userSize": 41118
+  },
+  {
+    "dateTime": 1764720000000,
+    "longUserSize": 25719,
+    "shortUserSize": 13168,
+    "userSize": 42887
+  },
+  {
+    "dateTime": 1764806400000,
+    "longUserSize": 34069,
+    "shortUserSize": 16185,
+    "userSize": 50254
+  },
+  {
+    "dateTime": 1764892800000,
+    "longUserSize": 33373,
+    "shortUserSize": 17488,
+    "userSize": 50861
+  },
+  {
+    "dateTime": 1764979200000,
+    "longUserSize": 33791,
+    "shortUserSize": 16851,
+    "userSize": 50642
+  },
+  {
+    "dateTime": 1765065600000,
+    "longUserSize": 35668,
+    "shortUserSize": 16700,
+    "userSize": 52368
+  },
+  {
+    "dateTime": 1765152000000,
+    "longUserSize": 34381,
+    "shortUserSize": 15718,
+    "userSize": 50099
+  },
+  {
+    "dateTime": 1765238400000,
+    "longUserSize": 35371,
+    "shortUserSize": 16369,
+    "userSize": 51740
+  },
+  {
+    "dateTime": 1765324800000,
+    "longUserSize": 33934,
+    "shortUserSize": 17246,
+    "userSize": 51180
+  },
+  {
+    "dateTime": 1765411200000,
+    "longUserSize": 35484,
+    "shortUserSize": 16634,
+    "userSize": 52118
+  },
+  {
+    "dateTime": 1765497600000,
+    "longUserSize": 35453,
+    "shortUserSize": 16696,
+    "userSize": 52149
+  },
+  {
+    "dateTime": 1765584000000,
+    "longUserSize": 36790,
+    "shortUserSize": 16382,
+    "userSize": 53172
+  },
+  {
+    "dateTime": 1765670400000,
+    "longUserSize": 37480,
+    "shortUserSize": 16918,
+    "userSize": 54398
+  },
+  {
+    "dateTime": 1765756800000,
+    "longUserSize": 35806,
+    "shortUserSize": 17212,
+    "userSize": 53018
+  },
+  {
+    "dateTime": 1765843200000,
+    "longUserSize": 36471,
+    "shortUserSize": 16333,
+    "userSize": 52804
+  },
+  {
+    "dateTime": 1765929600000,
+    "longUserSize": 36431,
+    "shortUserSize": 17033,
+    "userSize": 53464
+  },
+  {
+    "dateTime": 1766016000000,
+    "longUserSize": 34778,
+    "shortUserSize": 16562,
+    "userSize": 51340
+  },
+  {
+    "dateTime": 1766102400000,
+    "longUserSize": 32801,
+    "shortUserSize": 16659,
+    "userSize": 49460
+  },
+  {
+    "dateTime": 1766188800000,
+    "longUserSize": 32008,
+    "shortUserSize": 18229,
+    "userSize": 50237
+  },
+  {
+    "dateTime": 1766275200000,
+    "longUserSize": 33199,
+    "shortUserSize": 18598,
+    "userSize": 51797
+  },
+  {
+    "dateTime": 1766361600000,
+    "longUserSize": 33589,
+    "shortUserSize": 18138,
+    "userSize": 51727
+  },
+  {
+    "dateTime": 1766448000000,
+    "longUserSize": 34538,
+    "shortUserSize": 17616,
+    "userSize": 52154
+  },
+  {
+    "dateTime": 1766534400000,
+    "longUserSize": 34909,
+    "shortUserSize": 17643,
+    "userSize": 52552
+  },
+  {
+    "dateTime": 1766620800000,
+    "longUserSize": 35209,
+    "shortUserSize": 18042,
+    "userSize": 53251
+  },
+  {
+    "dateTime": 1766707200000,
+    "longUserSize": 35041,
+    "shortUserSize": 17914,
+    "userSize": 52955
+  },
+  {
+    "dateTime": 1766793600000,
+    "longUserSize": 35459,
+    "shortUserSize": 17907,
+    "userSize": 53366
+  },
+  {
+    "dateTime": 1766880000000,
+    "longUserSize": 35971,
+    "shortUserSize": 18207,
+    "userSize": 54178
+  },
+  {
+    "dateTime": 1766966400000,
+    "longUserSize": 36465,
+    "shortUserSize": 18362,
+    "userSize": 54827
+  },
+  {
+    "dateTime": 1767052800000,
+    "longUserSize": 36969,
+    "shortUserSize": 17523,
+    "userSize": 54492
+  },
+  {
+    "dateTime": 1767139200000,
+    "longUserSize": 37190,
+    "shortUserSize": 17790,
+    "userSize": 54980
+  },
+  {
+    "dateTime": 1767225600000,
+    "longUserSize": 37244,
+    "shortUserSize": 17420,
+    "userSize": 54664
+  },
+  {
+    "dateTime": 1767312000000,
+    "longUserSize": 37672,
+    "shortUserSize": 17674,
+    "userSize": 55346
+  },
+  {
+    "dateTime": 1767398400000,
+    "longUserSize": 36985,
+    "shortUserSize": 18763,
+    "userSize": 55748
+  },
+  {
+    "dateTime": 1767484800000,
+    "longUserSize": 36941,
+    "shortUserSize": 18555,
+    "userSize": 55496
+  },
+  {
+    "dateTime": 1767571200000,
+    "longUserSize": 38176,
+    "shortUserSize": 18203,
+    "userSize": 56379
+  },
+  {
+    "dateTime": 1767657600000,
+    "longUserSize": 38086,
+    "shortUserSize": 17764,
+    "userSize": 55850
+  },
+  {
+    "dateTime": 1767744000000,
+    "longUserSize": 38278,
+    "shortUserSize": 17083,
+    "userSize": 55361
+  },
+  {
+    "dateTime": 1767830400000,
+    "longUserSize": 39029,
+    "shortUserSize": 16940,
+    "userSize": 55969
+  },
+  {
+    "dateTime": 1767916800000,
+    "longUserSize": 38824,
+    "shortUserSize": 16883,
+    "userSize": 55707
+  },
+  {
+    "dateTime": 1768003200000,
+    "longUserSize": 39377,
+    "shortUserSize": 16352,
+    "userSize": 55729
+  },
+  {
+    "dateTime": 1768089600000,
+    "longUserSize": 39954,
+    "shortUserSize": 16650,
+    "userSize": 56604
+  },
+  {
+    "dateTime": 1768176000000,
+    "longUserSize": 40232,
+    "shortUserSize": 16472,
+    "userSize": 56704
+  },
+  {
+    "dateTime": 1768262400000,
+    "longUserSize": 39334,
+    "shortUserSize": 16409,
+    "userSize": 55743
+  },
+  {
+    "dateTime": 1768348800000,
+    "longUserSize": 38145,
+    "shortUserSize": 16967,
+    "userSize": 55112
+  },
+  {
+    "dateTime": 1768435200000,
+    "longUserSize": 38324,
+    "shortUserSize": 18227,
+    "userSize": 56551
+  },
+  {
+    "dateTime": 1768521600000,
+    "longUserSize": 38912,
+    "shortUserSize": 17640,
+    "userSize": 56552
+  },
+  {
+    "dateTime": 1768608000000,
+    "longUserSize": 39088,
+    "shortUserSize": 17993,
+    "userSize": 57081
+  },
+  {
+    "dateTime": 1768694400000,
+    "longUserSize": 39968,
+    "shortUserSize": 18046,
+    "userSize": 58014
+  },
+  {
+    "dateTime": 1768780800000,
+    "longUserSize": 37821,
+    "shortUserSize": 17518,
+    "userSize": 55339
+  },
+  {
+    "dateTime": 1768867200000,
+    "longUserSize": 38664,
+    "shortUserSize": 16940,
+    "userSize": 55604
+  },
+  {
+    "dateTime": 1768953600000,
+    "longUserSize": 34666,
+    "shortUserSize": 17125,
+    "userSize": 51791
+  },
+  {
+    "dateTime": 1769040000000,
+    "longUserSize": 35235,
+    "shortUserSize": 16839,
+    "userSize": 52074
+  },
+  {
+    "dateTime": 1769126400000,
+    "longUserSize": 36823,
+    "shortUserSize": 16984,
+    "userSize": 53807
+  },
+  {
+    "dateTime": 1769212800000,
+    "longUserSize": 36856,
+    "shortUserSize": 16793,
+    "userSize": 53649
+  },
+  {
+    "dateTime": 1769299200000,
+    "longUserSize": 37778,
+    "shortUserSize": 17246,
+    "userSize": 55024
+  },
+  {
+    "dateTime": 1769385600000,
+    "longUserSize": 35192,
+    "shortUserSize": 16901,
+    "userSize": 52093
+  },
+  {
+    "dateTime": 1769472000000,
+    "longUserSize": 35261,
+    "shortUserSize": 17391,
+    "userSize": 52652
+  },
+  {
+    "dateTime": 1769558400000,
+    "longUserSize": 35582,
+    "shortUserSize": 17931,
+    "userSize": 53513
+  },
+  {
+    "dateTime": 1769644800000,
+    "longUserSize": 36385,
+    "shortUserSize": 17974,
+    "userSize": 54359
+  },
+  {
+    "dateTime": 1769731200000,
+    "longUserSize": 35255,
+    "shortUserSize": 17112,
+    "userSize": 52367
+  },
+  {
+    "dateTime": 1769817600000,
+    "longUserSize": 33465,
+    "shortUserSize": 17002,
+    "userSize": 50467
+  },
+  {
+    "dateTime": 1769904000000,
+    "longUserSize": 30044,
+    "shortUserSize": 15848,
+    "userSize": 45892
+  },
+  {
+    "dateTime": 1769990400000,
+    "longUserSize": 29362,
+    "shortUserSize": 17295,
+    "userSize": 46657
+  },
+  {
+    "dateTime": 1770076800000,
+    "longUserSize": 31815,
+    "shortUserSize": 16690,
+    "userSize": 48505
+  },
+  {
+    "dateTime": 1770163200000,
+    "longUserSize": 32224,
+    "shortUserSize": 16343,
+    "userSize": 48567
+  },
+  {
+    "dateTime": 1770249600000,
+    "longUserSize": 31578,
+    "shortUserSize": 17670,
+    "userSize": 49248
+  },
+  {
+    "dateTime": 1770336000000,
+    "longUserSize": 29379,
+    "shortUserSize": 17785,
+    "userSize": 47164
+  },
+  {
+    "dateTime": 1770422400000,
+    "longUserSize": 31425,
+    "shortUserSize": 16091,
+    "userSize": 47516
+  },
+  {
+    "dateTime": 1770508800000,
+    "longUserSize": 30899,
+    "shortUserSize": 17499,
+    "userSize": 48398
+  },
+  {
+    "dateTime": 1770595200000,
+    "longUserSize": 30439,
+    "shortUserSize": 17005,
+    "userSize": 47444
+  },
+  {
+    "dateTime": 1770681600000,
+    "longUserSize": 29644,
+    "shortUserSize": 18168,
+    "userSize": 47812
+  },
+  {
+    "dateTime": 1770768000000,
+    "longUserSize": 29906,
+    "shortUserSize": 19757,
+    "userSize": 49663
+  },
+  {
+    "dateTime": 1770854400000,
+    "longUserSize": 29210,
+    "shortUserSize": 19051,
+    "userSize": 48261
+  },
+  {
+    "dateTime": 1770940800000,
+    "longUserSize": 30403,
+    "shortUserSize": 19153,
+    "userSize": 49556
+  },
+  {
+    "dateTime": 1771027200000,
+    "longUserSize": 31423,
+    "shortUserSize": 18904,
+    "userSize": 50327
+  },
+  {
+    "dateTime": 1771113600000,
+    "longUserSize": 32659,
+    "shortUserSize": 18286,
+    "userSize": 50945
+  },
+  {
+    "dateTime": 1771200000000,
+    "longUserSize": 30981,
+    "shortUserSize": 19446,
+    "userSize": 50427
+  },
+  {
+    "dateTime": 1771286400000,
+    "longUserSize": 31510,
+    "shortUserSize": 18738,
+    "userSize": 50248
+  },
+  {
+    "dateTime": 1771372800000,
+    "longUserSize": 31664,
+    "shortUserSize": 19276,
+    "userSize": 50940
+  },
+  {
+    "dateTime": 1771459200000,
+    "longUserSize": 31885,
+    "shortUserSize": 19357,
+    "userSize": 51242
+  },
+  {
+    "dateTime": 1771545600000,
+    "longUserSize": 31954,
+    "shortUserSize": 19772,
+    "userSize": 51726
+  },
+  {
+    "dateTime": 1771632000000,
+    "longUserSize": 32798,
+    "shortUserSize": 19107,
+    "userSize": 51905
+  },
+  {
+    "dateTime": 1771718400000,
+    "longUserSize": 33237,
+    "shortUserSize": 19263,
+    "userSize": 52500
+  },
+  {
+    "dateTime": 1771804800000,
+    "longUserSize": 32649,
+    "shortUserSize": 19865,
+    "userSize": 52514
+  },
+  {
+    "dateTime": 1771891200000,
+    "longUserSize": 31541,
+    "shortUserSize": 19205,
+    "userSize": 50746
+  },
+  {
+    "dateTime": 1771977600000,
+    "longUserSize": 32460,
+    "shortUserSize": 19118,
+    "userSize": 51578
+  },
+  {
+    "dateTime": 1772064000000,
+    "longUserSize": 29715,
+    "shortUserSize": 18716,
+    "userSize": 48431
+  },
+  {
+    "dateTime": 1772150400000,
+    "longUserSize": 30847,
+    "shortUserSize": 19829,
+    "userSize": 50676
+  },
+  {
+    "dateTime": 1772236800000,
+    "longUserSize": 31086,
+    "shortUserSize": 19188,
+    "userSize": 50274
+  },
+  {
+    "dateTime": 1772323200000,
+    "longUserSize": 31373,
+    "shortUserSize": 17753,
+    "userSize": 49126
+  },
+  {
+    "dateTime": 1772409600000,
+    "longUserSize": 29414,
+    "shortUserSize": 19606,
+    "userSize": 49020
+  },
+  {
+    "dateTime": 1772496000000,
+    "longUserSize": 30443,
+    "shortUserSize": 20076,
+    "userSize": 50519
+  },
+  {
+    "dateTime": 1772582400000,
+    "longUserSize": 30870,
+    "shortUserSize": 18555,
+    "userSize": 49425
+  },
+  {
+    "dateTime": 1772668800000,
+    "longUserSize": 30275,
+    "shortUserSize": 20861,
+    "userSize": 51136
+  },
+  {
+    "dateTime": 1772755200000,
+    "longUserSize": 30996,
+    "shortUserSize": 20639,
+    "userSize": 51635
+  },
+  {
+    "dateTime": 1772841600000,
+    "longUserSize": 31614,
+    "shortUserSize": 19682,
+    "userSize": 51296
+  },
+  {
+    "dateTime": 1772928000000,
+    "longUserSize": 32175,
+    "shortUserSize": 19804,
+    "userSize": 51979
+  },
+  {
+    "dateTime": 1773014400000,
+    "longUserSize": 30270,
+    "shortUserSize": 19194,
+    "userSize": 49464
+  },
+  {
+    "dateTime": 1773100800000,
+    "longUserSize": 30578,
+    "shortUserSize": 19474,
+    "userSize": 50052
+  },
+  {
+    "dateTime": 1773187200000,
+    "longUserSize": 30003,
+    "shortUserSize": 20492,
+    "userSize": 50495
+  },
+  {
+    "dateTime": 1773273600000,
+    "longUserSize": 30522,
+    "shortUserSize": 20752,
+    "userSize": 51274
+  },
+  {
+    "dateTime": 1773360000000,
+    "longUserSize": 27694,
+    "shortUserSize": 18228,
+    "userSize": 45922
+  },
+  {
+    "dateTime": 1773446400000,
+    "longUserSize": 30238,
+    "shortUserSize": 20690,
+    "userSize": 50928
+  },
+  {
+    "dateTime": 1773532800000,
+    "longUserSize": 31742,
+    "shortUserSize": 20665,
+    "userSize": 52407
+  },
+  {
+    "dateTime": 1773619200000,
+    "longUserSize": 32388,
+    "shortUserSize": 20018,
+    "userSize": 52406
+  },
+  {
+    "dateTime": 1773705600000,
+    "longUserSize": 33198,
+    "shortUserSize": 20440,
+    "userSize": 53638
+  },
+  {
+    "dateTime": 1773792000000,
+    "longUserSize": 33124,
+    "shortUserSize": 21407,
+    "userSize": 54531
+  },
+  {
+    "dateTime": 1773878400000,
+    "longUserSize": 34339,
+    "shortUserSize": 20491,
+    "userSize": 54830
+  },
+  {
+    "dateTime": 1773964800000,
+    "longUserSize": 34491,
+    "shortUserSize": 19915,
+    "userSize": 54406
+  },
+  {
+    "dateTime": 1774051200000,
+    "longUserSize": 35277,
+    "shortUserSize": 19804,
+    "userSize": 55081
+  },
+  {
+    "dateTime": 1774137600000,
+    "longUserSize": 33520,
+    "shortUserSize": 20007,
+    "userSize": 53527
+  },
+  {
+    "dateTime": 1774224000000,
+    "longUserSize": 33312,
+    "shortUserSize": 20975,
+    "userSize": 54287
+  },
+  {
+    "dateTime": 1774310400000,
+    "longUserSize": 31556,
+    "shortUserSize": 20788,
+    "userSize": 52344
+  },
+  {
+    "dateTime": 1774396800000,
+    "longUserSize": 32363,
+    "shortUserSize": 20395,
+    "userSize": 52758
+  },
+  {
+    "dateTime": 1774483200000,
+    "longUserSize": 34482,
+    "shortUserSize": 20859,
+    "userSize": 55341
+  },
+  {
+    "dateTime": 1774569600000,
+    "longUserSize": 35976,
+    "shortUserSize": 19747,
+    "userSize": 55723
+  },
+  {
+    "dateTime": 1774656000000,
+    "longUserSize": 35623,
+    "shortUserSize": 20434,
+    "userSize": 56057
+  },
+  {
+    "dateTime": 1774742400000,
+    "longUserSize": 36592,
+    "shortUserSize": 20347,
+    "userSize": 56939
+  },
+  {
+    "dateTime": 1774828800000,
+    "longUserSize": 34227,
+    "shortUserSize": 20706,
+    "userSize": 54933
+  },
+  {
+    "dateTime": 1774915200000,
+    "longUserSize": 34638,
+    "shortUserSize": 21423,
+    "userSize": 56061
+  },
+  {
+    "dateTime": 1775001600000,
+    "longUserSize": 35142,
+    "shortUserSize": 21530,
+    "userSize": 56672
+  },
+  {
+    "dateTime": 1775088000000,
+    "longUserSize": 33907,
+    "shortUserSize": 21669,
+    "userSize": 55576
+  },
+  {
+    "dateTime": 1775174400000,
+    "longUserSize": 34386,
+    "shortUserSize": 21273,
+    "userSize": 55659
+  },
+  {
+    "dateTime": 1775260800000,
+    "longUserSize": 35072,
+    "shortUserSize": 21996,
+    "userSize": 57068
+  },
+  {
+    "dateTime": 1775347200000,
+    "longUserSize": 35389,
+    "shortUserSize": 22322,
+    "userSize": 57711
+  },
+  {
+    "dateTime": 1775433600000,
+    "longUserSize": 34289,
+    "shortUserSize": 21863,
+    "userSize": 56152
+  },
+  {
+    "dateTime": 1775520000000,
+    "longUserSize": 32811,
+    "shortUserSize": 23319,
+    "userSize": 56130
+  },
+  {
+    "dateTime": 1775606400000,
+    "longUserSize": 32874,
+    "shortUserSize": 20491,
+    "userSize": 53365
+  },
+  {
+    "dateTime": 1775692800000,
+    "longUserSize": 33262,
+    "shortUserSize": 22957,
+    "userSize": 56219
+  },
+  {
+    "dateTime": 1775779200000,
+    "longUserSize": 33782,
+    "shortUserSize": 22655,
+    "userSize": 56437
+  },
+  {
+    "dateTime": 1775865600000,
+    "longUserSize": 35273,
+    "shortUserSize": 23446,
+    "userSize": 58719
+  },
+  {
+    "dateTime": 1775952000000,
+    "longUserSize": 35770,
+    "shortUserSize": 23191,
+    "userSize": 58961
+  },
+  {
+    "dateTime": 1776038400000,
+    "longUserSize": 34958,
+    "shortUserSize": 23435,
+    "userSize": 58393
+  },
+  {
+    "dateTime": 1776124800000,
+    "longUserSize": 34702,
+    "shortUserSize": 22509,
+    "userSize": 57211
+  },
+  {
+    "dateTime": 1776211200000,
+    "longUserSize": 34956,
+    "shortUserSize": 24142,
+    "userSize": 59098
+  },
+  {
+    "dateTime": 1776297600000,
+    "longUserSize": 36187,
+    "shortUserSize": 23582,
+    "userSize": 59769
+  },
+  {
+    "dateTime": 1776384000000,
+    "longUserSize": 36552,
+    "shortUserSize": 23334,
+    "userSize": 59886
+  },
+  {
+    "dateTime": 1776470400000,
+    "longUserSize": 36674,
+    "shortUserSize": 23424,
+    "userSize": 60098
+  },
+  {
+    "dateTime": 1776556800000,
+    "longUserSize": 36287,
+    "shortUserSize": 23884,
+    "userSize": 60171
+  },
+  {
+    "dateTime": 1776643200000,
+    "longUserSize": 35404,
+    "shortUserSize": 23744,
+    "userSize": 59148
+  },
+  {
+    "dateTime": 1776729600000,
+    "longUserSize": 37251,
+    "shortUserSize": 23262,
+    "userSize": 60513
+  },
+  {
+    "dateTime": 1776816000000,
+    "longUserSize": 36946,
+    "shortUserSize": 23592,
+    "userSize": 60538
+  },
+  {
+    "dateTime": 1776902400000,
+    "longUserSize": 37106,
+    "shortUserSize": 25477,
+    "userSize": 62583
+  },
+  {
+    "dateTime": 1776988800000,
+    "longUserSize": 38667,
+    "shortUserSize": 23885,
+    "userSize": 62552
+  },
+  {
+    "dateTime": 1777075200000,
+    "longUserSize": 38977,
+    "shortUserSize": 24090,
+    "userSize": 63067
+  },
+  {
+    "dateTime": 1777161600000,
+    "longUserSize": 39886,
+    "shortUserSize": 23925,
+    "userSize": 63811
+  },
+  {
+    "dateTime": 1777248000000,
+    "longUserSize": 40272,
+    "shortUserSize": 23552,
+    "userSize": 63824
+  },
+  {
+    "dateTime": 1777334400000,
+    "longUserSize": 40253,
+    "shortUserSize": 23143,
+    "userSize": 63396
+  },
+  {
+    "dateTime": 1777420800000,
+    "longUserSize": 40358,
+    "shortUserSize": 24001,
+    "userSize": 64359
+  },
+  {
+    "dateTime": 1777507200000,
+    "longUserSize": 39082,
+    "shortUserSize": 23334,
+    "userSize": 62416
+  },
+  {
+    "dateTime": 1777593600000,
+    "longUserSize": 39700,
+    "shortUserSize": 24131,
+    "userSize": 63831
+  },
+  {
+    "dateTime": 1777680000000,
+    "longUserSize": 38744,
+    "shortUserSize": 25029,
+    "userSize": 63773
+  },
+  {
+    "dateTime": 1777766400000,
+    "longUserSize": 39964,
+    "shortUserSize": 23923,
+    "userSize": 63887
+  },
+  {
+    "dateTime": 1777852800000,
+    "longUserSize": 40200,
+    "shortUserSize": 24261,
+    "userSize": 64461
+  },
+  {
+    "dateTime": 1777939200000,
+    "longUserSize": 39750,
+    "shortUserSize": 24145,
+    "userSize": 63895
+  },
+  {
+    "dateTime": 1778025600000,
+    "longUserSize": 40097,
+    "shortUserSize": 24675,
+    "userSize": 64772
+  },
+  {
+    "dateTime": 1778112000000,
+    "longUserSize": 41237,
+    "shortUserSize": 23760,
+    "userSize": 64997
+  },
+  {
+    "dateTime": 1778198400000,
+    "longUserSize": 41533,
+    "shortUserSize": 23152,
+    "userSize": 64685
+  },
+  {
+    "dateTime": 1778284800000,
+    "longUserSize": 42733,
+    "shortUserSize": 22673,
+    "userSize": 65406
+  },
+  {
+    "dateTime": 1778371200000,
+    "longUserSize": 43439,
+    "shortUserSize": 22640,
+    "userSize": 66079
+  },
+  {
+    "dateTime": 1778457600000,
+    "longUserSize": 42258,
+    "shortUserSize": 21945,
+    "userSize": 64203
+  },
+  {
+    "dateTime": 1778544000000,
+    "longUserSize": 42938,
+    "shortUserSize": 22771,
+    "userSize": 65709
+  },
+  {
+    "dateTime": 1778630400000,
+    "longUserSize": 42904,
+    "shortUserSize": 22708,
+    "userSize": 65612
+  },
+  {
+    "dateTime": 1778716800000,
+    "longUserSize": 43039,
+    "shortUserSize": 22070,
+    "userSize": 65109
+  },
+  {
+    "dateTime": 1778803200000,
+    "longUserSize": 42567,
+    "shortUserSize": 22635,
+    "userSize": 65202
+  },
+  {
+    "dateTime": 1778889600000,
+    "longUserSize": 43378,
+    "shortUserSize": 21979,
+    "userSize": 65357
+  },
+  {
+    "dateTime": 1778976000000,
+    "longUserSize": 42665,
+    "shortUserSize": 22210,
+    "userSize": 64875
+  },
+  {
+    "dateTime": 1779062400000,
+    "longUserSize": 39986,
+    "shortUserSize": 22352,
+    "userSize": 62338
+  },
+  {
+    "dateTime": 1779148800000,
+    "longUserSize": 41981,
+    "shortUserSize": 22818,
+    "userSize": 64799
+  },
+  {
+    "dateTime": 1779235200000,
+    "longUserSize": 44684,
+    "shortUserSize": 23348,
+    "userSize": 68032
+  },
+  {
+    "dateTime": 1779321600000,
+    "longUserSize": 46066,
+    "shortUserSize": 22768,
+    "userSize": 68834
+  },
+  {
+    "dateTime": 1779408000000,
+    "longUserSize": 46370,
+    "shortUserSize": 22940,
+    "userSize": 69310
+  },
+  {
+    "dateTime": 1779494400000,
+    "longUserSize": 44574,
+    "shortUserSize": 22162,
+    "userSize": 66736
+  },
+  {
+    "dateTime": 1779580800000,
+    "longUserSize": 43442,
+    "shortUserSize": 22017,
+    "userSize": 65459
+  },
+  {
+    "dateTime": 1779667200000,
+    "longUserSize": 44022,
+    "shortUserSize": 23209,
+    "userSize": 67231
+  },
+  {
+    "dateTime": 1779753600000,
+    "longUserSize": 46186,
+    "shortUserSize": 23371,
+    "userSize": 69557
+  },
+  {
+    "dateTime": 1779840000000,
+    "longUserSize": 46538,
+    "shortUserSize": 22538,
+    "userSize": 69076
+  },
+  {
+    "dateTime": 1779926400000,
+    "longUserSize": 45818,
+    "shortUserSize": 23039,
+    "userSize": 68857
+  },
+  {
+    "dateTime": 1780012800000,
+    "longUserSize": 45972,
+    "shortUserSize": 22327,
+    "userSize": 68299
+  },
+  {
+    "dateTime": 1780099200000,
+    "longUserSize": 46178,
+    "shortUserSize": 22739,
+    "userSize": 68917
+  },
+  {
+    "dateTime": 1780185600000,
+    "longUserSize": 47931,
+    "shortUserSize": 23441,
+    "userSize": 71372
+  },
+  {
+    "dateTime": 1780272000000,
+    "longUserSize": 48664,
+    "shortUserSize": 23538,
+    "userSize": 72202
+  },
+  {
+    "dateTime": 1780358400000,
+    "longUserSize": 48439,
+    "shortUserSize": 23310,
+    "userSize": 71749
+  },
+  {
+    "dateTime": 1780444800000,
+    "longUserSize": 43746,
+    "shortUserSize": 22719,
+    "userSize": 66465
+  },
+  {
+    "dateTime": 1780531200000,
+    "longUserSize": 43971,
+    "shortUserSize": 24320,
+    "userSize": 68291
+  },
+  {
+    "dateTime": 1780617600000,
+    "longUserSize": 41628,
+    "shortUserSize": 23951,
+    "userSize": 65579
+  },
+  {
+    "dateTime": 1780659315326,
+    "longUserSize": 37611,
+    "shortUserSize": 23830,
+    "userSize": 61441
+  }
+]

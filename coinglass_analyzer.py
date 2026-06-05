@@ -1882,6 +1882,239 @@ def parse_heatmap(raw: dict) -> list[dict] | None:
     return records
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  COINGLASS ON-CHAIN METRICS  (SOPR, NUPL, MVRV, LTH/STH, Whales, Cohorts)
+# ══════════════════════════════════════════════════════════════════════════════
+
+_FAPI_URL = "https://fapi.coinglass.com"
+
+
+def _fetch_cg(path: str, base_url: str | None = None, params: dict | None = None, retries: int = 2) -> dict | None:
+    """Generic CoinGlass fetch + decrypt for capi or fapi endpoints."""
+    url_base = base_url or _BASE_URL
+    for attempt in range(1, retries + 1):
+        try:
+            global_limiter.wait()
+            cache_ts_v2 = str(int(time.time() * 1000))
+            headers = _build_headers(cache_ts_v2)
+            r = requests.get(url_base + path, headers=headers, params=params or {}, timeout=20)
+            log.info(f"  {path} → {r.status_code} v={r.headers.get('v','?')}")
+            if r.status_code == 401:
+                log.error("❌ 401 — obe token expired.")
+                return None
+            if r.status_code == 429:
+                wait_time = 30 * (2 ** (attempt - 1)) + random.uniform(0, 10)
+                log.warning(f"⚠️  Rate limited. Waiting {wait_time:.1f}s...")
+                time.sleep(wait_time)
+                continue
+            r.raise_for_status()
+            body = r.json()
+            is_enc = r.headers.get("encryption", "").lower() == "true"
+            if not is_enc or not isinstance(body.get("data"), str):
+                return body
+            result = decrypt_response(
+                body["data"], r.headers.get("user", ""),
+                cache_ts_v2, r.headers.get("v", "0"), path, r.headers.get("time", "")
+            )
+            if result is not None:
+                return {"code": body.get("code"), "msg": body.get("msg"), "data": result}
+            log.error(f"  Decryption failed for {path}")
+            return None
+        except requests.exceptions.RequestException as e:
+            log.error(f"  {path} attempt {attempt}: {e}")
+            if attempt < retries:
+                time.sleep(attempt * 3)
+    return None
+
+
+def _extract_latest(data, value_keys=("value", "v", "y", "sopr", "nupl", "mvrv"),
+                    primary_key: str | None = None) -> float | None:
+    """
+    Extract the most recent scalar from a CoinGlass time-series response.
+    primary_key: if set, checked first in list-of-dict items.
+    """
+    if data is None:
+        return None
+    if isinstance(data, (int, float)):
+        return float(data)
+    search_keys = ((primary_key,) if primary_key else ()) + tuple(value_keys)
+    if isinstance(data, list) and data:
+        last = data[-1]
+        if isinstance(last, (int, float)):
+            return float(last)
+        if isinstance(last, dict):
+            for k in search_keys:
+                if k and last.get(k) is not None:
+                    try:
+                        return float(last[k])
+                    except (ValueError, TypeError):
+                        pass
+    if isinstance(data, dict):
+        for list_key in ("valueList", "priceList", "dataList", "soprList", "nuplList"):
+            vlist = data.get(list_key)
+            if vlist and isinstance(vlist, list) and vlist[-1] is not None:
+                try:
+                    return float(vlist[-1])
+                except (ValueError, TypeError):
+                    pass
+        for k in search_keys + ("currentValue", "lastValue"):
+            if k and data.get(k) is not None:
+                try:
+                    return float(data[k])
+                except (ValueError, TypeError):
+                    pass
+        if "list" in data and isinstance(data["list"], list) and data["list"]:
+            return _extract_latest(data["list"], value_keys, primary_key)
+    return None
+
+
+def _extract_series_last2(data, primary_key: str | None = None) -> tuple[float | None, float | None]:
+    """Return (prev, last) scalars from a time-series for trend computation."""
+    series = None
+    if isinstance(data, list):
+        series = data
+    elif isinstance(data, dict):
+        for k in ("valueList", "dataList", "priceList"):
+            if k in data and isinstance(data[k], list):
+                series = data[k]
+                break
+    if series and len(series) >= 2:
+        def _val(item):
+            if isinstance(item, (int, float)):
+                return float(item)
+            if isinstance(item, dict):
+                for k in ((primary_key,) if primary_key else ()) + ("value", "v", "num"):
+                    if k and item.get(k) is not None:
+                        try:
+                            return float(item[k])
+                        except (ValueError, TypeError):
+                            pass
+            return None
+        prev = _val(series[-2])
+        last = _val(series[-1])
+        return prev, last
+    return None, None
+
+
+def fetch_nupl_cg() -> dict:
+    """NUPL from capi.coinglass.com/api/escape/index/nupl. Items: {index=NUPL_value, price=BTC_price, timestamp}"""
+    raw = _fetch_cg("/api/escape/index/nupl", base_url=_BASE_URL)
+    result = {"nupl": "N/A", "nupl_label": "N/A"}
+    if not raw:
+        return result
+    val = _extract_latest(raw.get("data"), primary_key="index")
+    if val is not None:
+        result["nupl"] = round(val, 4)
+        if val > 0.75:    result["nupl_label"] = "Euphoria"
+        elif val > 0.5:   result["nupl_label"] = "Belief"
+        elif val > 0.25:  result["nupl_label"] = "Optimism"
+        elif val >= 0:    result["nupl_label"] = "Hope/Fear"
+        else:             result["nupl_label"] = "Capitulation"
+    return result
+
+
+def fetch_mvrv_cg() -> dict:
+    """MVRV from capi.coinglass.com/api/escape/index/mVRVRatio. Items: {index=MVRV_ratio, price=BTC_price, timestamp}"""
+    raw = _fetch_cg("/api/escape/index/mVRVRatio", base_url=_BASE_URL)
+    result = {"mvrv": "N/A", "mvrv_signal": "N/A"}
+    if not raw:
+        return result
+    val = _extract_latest(raw.get("data"), primary_key="index")
+    if val is not None:
+        result["mvrv"] = round(val, 3)
+        if val > 3.5:   result["mvrv_signal"] = "Overvalued"
+        elif val > 1.0: result["mvrv_signal"] = "Fair Value"
+        else:           result["mvrv_signal"] = "Undervalued"
+    return result
+
+
+def fetch_sopr_cg() -> dict:
+    """SOPR from fapi.coinglass.com/api/metrics/bitcoinSOPR"""
+    raw = _fetch_cg("/api/metrics/bitcoinSOPR", base_url=_FAPI_URL)
+    result = {"sopr": "N/A", "sopr_signal": "N/A"}
+    if not raw:
+        return result
+    val = _extract_latest(raw.get("data"))
+    if val is not None:
+        result["sopr"] = round(val, 4)
+        if val > 1.02:    result["sopr_signal"] = "Bullish"
+        elif val >= 0.98: result["sopr_signal"] = "Neutral"
+        else:             result["sopr_signal"] = "Bearish"
+    return result
+
+
+def fetch_lth_sth_price_cg() -> dict:
+    """LTH and STH Realized Prices from fapi endpoints."""
+    lth_raw = _fetch_cg("/api/metrics/bitcoinLTHRealizedPrice", base_url=_FAPI_URL)
+    global_limiter.wait()
+    sth_raw = _fetch_cg("/api/metrics/bitcoinSTHRealizedPrice", base_url=_FAPI_URL)
+    result = {"lth_price": "N/A", "sth_price": "N/A",
+              "lth_distance_pct": "N/A", "sth_distance_pct": "N/A"}
+    lth_val = _extract_latest(lth_raw.get("data") if lth_raw else None)
+    sth_val = _extract_latest(sth_raw.get("data") if sth_raw else None)
+    if lth_val is not None:
+        result["lth_price"] = round(lth_val, 0)
+    if sth_val is not None:
+        result["sth_price"] = round(sth_val, 0)
+    return result
+
+
+def fetch_whale_addresses_cg() -> dict:
+    """Addresses holding >1000 BTC. Response items: {num, price, timestamp}"""
+    raw = _fetch_cg("/api/metrics/balanceGt1k", base_url=_FAPI_URL)
+    result = {"whale_addr_count": "N/A", "whale_addr_trend": "N/A"}
+    if not raw:
+        return result
+    prev, last = _extract_series_last2(raw.get("data"), primary_key="num")
+    if last is not None:
+        result["whale_addr_count"] = int(last)
+    if prev is not None and last is not None:
+        delta = last - prev
+        result["whale_addr_trend"] = "Accumulating" if delta > 0 else ("Distributing" if delta < 0 else "Flat")
+    return result
+
+
+def fetch_address_cohorts_cg() -> dict:
+    """Address balance cohorts from fapi endpoints (>0.1 to >1000 BTC). Items: {num, price, timestamp}"""
+    tiers = {
+        "gt1k":  "/api/metrics/balanceGt1k",
+        "gt100": "/api/metrics/balanceGt100",
+        "gt10":  "/api/metrics/balanceGt10",
+        "gt1":   "/api/metrics/balanceGt1",
+        "gt0p1": "/api/metrics/balanceGt0P1",
+    }
+    result = {}
+    for key, path in tiers.items():
+        global_limiter.wait()
+        raw = _fetch_cg(path, base_url=_FAPI_URL)
+        val = _extract_latest(raw.get("data") if raw else None, primary_key="num")
+        result[f"addr_{key}"] = int(val) if val is not None else "N/A"
+    return result
+
+
+def fetch_all_onchain_coinglass() -> dict:
+    """
+    Fetch all CoinGlass on-chain metrics in one call.
+    Returns combined dict consumed by onchain_fetcher.fetch_all_onchain().
+    """
+    log.info("── CoinGlass On-Chain: NUPL...")
+    out = {}
+    out.update(fetch_nupl_cg())
+    log.info("── CoinGlass On-Chain: MVRV...")
+    out.update(fetch_mvrv_cg())
+    log.info("── CoinGlass On-Chain: SOPR...")
+    out.update(fetch_sopr_cg())
+    log.info("── CoinGlass On-Chain: LTH/STH Price...")
+    out.update(fetch_lth_sth_price_cg())
+    log.info("── CoinGlass On-Chain: Whale Addresses...")
+    out.update(fetch_whale_addresses_cg())
+    log.info("── CoinGlass On-Chain: Address Cohorts...")
+    out.update(fetch_address_cohorts_cg())
+    fetched = sum(1 for v in out.values() if v != "N/A")
+    log.info(f"  ✅ CoinGlass on-chain: {fetched}/{len(out)} metrics")
+    return out
+
+
 def save_json(data, name):
     p = OUTPUT_DIR / name
     with open(p, "w") as f:

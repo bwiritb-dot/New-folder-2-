@@ -1,0 +1,158 @@
+Request URL
+https://capi.coinglass.com/api/derivative/exchange/list
+Request Method
+GET
+Status Code
+200 OK
+Remote Address
+3.164.92.43:443
+Referrer Policy
+strict-origin-when-cross-origin
+access-control-allow-credentials
+true
+access-control-allow-headers
+*
+access-control-allow-methods
+GET,POST,OPTIONS,DELETE
+access-control-allow-origin
+*
+access-control-expose-headers
+user,encryption,language,time,v
+access-control-max-age
+1728000
+cache-control
+no-cache, no-store, must-revalidate
+content-encoding
+gzip
+content-type
+application/json
+date
+Fri, 05 Jun 2026 11:12:46 GMT
+encryption
+true
+ev
+2
+server
+nginx
+user
+azePXzENhTyOvz4PR5OrHZ8sg1Xsg/Wc/RufFFE5Nnsrw2ojHbegthPY9ItF/X36
+v
+1
+vary
+accept-encoding
+via
+1.1 6f94f45aff87b62bf23b96365b56b0a0.cloudfront.net (CloudFront)
+x-amz-cf-id
+uK6Qs9iLpLAdrGCn55qbh3eAV3eAIhmIpIn4FQW7-407sWeGg--vfg==
+x-amz-cf-pop
+YTO53-P1
+x-cache
+Miss from cloudfront
+:authority
+capi.coinglass.com
+:method
+GET
+:path
+/api/derivative/exchange/list
+:scheme
+https
+accept
+application/json
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+en-US,en;q=0.9,ru;q=0.8
+cache-control
+no-cache
+cache-ts-v2
+1780657968327
+encryption
+true
+language
+en
+obe
+s_4587f655c7bd4aa88178919148cd6b8d
+origin
+https://www.coinglass.com
+
+
+
+
+Request URL
+https://capi.coinglass.com/api/futures/home/statistics
+Request Method
+GET
+Status Code
+200 OK
+Remote Address
+3.164.92.43:443
+Referrer Policy
+strict-origin-when-cross-origin
+access-control-allow-credentials
+true
+access-control-allow-headers
+*
+access-control-allow-methods
+GET,POST,OPTIONS,DELETE
+access-control-allow-origin
+*
+access-control-expose-headers
+user,encryption,language,time,v
+access-control-max-age
+1728000
+cache-control
+no-cache, no-store, must-revalidate
+content-encoding
+gzip
+content-type
+application/json
+date
+Fri, 05 Jun 2026 11:15:04 GMT
+encryption
+true
+ev
+2
+server
+nginx
+user
+vegFmJOUzZiNU9/ikY9tqv5U2GWGfY4/cDElTByocjpLK9oxcEc3WXj2P0qTm+BU
+v
+1
+vary
+accept-encoding
+via
+1.1 6f94f45aff87b62bf23b96365b56b0a0.cloudfront.net (CloudFront)
+x-amz-cf-id
+ZEHrBBqq1wtrtZWlnpubeW3OkLrXRq8s2MaE4owqeiHyzMre7q6qPw==
+x-amz-cf-pop
+YTO53-P1
+x-cache
+Miss from cloudfront
+:authority
+capi.coinglass.com
+:method
+GET
+:path
+/api/futures/home/statistics
+:scheme
+https
+accept
+application/json
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+en-US,en;q=0.9,ru;q=0.8
+cache-control
+no-cache
+cache-ts-v2
+1780658105388
+encryption
+true
+language
+en
+obe
+s_4587f655c7bd4aa88178919148cd6b8d
+origin
+https://www.coinglass.com
+pragma
+no-cache

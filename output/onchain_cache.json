@@ -1,251 +1,240 @@
 {
-  "fetched_at": "2026-06-04 10:37:11 UTC",
+  "fetched_at": "2026-06-05 12:10:03 UTC",
   "fear_greed": {
     "fear_greed_current": 12,
     "fear_greed_label": "Extreme Fear",
-    "fear_greed_7d_avg": 21.4,
-    "timestamp": "2026-06-04 10:37:11 UTC"
+    "fear_greed_7d_avg": 20.1,
+    "timestamp": "2026-06-05 12:10:03 UTC"
   },
   "mempool": {
-    "mempool_count": 93426,
-    "mempool_vsize_mb": 33.82,
+    "mempool_count": 87117,
+    "mempool_vsize_mb": 34.01,
     "fee_low": 1,
-    "fee_mid": 4,
-    "fee_high": 6,
-    "timestamp": "2026-06-04 10:37:11 UTC"
+    "fee_mid": 1,
+    "fee_high": 1,
+    "timestamp": "2026-06-05 12:10:03 UTC"
   },
   "hashrate": {
-    "hashrate_eh": 752.89,
-    "hashrate_1w_ago_eh": 1101.45,
+    "hashrate_eh": 990.52,
+    "hashrate_1w_ago_eh": 959.21,
     "difficulty": "N/A",
-    "next_adj_pct": -10.96,
-    "blocks_until_adj": 1247,
+    "next_adj_pct": -9.14,
+    "blocks_until_adj": 1092,
     "puell_multiple": "N/A (needs price series)",
-    "timestamp": "2026-06-04 10:37:11 UTC"
+    "timestamp": "2026-06-05 12:10:03 UTC"
   },
   "block_stats": {
-    "tx_count_24h": 512404,
-    "active_addr_proxy": "~512,404 on-chain txs/24h",
-    "avg_block_size_kb": 1566.8,
-    "timestamp": "2026-06-04 10:37:11 UTC"
+    "tx_count_24h": 566114,
+    "active_addr_proxy": "~566,114 on-chain txs/24h",
+    "avg_block_size_kb": 1545.6,
+    "timestamp": "2026-06-05 12:10:04 UTC"
   },
   "market": {
-    "market_cap_usd": 1253262452491,
-    "realized_cap_usd": "N/A (Glassnode required)",
-    "mvrv_ratio": "N/A (Glassnode required)",
-    "btc_dominance": 55.45,
-    "price_usd": 62638,
-    "price_7d_chg": -14.42929,
-    "timestamp": "2026-06-04 10:37:22 UTC"
+    "market_cap_usd": 1240515899278,
+    "realized_cap_usd": "N/A",
+    "mvrv_ratio": "N/A (from CoinGlass onchain)",
+    "btc_dominance": 55.99,
+    "price_usd": 62059,
+    "price_7d_chg": -15.64674,
+    "timestamp": "2026-06-05 12:10:07 UTC"
   },
   "active_addr": {
-    "active_addr_today": 515383,
-    "active_addr_7d_avg": 484596,
-    "active_addr_30d_avg": 481367,
-    "active_addr_trend_7d_pct": 5.0,
-    "timestamp": "2026-06-04 10:37:22 UTC"
+    "active_addr_today": 538439,
+    "active_addr_7d_avg": 491379,
+    "active_addr_30d_avg": 482358,
+    "active_addr_trend_7d_pct": 6.3,
+    "timestamp": "2026-06-05 12:10:07 UTC"
   },
   "stablecoins": {
-    "usdt_supply_b": 187.17,
-    "usdc_supply_b": 76.05,
-    "total_stable_b": 263.22,
+    "usdt_supply_b": 187.04,
+    "usdc_supply_b": 75.61,
+    "total_stable_b": 262.65,
     "ssr_proxy": "N/A",
-    "timestamp": "2026-06-04 10:37:23 UTC"
+    "timestamp": "2026-06-05 12:10:07 UTC"
   },
   "exchange_res": {
     "exchange_reserve_btc": "N/A",
     "reserve_trend_30d": "N/A",
-    "timestamp": "2026-06-04 10:37:23 UTC"
+    "timestamp": "2026-06-05 12:10:08 UTC"
   },
   "etf_summary": {
-    "etf_net_7d_m": 51833.5,
-    "etf_net_30d_m": 83475.4,
+    "etf_net_7d_m": 52575.1,
+    "etf_net_30d_m": 83284.7,
     "etf_top1_name": "IBIT",
-    "etf_top1_30d_m": 63994.5,
+    "etf_top1_30d_m": 63922.7,
     "etf_top2_name": "FBTC",
-    "etf_top2_30d_m": 11028.3,
+    "etf_top2_30d_m": 11023.3,
     "etf_top3_name": "BTC",
-    "etf_top3_30d_m": 2278.7,
+    "etf_top3_30d_m": 2273.5,
     "etf_gbtc_30d_m": 0.0,
-    "timestamp": "2026-06-04 10:37:23 UTC"
+    "timestamp": "2026-06-05 12:10:08 UTC"
+  },
+  "coinglass_onchain": {
+    "nupl": 0.1579,
+    "nupl_label": "Hope/Fear",
+    "mvrv": 1.187,
+    "mvrv_signal": "Fair Value",
+    "sopr": 0.9751,
+    "sopr_signal": "Bearish",
+    "lth_price": 48796.0,
+    "sth_price": 75110.0,
+    "lth_distance_pct": "N/A",
+    "sth_distance_pct": "N/A",
+    "whale_addr_count": 2043,
+    "whale_addr_trend": "Accumulating",
+    "addr_gt1k": 2043,
+    "addr_gt100": 20070,
+    "addr_gt10": 150386,
+    "addr_gt1": 977347,
+    "addr_gt0p1": 4495645
   },
   "health_score": {
-    "score": 0.0,
+    "score": 17.6,
     "label": "neutral",
     "rows": [
       {
-        "metric": "Fear&Greed (NUPL proxy)",
-        "value": 12,
+        "metric": "SOPR (Bearish)",
+        "value": "0.9751",
         "signal": -1,
-        "weight": 0.15
+        "weight": 0.15,
+        "source": "CoinGlass"
       },
       {
-        "metric": "ETF Flows 7d ($M)",
-        "value": 51833.5,
-        "signal": 1,
-        "weight": 0.1
-      },
-      {
-        "metric": "Hashrate trend (7d)",
-        "value": "752.89 EH/s",
+        "metric": "NUPL (Hope/Fear)",
+        "value": "0.1579",
         "signal": -1,
-        "weight": 0.1
+        "weight": 0.15,
+        "source": "CoinGlass"
       },
       {
-        "metric": "BTC Dominance (%)",
-        "value": 55.45,
+        "metric": "MVRV (Fair Value)",
+        "value": "1.187",
         "signal": 1,
-        "weight": 0.05
+        "weight": 0.1,
+        "source": "CoinGlass"
       },
       {
-        "metric": "Active Addr trend 7d",
-        "value": "5.0%",
+        "metric": "Price vs LTH Realized",
+        "value": "$48,796 (+27.2%)",
         "signal": 1,
-        "weight": 0.05
+        "weight": 0.15,
+        "source": "CoinGlass"
       },
       {
-        "metric": "Stablecoin Supply ($B)",
-        "value": "$263.22B",
+        "metric": "Whale Addrs >1000 BTC (Accumulating)",
+        "value": "2043",
         "signal": 1,
-        "weight": 0.05
-      },
-      {
-        "metric": "SOPR",
-        "value": "N/A",
-        "signal": 0,
         "weight": 0.1,
-        "source": "Glassnode required"
-      },
-      {
-        "metric": "NUPL",
-        "value": "N/A",
-        "signal": 0,
-        "weight": 0.1,
-        "source": "Glassnode required"
-      },
-      {
-        "metric": "MVRV",
-        "value": "N/A",
-        "signal": 0,
-        "weight": 0.1,
-        "source": "Glassnode required"
+        "source": "CoinGlass"
       },
       {
         "metric": "Exchange Reserves",
         "value": "N/A",
         "signal": 0,
-        "weight": 0.1,
-        "source": "Glassnode required"
-      },
-      {
-        "metric": "LTH Net Position",
-        "value": "N/A",
-        "signal": 0,
-        "weight": 0.1,
-        "source": "Glassnode required"
-      },
-      {
-        "metric": "Whale Activity",
-        "value": "N/A",
-        "signal": 0,
-        "weight": 0.1,
-        "source": "Glassnode required"
+        "weight": 0.15,
+        "source": "endpoint pending"
       },
       {
         "metric": "Miner Flows",
         "value": "N/A",
         "signal": 0,
         "weight": 0.1,
-        "source": "Glassnode required"
+        "source": "endpoint pending"
+      },
+      {
+        "metric": "ETF Flows 7d ($M)",
+        "value": "$52575.1M",
+        "signal": 1,
+        "weight": 0.1,
+        "source": "Farside"
+      },
+      {
+        "metric": "Fear & Greed (Extreme Fear)",
+        "value": "12",
+        "signal": -1,
+        "weight": 0.05,
+        "source": "alternative.me"
+      },
+      {
+        "metric": "Hashrate trend 7d",
+        "value": "990.52 EH/s",
+        "signal": 1,
+        "weight": 0.05,
+        "source": "mempool.space"
       }
     ],
-    "note": "Partial score (6/13 metrics available)"
+    "note": "8/10 metrics available"
   },
   "health_score_weights": [
     {
-      "metric": "Fear&Greed (NUPL proxy)",
-      "value": 12,
+      "metric": "SOPR (Bearish)",
+      "value": "0.9751",
       "signal": -1,
-      "weight": 0.15
+      "weight": 0.15,
+      "source": "CoinGlass"
     },
     {
-      "metric": "ETF Flows 7d ($M)",
-      "value": 51833.5,
-      "signal": 1,
-      "weight": 0.1
-    },
-    {
-      "metric": "Hashrate trend (7d)",
-      "value": "752.89 EH/s",
+      "metric": "NUPL (Hope/Fear)",
+      "value": "0.1579",
       "signal": -1,
-      "weight": 0.1
+      "weight": 0.15,
+      "source": "CoinGlass"
     },
     {
-      "metric": "BTC Dominance (%)",
-      "value": 55.45,
+      "metric": "MVRV (Fair Value)",
+      "value": "1.187",
       "signal": 1,
-      "weight": 0.05
+      "weight": 0.1,
+      "source": "CoinGlass"
     },
     {
-      "metric": "Active Addr trend 7d",
-      "value": "5.0%",
+      "metric": "Price vs LTH Realized",
+      "value": "$48,796 (+27.2%)",
       "signal": 1,
-      "weight": 0.05
+      "weight": 0.15,
+      "source": "CoinGlass"
     },
     {
-      "metric": "Stablecoin Supply ($B)",
-      "value": "$263.22B",
+      "metric": "Whale Addrs >1000 BTC (Accumulating)",
+      "value": "2043",
       "signal": 1,
-      "weight": 0.05
-    },
-    {
-      "metric": "SOPR",
-      "value": "N/A",
-      "signal": 0,
       "weight": 0.1,
-      "source": "Glassnode required"
-    },
-    {
-      "metric": "NUPL",
-      "value": "N/A",
-      "signal": 0,
-      "weight": 0.1,
-      "source": "Glassnode required"
-    },
-    {
-      "metric": "MVRV",
-      "value": "N/A",
-      "signal": 0,
-      "weight": 0.1,
-      "source": "Glassnode required"
+      "source": "CoinGlass"
     },
     {
       "metric": "Exchange Reserves",
       "value": "N/A",
       "signal": 0,
-      "weight": 0.1,
-      "source": "Glassnode required"
-    },
-    {
-      "metric": "LTH Net Position",
-      "value": "N/A",
-      "signal": 0,
-      "weight": 0.1,
-      "source": "Glassnode required"
-    },
-    {
-      "metric": "Whale Activity",
-      "value": "N/A",
-      "signal": 0,
-      "weight": 0.1,
-      "source": "Glassnode required"
+      "weight": 0.15,
+      "source": "endpoint pending"
     },
     {
       "metric": "Miner Flows",
       "value": "N/A",
       "signal": 0,
       "weight": 0.1,
-      "source": "Glassnode required"
+      "source": "endpoint pending"
+    },
+    {
+      "metric": "ETF Flows 7d ($M)",
+      "value": "$52575.1M",
+      "signal": 1,
+      "weight": 0.1,
+      "source": "Farside"
+    },
+    {
+      "metric": "Fear & Greed (Extreme Fear)",
+      "value": "12",
+      "signal": -1,
+      "weight": 0.05,
+      "source": "alternative.me"
+    },
+    {
+      "metric": "Hashrate trend 7d",
+      "value": "990.52 EH/s",
+      "signal": 1,
+      "weight": 0.05,
+      "source": "mempool.space"
     }
   ]
 }
