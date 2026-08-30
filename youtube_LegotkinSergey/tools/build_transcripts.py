@@ -59,6 +59,34 @@ def to_paragraphs(cues, window_ms=30000):
         paras.append((start or 0, ' '.join(cur)))
     return paras
 
+def load_extra_meta():
+    """upload_date/duration/views из отдельного прохода yt-dlp без lang=ru.
+
+    С аргументом lang=ru yt-dlp отдаёт локализованную дату ("17 авг. 2026 г.")
+    и не может её разобрать, поэтому upload_date приходит пустым — даты
+    добираются вторым, метаданным проходом.
+    """
+    path = os.path.join(os.path.dirname(RAW), 'dates.tsv')
+    meta = {}
+    if not os.path.exists(path):
+        return meta
+    with open(path, encoding='utf-8') as f:
+        for line in f:
+            parts = line.rstrip('\n').split('\t')
+            if len(parts) < 5:
+                continue
+            vid, upload, dur, views, likes = parts[:5]
+            def num(x):
+                return int(x) if x.isdigit() else None
+            meta[vid] = {
+                'upload_date': upload if upload.isdigit() and len(upload) == 8 else '',
+                'duration': num(dur),
+                'view_count': num(views),
+                'like_count': num(likes),
+            }
+    return meta
+
+
 def write_readme(records):
     ok = [r for r in records if r['has_transcript']]
     miss = [r for r in records if not r['has_transcript']]
@@ -125,6 +153,8 @@ def main():
     order_ids = [e['id'] for e in order]
     titles_ru = {e['id']: e['title'] for e in order}
 
+    extra = load_extra_meta()
+
     os.makedirs(TDIR, exist_ok=True)
     for old in glob.glob(os.path.join(TDIR, '*.txt')):
         os.remove(old)
@@ -137,11 +167,13 @@ def main():
             with open(info_path, encoding='utf-8') as f:
                 info = json.load(f)
 
+        ex = extra.get(vid, {})
         title = titles_ru.get(vid) or info.get('title') or vid
-        upload = info.get('upload_date') or ''
+        upload = ex.get('upload_date') or info.get('upload_date') or ''
         date_iso = f"{upload[:4]}-{upload[4:6]}-{upload[6:8]}" if len(upload) == 8 else ''
-        duration = info.get('duration')
-        views = info.get('view_count')
+        duration = ex.get('duration') or info.get('duration')
+        views = ex.get('view_count') if ex.get('view_count') is not None else info.get('view_count')
+        likes = ex.get('like_count')
         desc = (info.get('description') or '').strip()
 
         sub_path, sub_lang = None, None
@@ -160,6 +192,7 @@ def main():
             'duration_sec': duration,
             'duration': hhmmss(duration),
             'view_count': views,
+            'like_count': likes,
             'subtitle_lang': sub_lang,
             'has_transcript': bool(sub_path),
             'transcript_file': f"transcripts/{fname}" if sub_path else None,
@@ -189,6 +222,8 @@ def main():
 
         records.append(rec)
 
+    records.sort(key=lambda r: (r['upload_date'] or '9999-99-99', r['title']))
+
     with open(os.path.join(OUT, 'index.json'), 'w', encoding='utf-8') as f:
         json.dump({
             'channel': 'Сергей Леготкин',
@@ -199,7 +234,7 @@ def main():
             'videos': records,
         }, f, ensure_ascii=False, indent=2)
 
-    cols = ['id', 'upload_date', 'title', 'duration', 'view_count',
+    cols = ['id', 'upload_date', 'title', 'duration', 'view_count', 'like_count',
             'subtitle_lang', 'word_count', 'url', 'transcript_file']
     with open(os.path.join(OUT, 'index.csv'), 'w', encoding='utf-8', newline='') as f:
         w = csv.DictWriter(f, fieldnames=cols, extrasaction='ignore')
