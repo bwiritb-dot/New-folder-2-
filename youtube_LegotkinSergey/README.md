@@ -9,7 +9,7 @@
 | Всего видео | 515 |
 | С транскриптом | 500 |
 | Без субтитров | 15 |
-| Период | 2026-07-02 — 2026-07-16 |
+| Период | 2017-03-16 — 2026-08-17 |
 | Суммарная длительность | 142 ч 26 мин |
 | Слов в транскриптах | ~1 076 722 |
 
@@ -45,18 +45,18 @@ youtube_LegotkinSergey/
 
 ## Видео без субтитров
 
-* [Объявление для ютуба](https://www.youtube.com/watch?v=Nrv9pcq2sRc) — дата н/д
-* [Останавливающее действие рынка. Блок "Ловушка" часть 1](https://www.youtube.com/watch?v=iVBVd2cSYHE) — дата н/д
-* [25 ноября 2019 обзор рынка BR, RTS, SI, SR на основе кластерного анализа](https://www.youtube.com/watch?v=cBEHAmMcGBI) — дата н/д
-* [23 августа 2019. Хроники торгов на М5 по BR и RTS](https://www.youtube.com/watch?v=5wuDTjagDJI) — дата н/д
-* [02 августа 2019. Хроники торгов на М5 по BR и RTS](https://www.youtube.com/watch?v=u2dBv6fRL7o) — дата н/д
-* [Хроники торгов. Поиск ключевых зон и уровней по нефти BR от 2019-06-18](https://www.youtube.com/watch?v=KBLf_ONEGfo) — дата н/д
-* [Хроники торгов. Поиск ключевых зон и уровней по нефти BR от 2019-05-24](https://www.youtube.com/watch?v=PL0J1l52uoQ) — дата н/д
-* [Утренний обзор нефти BR от 2019-05-22](https://www.youtube.com/watch?v=xtnTc2XwFxc) — дата н/д
-* [Утренний обзор нефти BR от 2019-05-16](https://www.youtube.com/watch?v=OSdI-Snf790) — дата н/д
-* [Утренний обзор нефти BR от 2019-04-01](https://www.youtube.com/watch?v=iJ1mXvpFVjw) — дата н/д
-* [Утренний обзор нефти BR от 2019-03-22](https://www.youtube.com/watch?v=CGXBZyzz434) — дата н/д
-* [Утренний обзор нефти BR от 2019-01-15](https://www.youtube.com/watch?v=GB6_btXq5xU) — дата н/д
-* [Утренний обзор SI от 25 декабря 2018](https://www.youtube.com/watch?v=c_HTZDTgKVo) — дата н/д
-* [Отзыв #6: тетрадь трейдера](https://www.youtube.com/watch?v=-TKYpgSRflk) — дата н/д
-* [Отзыв #2: курс "Основы побарного анализа и сигналов VSA"](https://www.youtube.com/watch?v=_wGWjyIlaCg) — дата н/д
+* [Отзыв #2: курс "Основы побарного анализа и сигналов VSA"](https://www.youtube.com/watch?v=_wGWjyIlaCg) — 2017-11-03
+* [Отзыв #6: тетрадь трейдера](https://www.youtube.com/watch?v=-TKYpgSRflk) — 2018-11-17
+* [Утренний обзор SI от 25 декабря 2018](https://www.youtube.com/watch?v=c_HTZDTgKVo) — 2018-12-25
+* [Утренний обзор нефти BR от 2019-01-15](https://www.youtube.com/watch?v=GB6_btXq5xU) — 2019-01-15
+* [Утренний обзор нефти BR от 2019-03-22](https://www.youtube.com/watch?v=CGXBZyzz434) — 2019-03-22
+* [Утренний обзор нефти BR от 2019-04-01](https://www.youtube.com/watch?v=iJ1mXvpFVjw) — 2019-04-01
+* [Утренний обзор нефти BR от 2019-05-16](https://www.youtube.com/watch?v=OSdI-Snf790) — 2019-05-16
+* [Утренний обзор нефти BR от 2019-05-22](https://www.youtube.com/watch?v=xtnTc2XwFxc) — 2019-05-22
+* [Хроники торгов. Поиск ключевых зон и уровней по нефти BR от 2019-05-24](https://www.youtube.com/watch?v=PL0J1l52uoQ) — 2019-05-24
+* [Хроники торгов. Поиск ключевых зон и уровней по нефти BR от 2019-06-18](https://www.youtube.com/watch?v=KBLf_ONEGfo) — 2019-06-18
+* [02 августа 2019. Хроники торгов на М5 по BR и RTS](https://www.youtube.com/watch?v=u2dBv6fRL7o) — 2019-08-02
+* [23 августа 2019. Хроники торгов на М5 по BR и RTS](https://www.youtube.com/watch?v=5wuDTjagDJI) — 2019-08-23
+* [25 ноября 2019 обзор рынка BR, RTS, SI, SR на основе кластерного анализа](https://www.youtube.com/watch?v=cBEHAmMcGBI) — 2019-11-25
+* [Останавливающее действие рынка. Блок "Ловушка" часть 1](https://www.youtube.com/watch?v=iVBVd2cSYHE) — 2021-12-12
+* [Объявление для ютуба](https://www.youtube.com/watch?v=Nrv9pcq2sRc) — 2022-03-09

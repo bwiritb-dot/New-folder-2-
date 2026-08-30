@@ -237,7 +237,7 @@ def main():
     cols = ['id', 'upload_date', 'title', 'duration', 'view_count', 'like_count',
             'subtitle_lang', 'word_count', 'url', 'transcript_file']
     with open(os.path.join(OUT, 'index.csv'), 'w', encoding='utf-8', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=cols, extrasaction='ignore')
+        w = csv.DictWriter(f, fieldnames=cols, extrasaction='ignore', lineterminator='\n')
         w.writeheader()
         for r in records:
             w.writerow(r)

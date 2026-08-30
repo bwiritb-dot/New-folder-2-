@@ -31,3 +31,14 @@ yt-dlp \
   --sleep-requests 1 --retries 5 --extractor-retries 3 \
   --no-overwrites \
   -o "$RAW/%(id)s.%(ext)s"
+
+# 3. Даты публикации, длительность, просмотры, лайки.
+#    Отдельным проходом и БЕЗ lang=ru: с этим аргументом yt-dlp получает
+#    локализованную дату ("17 авг. 2026 г.") и не может её разобрать,
+#    так что upload_date приходит пустым.
+yt-dlp --batch-file "$RAW/../urls.txt" \
+  --skip-download --ignore-no-formats-error --ignore-errors --no-warnings \
+  --extractor-args "youtube:player_client=web_embedded" \
+  --sleep-requests 1 --retries 5 --extractor-retries 3 \
+  --print "%(id)s	%(upload_date)s	%(duration)s	%(view_count)s	%(like_count)s" \
+  > "$RAW/../dates.tsv"
